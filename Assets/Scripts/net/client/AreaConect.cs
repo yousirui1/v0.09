@@ -287,9 +287,9 @@ public class AreaConect : MonoBehaviour {
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				Debug.Log (data);
-				//GloryAddBuf buf = SimpleJson.SimpleJson.DeserializeObject<GloryAddBuf> (data.ToString());
-				//Debug.Log (buf.newUser.Count);
-				//eventController.ev_InitPlayer (buf.newUser);
+				GloryAddBuf buf = SimpleJson.SimpleJson.DeserializeObject<GloryAddBuf> (data.ToString());
+				Debug.Log (buf.newUser.Count);
+				eventController.ev_InitPlayer (buf.newUser);
 			}   
 			break;
 
