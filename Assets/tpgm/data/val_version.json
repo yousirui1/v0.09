@@ -1,0 +1,37 @@
+[
+	{
+        "version": "0.5.0.17050901",
+        "platform": 0,
+        "apkUrl": "http://test.byttd.com/byttd-dev.apk"
+    },
+    {
+        "version": "0.5.3.17061301",
+        "platform": 1,
+        "apkUrl": "http://test.byttd.com/byttd-lewu.apk"
+    },
+    {
+        "version": "0.5.3.17061301",
+        "platform": 2,
+        "apkUrl": "http://test.byttd.com/byttd-iapp.apk"
+    },
+    {
+        "version": "0.5.3.17061302",
+        "platform": 3,
+        "apkUrl": "http://test.cdn.www.byttd.com/byttd-benshouji.apk"
+    },
+    {
+        "version": "0.5.0.17050901",
+        "platform": 4,
+        "apkUrl": "http://test.cdn.byttd.com/byttd-shunwang.apk"
+    },
+    {
+        "version": "0.5.3.17061301",
+        "platform": 5,
+        "apkUrl": "http://test.cdn.byttd.com/byttd-downjoy.apk"
+    },
+    {
+        "version": "0.5.4.17070301",
+        "platform": 6,
+        "apkUrl": "http://test.cdn.www.byttd.com/byttd-tencent.apk"
+    }
+]

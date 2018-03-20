@@ -1,0 +1,4 @@
+
+buffer.Append(parameters);
+   buffer.Append(parameters);
+                    byte[] data = charset.GetBytes(buffer.ToString());

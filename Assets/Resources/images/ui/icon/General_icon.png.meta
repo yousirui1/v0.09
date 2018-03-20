@@ -1,0 +1,1696 @@
+fileFormatVersion: 2
+guid: c78fbeca62bc34ceba45c401e069f76d
+timeCreated: 1520316268
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: General_icon_0
+    21300002: General_icon_1
+    21300004: General_icon_2
+    21300006: General_icon_3
+    21300008: General_icon_4
+    21300010: General_icon_5
+    21300012: General_icon_6
+    21300014: General_icon_7
+    21300016: General_icon_8
+    21300018: General_icon_9
+    21300020: General_icon_10
+    21300022: General_icon_11
+    21300024: General_icon_12
+    21300026: General_icon_13
+    21300028: General_icon_14
+    21300030: General_icon_15
+    21300032: General_icon_16
+    21300034: General_icon_17
+    21300036: General_icon_18
+    21300038: General_icon_19
+    21300040: General_icon_20
+    21300042: General_icon_21
+    21300044: General_icon_22
+    21300046: General_icon_23
+    21300048: General_icon_24
+    21300050: General_icon_25
+    21300052: General_icon_26
+    21300054: General_icon_27
+    21300056: General_icon_28
+    21300058: General_icon_29
+    21300060: General_icon_30
+    21300062: General_icon_31
+    21300064: General_icon_32
+    21300066: General_icon_33
+    21300068: General_icon_34
+    21300070: General_icon_35
+    21300072: General_icon_36
+    21300074: General_icon_37
+    21300076: General_icon_38
+    21300078: General_icon_39
+    21300080: General_icon_40
+    21300082: General_icon_41
+    21300084: General_icon_42
+    21300086: General_icon_43
+    21300088: General_icon_44
+    21300090: General_icon_45
+    21300092: General_icon_46
+    21300094: General_icon_47
+    21300096: General_icon_48
+    21300098: General_icon_49
+    21300100: General_icon_50
+    21300102: General_icon_51
+    21300104: General_icon_52
+    21300106: General_icon_53
+    21300108: General_icon_54
+    21300110: General_icon_55
+    21300112: General_icon_56
+    21300114: General_icon_57
+    21300116: General_icon_58
+    21300118: General_icon_59
+    21300120: General_icon_60
+    21300122: General_icon_61
+    21300124: General_icon_62
+    21300126: General_icon_63
+    21300128: General_icon_64
+    21300130: General_icon_65
+    21300132: General_icon_66
+    21300134: General_icon_67
+    21300136: General_icon_68
+    21300138: General_icon_69
+    21300140: General_icon_70
+    21300142: General_icon_71
+    21300144: General_icon_72
+    21300146: General_icon_73
+    21300148: General_icon_74
+    21300150: General_icon_75
+    21300152: General_icon_76
+    21300154: General_icon_77
+    21300156: General_icon_78
+    21300158: General_icon_79
+    21300160: General_icon_80
+    21300162: General_icon_81
+    21300164: General_icon_82
+    21300166: General_icon_83
+    21300168: General_icon_84
+    21300170: General_icon_85
+    21300172: General_icon_86
+    21300174: General_icon_87
+    21300176: General_icon_88
+    21300178: General_icon_89
+    21300180: General_icon_90
+    21300182: General_icon_91
+    21300184: General_icon_92
+    21300186: General_icon_93
+    21300188: General_icon_94
+    21300190: General_icon_95
+    21300192: General_icon_96
+    21300194: General_icon_97
+    21300196: General_icon_98
+    21300198: General_icon_99
+    21300200: General_icon_100
+    21300202: General_icon_101
+    21300204: General_icon_102
+    21300206: General_icon_103
+    21300208: General_icon_104
+    21300210: General_icon_105
+    21300212: General_icon_106
+    21300214: General_icon_107
+    21300216: General_icon_108
+    21300218: General_icon_109
+    21300220: General_icon_110
+    21300222: General_icon_111
+    21300224: General_icon_112
+    21300226: General_icon_113
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: General_icon_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_1
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_2
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_3
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_4
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_5
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_6
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_7
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_8
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_9
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_10
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_11
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_12
+      rect:
+        serializedVersion: 2
+        x: 1562
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_13
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_14
+      rect:
+        serializedVersion: 2
+        x: 1822
+        y: 1918
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_15
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_16
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_17
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_18
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_19
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_20
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_21
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_22
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_23
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_24
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_25
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_26
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_27
+      rect:
+        serializedVersion: 2
+        x: 1562
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_28
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_29
+      rect:
+        serializedVersion: 2
+        x: 1822
+        y: 1788
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_30
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_31
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_32
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_33
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_34
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_35
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_36
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_37
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_38
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_39
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_40
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_41
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_42
+      rect:
+        serializedVersion: 2
+        x: 1562
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_43
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_44
+      rect:
+        serializedVersion: 2
+        x: 1822
+        y: 1658
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_45
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_46
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_47
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_48
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_49
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_50
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_51
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_52
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_53
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_54
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_55
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_56
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_57
+      rect:
+        serializedVersion: 2
+        x: 1562
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_58
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_59
+      rect:
+        serializedVersion: 2
+        x: 1822
+        y: 1528
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_60
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1398
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_61
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1398
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_62
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1398
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_63
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1398
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_64
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1398
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_65
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1268
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_66
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1268
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_67
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1268
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_68
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1268
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_69
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1268
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_70
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1138
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_71
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1138
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_72
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1138
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_73
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1138
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_74
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1138
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_75
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1008
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_76
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1008
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_77
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1008
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_78
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1008
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_79
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1008
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_80
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 878
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_81
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 878
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_82
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 878
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_83
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 878
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_84
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 878
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_85
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 748
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_86
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 748
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_87
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 748
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_88
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 748
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_89
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 748
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_90
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 618
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_91
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 618
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_92
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 618
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_93
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 618
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_94
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 618
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_95
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 488
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_96
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 488
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_97
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 488
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_98
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 488
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_99
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 488
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_100
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 358
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_101
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 358
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_102
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 358
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_103
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 358
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_104
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 358
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_105
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 228
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_106
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 228
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_107
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 228
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_108
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 228
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_109
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 228
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_110
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 98
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_111
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 98
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_112
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 98
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: General_icon_113
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 98
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
