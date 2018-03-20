@@ -319,7 +319,6 @@ public class AreaConect : MonoBehaviour {
 				JsonObject data = (JsonObject)msg.m_dataObj;
 
 				FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
-				//Debug.Log (buf.data [0].skill);
 				eventController.ev_Output (buf);
 			}   
 			break;

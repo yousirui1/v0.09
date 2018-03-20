@@ -450,8 +450,10 @@ public class EventController : MonoBehaviour {
 			{
 				data.assit++;
 			}
-			if(score != 0)
-			data.score = score;
+			if (score != 0) {
+				data.score = score;
+				gameMenu.UpdateUserList ();
+			}
 			if (data.death == 0) {
 				data.kda = 0;
 			} else {
