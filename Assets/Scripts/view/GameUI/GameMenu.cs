@@ -594,9 +594,7 @@ public class GameMenu : MonoBehaviour
 	{
 		GameObject obj = RankObj.transform.Find ("item_"+id).gameObject;
 		UIRankItem item = obj.GetComponent<UIRankItem>();
-		Debug.Log (data.m_uid);
 		item.Refresh(data);
-
 	}
 	
 
