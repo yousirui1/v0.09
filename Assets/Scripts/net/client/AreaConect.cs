@@ -286,8 +286,10 @@ public class AreaConect : MonoBehaviour {
 			{   
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				GloryAddBuf buf = SimpleJson.SimpleJson.DeserializeObject<GloryAddBuf> (data.ToString());
-				eventController.ev_InitPlayer (buf.newUser);
+				Debug.Log (data);
+				//GloryAddBuf buf = SimpleJson.SimpleJson.DeserializeObject<GloryAddBuf> (data.ToString());
+				//Debug.Log (buf.newUser.Count);
+				//eventController.ev_InitPlayer (buf.newUser);
 			}   
 			break;
 
@@ -297,7 +299,6 @@ public class AreaConect : MonoBehaviour {
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				MapVal mapVal = SimpleJson.SimpleJson.DeserializeObject<MapVal> (data.ToString());
 				eventController.InitMap (mapVal.map, mapVal.magicStage);
-				//eventController.ev_InitPlayer (buf.newUser);
 			}   
 			break;
 

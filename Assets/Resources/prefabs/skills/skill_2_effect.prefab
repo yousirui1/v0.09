@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 224719906931628012}
   - component: {fileID: 95769067915146878}
   m_Layer: 5
-  m_Name: skill_tx_longxishubaozha
+  m_Name: skill_2_effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

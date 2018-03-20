@@ -409,6 +409,11 @@ public class EventController : MonoBehaviour {
 	public void ev_InitPlayer(List<NewUser> newUser)
 	{
 		for (int i = 0; i < newUser.Count; i++) {
+
+
+
+
+
 			UserData data = new UserData ();
 			data.nickname = newUser [i].nickname;
 			data.score = 0;
@@ -417,7 +422,9 @@ public class EventController : MonoBehaviour {
 			data.assit = 0;
 			data.group = newUser [i].group;
 			data.head = newUser [i].head;
-			SavedData.s_instance.m_userCache.Add (newUser [i].uid, data);
+
+			if (!SavedData.s_instance.m_userCache.ContainsKey(newUser [i].uid)) 
+				SavedData.s_instance.m_userCache.Add (newUser [i].uid, data);
 
 			UserRank rank = new UserRank (newUser [i].nickname,0);
 			SavedData.s_instance.m_userrank.Add (rank);
