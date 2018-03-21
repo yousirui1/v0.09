@@ -130,8 +130,8 @@ public class LoadUIPage : UIPage
 
 							}
 							User user = SavedData.s_instance.m_user;
-							user.m_uid = resp.m_uid; 
-							user.m_token = resp.m_token; 
+							//user.m_uid = resp.m_uid; 
+							//user.m_token = resp.m_token; 
 
 
 							LoginConect client = new GameObject ("Client").AddComponent<LoginConect> ();

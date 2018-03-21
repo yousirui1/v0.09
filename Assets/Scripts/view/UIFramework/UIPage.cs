@@ -110,6 +110,7 @@ namespace tpgm.UI
 			
 
         }
+		#if false
 
         public virtual void InitToast()
         {
@@ -119,55 +120,52 @@ namespace tpgm.UI
 
            
 
-			/*Transform[] touch;
-			touch = this.gameObject.transform.GetComponentsInChildren<Transform>();
 
-
-			foreach (Transform child in touch)
-			{
-				if (child.GetComponent<Button>())
-				{
-					child.GetChild(0).GetComponent<Text>().text = UIButtonID.GetName(typeof(UIButtonID), btnId);
-
-					child.name = UIButtonID.GetName(typeof(UIButtonID), btnId);
-					child.GetComponent<Button>().onClick.AddListener(delegate () {
-						UIEventMgr.Instance().OnClickEvent(child.gameObject);
-					});
-					btnId++;
-				}
-
-				if (child.GetComponent<InputField>())
-				{
-					child.name = UIInputFieldID.GetName(typeof(UIInputFieldID), inputId);
-
-					child.GetChild(0).GetComponent<Text>().text = UIInputFieldID.GetName(typeof(UIInputFieldID), inputId);
-					inputId++;
-				}
-
-				if (child.tag == "UILabel")
-				{
-					child.name = UITextID.GetName(typeof(UITextID), txId);
-					child.GetComponent<Text>().text = UITextID.GetName(typeof(UITextID), txId);
-					txId++;
-				}
-
-				if (child.GetComponent<SpriteRenderer>())
-				{
-					child.name = UIIamgeID.GetName(typeof(UIIamgeID), imgId);
-
-					if (child.tag == "AtlasSprite")
-					{
-						child.GetComponent<SpriteRenderer>().sprite = TextureManage.getInstance().LoadAtlasSprite(UIValue.UIPathTexture[imgId], "General_icon_0");
-					}
-					else
-					{
-						child.GetComponent<SpriteRenderer>().sprite = ResourceMgr.Instance().Load<Sprite>(UIValue.UIPathTexture[imgId], false);
-					}
-					child.GetComponent<SpriteRenderer>().sprite = ResourceMgr.Instance().Load<Sprite>(UIValue.UIPathTexture[imgId], false);
-					imgId++;
-				}
-			}*/
         }
+
+
+		public void showToastT(string text)
+		{
+
+			toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().text = text;
+			toastObj.transform.localPosition = new Vector2 (0.0f, -100.0f);
+
+			Sequence seq = DOTween.Sequence();
+			//#先快, 后慢(快落到底的时候), 然后快速回弹;
+			/*seq.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, 13.0f), 1.8f).SetRelative())
+					.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, -13.0f), 2.0f).SetRelative())
+					.SetDelay(0.1f)
+					.SetLoops(-1);*/  //翻转位置
+			//m_page.toastObj.GetComponent<Renderer> ().material.color = new Color (0, 1, 0, TimeUtils.utcNowMs());
+			toastObj.SetActive (true);
+			seq.Append (toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
+				.Append (toastObj.GetComponent<Renderer>().material.DOFade(1,1).SetLoops(-1,LoopType.Yoyo))
+				.Append(toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
+				.SetDelay (1.0f);
+
+
+			//.SetLoops(-1);
+
+		}
+
+		public void postShowWaitDialogMessage()
+		{
+			MainLooper looper = MainLooper.instance();
+			HandlerMessage msg = MainLooper.obtainMessage(looper_ShowEndToast);
+			looper.postMessageDelay(msg, 4600);
+		}
+
+		public void removeShowToast()
+		{
+			MainLooper looper = MainLooper.instance();
+			looper.removeMessagesByToExecute (looper_ShowEndToast);
+		}
+
+		private void looper_ShowEndToast(HandlerMessage msg)
+		{
+			toastObj.SetActive (false);
+		}
+		#endif
 
         //show ui refresh eachtime
         public virtual void Refresh() { }
@@ -214,6 +212,8 @@ namespace tpgm.UI
 			return MainLooper.instance();
 		}
 
+
+	
 
 		public bool hasDestroy()
 		{
@@ -272,7 +272,7 @@ namespace tpgm.UI
 		public void serverRespDataError(Exception ex)
 		{
 			//#提示: 服务器数据出错, 请重新登录;
-			m_toast.create(" 服务器数据出错, 请重新登录");
+			//m_toast.create(" 服务器数据出错, 请重新登录");
 		}
 
 		//#服务器出现逻辑错误;
@@ -305,9 +305,7 @@ namespace tpgm.UI
 		{
 			UIPage m_page;
 
-
-
-			public static List<Params> m_queue = new List<Params>();
+			//public static List<Params> m_queue = new List<Params>();
 
 			public Toast(UIPage iview):base(null)
 			{
@@ -318,11 +316,11 @@ namespace tpgm.UI
 			public void onDestroy()
 			{
 
-				m_queue.RemoveAt(0);
+				//m_queue.RemoveAt(0);
 
-				checkToastQueue();
+				//checkToastQueue();
 			}
-
+			#if false
 			public void showToast(string text, long sec)
 			{
 				
@@ -335,39 +333,10 @@ namespace tpgm.UI
 				looper.postMessageDelay(msg, sec);
 
 			}
-
-			public void showToast(string text)
-			{
-
-				m_page.toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().text = text;
-				m_page.toastObj.transform.localPosition = new Vector2 (0.0f, -100.0f);
-
-				Sequence seq = DOTween.Sequence();
-				//#先快, 后慢(快落到底的时候), 然后快速回弹;
-				/*seq.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, 13.0f), 1.8f).SetRelative())
-					.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, -13.0f), 2.0f).SetRelative())
-					.SetDelay(0.1f)
-					.SetLoops(-1);*/  //翻转位置
-				//m_page.toastObj.GetComponent<Renderer> ().material.color = new Color (0, 1, 0, TimeUtils.utcNowMs());
-				m_page.toastObj.SetActive (true);
-				seq.Append (m_page.toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
-					.Append (m_page.toastObj.GetComponent<Renderer>().material.DOFade(1,1).SetLoops(-1,LoopType.Yoyo))
-					.Append(m_page.toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
-					.SetDelay (1.0f);
-
-				//.SetLoops(-1);
-				MainLooper looper = m_page.getMainLooper();
-				HandlerMessage msg = MainLooper.obtainMessage(looper_ShowEndToast);
-				looper.postMessageDelay(msg, 4600);
-
-			}
-
-			void looper_ShowEndToast(HandlerMessage msg)
-			{
-				m_page.toastObj.SetActive (false);
-			}
+			#endif
 
 
+			#if false
 			public  void create(string text)
 			{
 				Params p = new Params(text);
@@ -419,7 +388,7 @@ namespace tpgm.UI
 				internal string m_text = "";
 				internal long m_sec = 3500;
 			}
-
+			#endif
 		
 		}
 
@@ -981,3 +950,56 @@ namespace tpgm.UI
 
     }
 }
+
+
+#if false
+/*Transform[] touch;
+touch = this.gameObject.transform.GetComponentsInChildren<Transform>();
+
+
+foreach (Transform child in touch)
+{
+if (child.GetComponent<Button>())
+{
+child.GetChild(0).GetComponent<Text>().text = UIButtonID.GetName(typeof(UIButtonID), btnId);
+
+child.name = UIButtonID.GetName(typeof(UIButtonID), btnId);
+child.GetComponent<Button>().onClick.AddListener(delegate () {
+UIEventMgr.Instance().OnClickEvent(child.gameObject);
+});
+btnId++;
+}
+
+if (child.GetComponent<InputField>())
+{
+child.name = UIInputFieldID.GetName(typeof(UIInputFieldID), inputId);
+
+child.GetChild(0).GetComponent<Text>().text = UIInputFieldID.GetName(typeof(UIInputFieldID), inputId);
+inputId++;
+}
+
+if (child.tag == "UILabel")
+{
+child.name = UITextID.GetName(typeof(UITextID), txId);
+child.GetComponent<Text>().text = UITextID.GetName(typeof(UITextID), txId);
+txId++;
+}
+
+if (child.GetComponent<SpriteRenderer>())
+{
+child.name = UIIamgeID.GetName(typeof(UIIamgeID), imgId);
+
+if (child.tag == "AtlasSprite")
+{
+child.GetComponent<SpriteRenderer>().sprite = TextureManage.getInstance().LoadAtlasSprite(UIValue.UIPathTexture[imgId], "General_icon_0");
+}
+else
+{
+child.GetComponent<SpriteRenderer>().sprite = ResourceMgr.Instance().Load<Sprite>(UIValue.UIPathTexture[imgId], false);
+}
+child.GetComponent<SpriteRenderer>().sprite = ResourceMgr.Instance().Load<Sprite>(UIValue.UIPathTexture[imgId], false);
+imgId++;
+}
+}*/
+
+#endif

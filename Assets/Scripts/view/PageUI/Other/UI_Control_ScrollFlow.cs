@@ -3,60 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+public class UI_Control_ScrollFlow : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    public RectTransform Rect;
-    public List<UI_Control_ScrollFlow_Item> Items;
-    /// <summary>
-    /// 宽度
-    /// </summary>
-    public float Width=500;
-    /// <summary>
-    /// 大小
-    /// </summary>
-    public float MaxScale=1;
-    /// <summary>
-    /// StartValue开始坐标值，AddValue间隔坐标值，小于vmian 达到最左，大于vmax达到最右
-    /// </summary>
-    public float StartValue = 0.1f, AddValue = 0.2f, VMin = 0.1f, VMax = 0.9f;
-    /// <summary>
-    /// 坐标曲线
-    /// </summary>
-    public AnimationCurve PositionCurve;
-    /// <summary>
-    /// 大小曲线
-    /// </summary>
-    public AnimationCurve ScaleCurve;
-    /// <summary>
-    /// 透明曲线
-    /// </summary>
-    public AnimationCurve ApaCurve;
-    /// <summary>
-    /// 计算值
-    /// </summary>
-    private Vector2 start_point, add_vect;
-    /// <summary>
-    /// 动画状态
-    /// </summary>
-    public bool _anim = false;
-    /// <summary>
-    /// 动画速度
-    /// </summary>
-    public float _anim_speed = 1f;
+    RectTransform Rect;
+    GameObject mainUI;
 
-    private float v = 0;
+    public List<UI_Control_ScrollFlow_Item> Items;  //滑动卡牌列表
     private List<UI_Control_ScrollFlow_Item> GotoFirstItems = new List<UI_Control_ScrollFlow_Item>(), GotoLaserItems = new List<UI_Control_ScrollFlow_Item>();
-
+    public float Width=810;
+    public float MaxScale=1;
+    public float StartValue = 0.2f, AddValue = 0.15f, VMin = 0.2f, VMax = 0.8f;
+    public AnimationCurve PositionCurve;
+    public AnimationCurve ScaleCurve;  
+    public AnimationCurve ApaCurve;  
+    private Vector2 start_point=Vector2.zero, add_vect;
+    public bool _anim = false;  //动画状态 
+    public float _anim_speed = 1f;  //动画速度
+    private float v = 0;
+   
     private void Start()
     {
+        Rect = GetComponent<RectTransform>();
+		mainUI = GameObject.Find ("ImageMain").gameObject;
         Refresh();
     }
+
+    //初始化位置
     public void Refresh()
     {
+        
         for (int i = 0; i < Rect.childCount; i++)
         {
-            Transform tran = Rect.GetChild(i);
-            UI_Control_ScrollFlow_Item item = tran.GetComponent<UI_Control_ScrollFlow_Item>();
+            UI_Control_ScrollFlow_Item item = Rect.GetChild(i).GetComponent<UI_Control_ScrollFlow_Item>();
             if (item != null)
             {
                 Items.Add(item);
@@ -76,18 +54,12 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHand
         {
             VMax = StartValue + (Rect.childCount - 1) * AddValue;
         }
-   
-    }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        start_point = eventData.position;
-        add_vect = Vector3.zero;
-        _anim = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        mainUI.SetActive(false);
         add_vect = eventData.position - start_point;
         v = eventData.delta.x * 1.00f / Width;
         for (int i = 0; i < Items.Count; i++)
@@ -95,6 +67,7 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHand
             Items[i].Drag(v);
         }
         Check(v);
+      
     }
     
 
@@ -113,8 +86,9 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHand
             {
                 for (int i = 0; i < GotoLaserItems.Count; i++)
                 {
-                    GotoLaserItems[i].v = Items[Items.Count - 1].v + AddValue;
                     Items.Remove(GotoLaserItems[i]);
+                    GotoLaserItems[i].v = Items[Items.Count - 1].v + AddValue;
+                    
                     Items.Add(GotoLaserItems[i]);
                 }
                 GotoLaserItems.Clear();
@@ -151,7 +125,6 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHand
             if (Items[i].v >= VMin)
             {
                 v1 = (Items[i].v - VMin)%AddValue;
-                //Debug.Log(v1 + "--" + NextAddValue);
                 if (add_vect.x >= 0)
                 {
                     k = AddValue - v1;
@@ -165,25 +138,9 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHand
         }
         add_vect = Vector3.zero;
         AnimToEnd(k);
+        mainUI.SetActive(true);
+       
     }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("OnPointerClick:" + eventData.pointerPressRaycast.gameObject);
-        if (add_vect.sqrMagnitude <= 1)
-        {
-            Debug.Log("============OnPointerClickOK============");
-            UI_Control_ScrollFlow_Item script = eventData.pointerPressRaycast.gameObject.GetComponent<UI_Control_ScrollFlow_Item>();
-            if(script!=null)
-            {
-                float k = script.v;
-                k = 0.5f - k;
-                AnimToEnd(k);
-            }
-           
-        }
-    }
-
 
     public float GetApa(float v)
     {
@@ -199,32 +156,33 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHand
     }
 
 
-    private List<UI_Control_ScrollFlow_Item> SortValues = new List<UI_Control_ScrollFlow_Item>();
-    private int index = 0;
+  
     public void LateUpdate()
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            if(Items[i].v>=0.1f &&Items[i].v<=0.9f)
+            if (Items[i].v >= 0.15f && Items[i].v <= 0.25f) Items[i].GetComponent<RectTransform>().SetSiblingIndex(0);
+            else if (Items[i].v >= 0.75f && Items[i].v <= 0.85f) Items[i].GetComponent<RectTransform>().SetSiblingIndex(1);
+            else if (Items[i].v >= 0.3f && Items[i].v <= 0.4f) Items[i].GetComponent<RectTransform>().SetSiblingIndex(2);
+            else if (Items[i].v >= 0.6f && Items[i].v <= 0.7f) Items[i].GetComponent<RectTransform>().SetSiblingIndex(3);
+            else if (Items[i].v >= 0.45f && Items[i].v <= 0.55f) Items[i].GetComponent<RectTransform>().SetSiblingIndex(4);
+        }
+		#if false
+        for (int i = 0; i < Items.Count; i++)
+        {
+            Debug.Log(Items[i].name + ":" + Items[i].GetComponent<RectTransform>().GetSiblingIndex());
+            if (i == Items.Count - 1)
             {
-                index=0;
-                for (int j = 0; j < SortValues.Count; j++)
-                {
-                    if(Items[i].sv>=SortValues[j].sv)
-                    {
-                        index = j + 1;
-                    }
-                }
-
-                SortValues.Insert(index, Items[i]);
+                //Debug.Log("-------------------------");
             }
         }
+		#endif
 
-        for (int k = 0; k < SortValues.Count; k++)
-        {
-            SortValues[k].rect.SetSiblingIndex(k);
-        }
-        SortValues.Clear();
+        //替换资源
+		mainUI.transform.GetChild(2).GetComponent<Image>().sprite = Resources.Load("images/ui/main/" + Current.transform.GetChild(1).GetComponent<Image>().sprite.name + "On", typeof(Sprite)) as Sprite;
+        
+		mainUI.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load("images/ui/kapai/" + Current.transform.GetChild(0).GetComponent<Image>().sprite.name, typeof(Sprite)) as Sprite;
+       
     }
 
     public void ToLaster(UI_Control_ScrollFlow_Item item)
@@ -269,15 +227,11 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IBeginDragHandler, IDragHand
                 Items[i].Drag(CurrentV);
                 if(Items[i].v-0.5<0.05f)
                 {
-                    Current = Items[i];
-                   
+                    Current = Items[i];                 
                 }
             }
             Check(CurrentV);
-            Vtotal = VT;
-
-
-         
+            Vtotal = VT;    
         }
     }
      

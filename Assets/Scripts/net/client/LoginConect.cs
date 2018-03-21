@@ -71,7 +71,7 @@ public class LoginConect : MonoBehaviour
 			}
 			m_pClient.NetWorkStateChangedEvent += (state) =>
 			{
-				//Debug.Log(state);
+				Debug.Log(state);
 				//长连接状态改变，多是断连
 				//onPomeloEvent_State(state);
 			};
@@ -128,14 +128,14 @@ public class LoginConect : MonoBehaviour
 	//存储登录数据
 	void onSave(JsonObject userData)
 	{
-		//Debug.Log ("onEnter");
+		Debug.Log ("onSave");
 		//ConectData.Instance.UserName = UserName;
 		//ConectData.Instance.Channel = Password;
 		//存储了在线用户
 		//PlayerData.Instance.LoginUserData = userData;
 		SavedContext.s_gameServerConnected = true;
-		//HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MESSAGE);
-		//m_initedLooper.sendMessage(msg);
+		HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MESSAGE);
+		m_initedLooper.sendMessage(msg);
 
 		InitNetEvent ();
 	}
@@ -148,8 +148,8 @@ public class LoginConect : MonoBehaviour
 		{
 		case MSG_POMELO_MESSAGE:
 			{
-
-				this.gameObject.AddComponent<AreaConect> ();
+				Debug.Log ("handleMessage");
+				//this.gameObject.AddComponent<AreaConect> ();
 			}
 			break;
 

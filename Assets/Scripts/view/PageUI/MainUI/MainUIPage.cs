@@ -25,7 +25,9 @@ public class MainUIPage : UIPage
 	//页面重载入
 	public override void Refresh()
 	{
-		
+		//定时器
+		coroutine = UIRoot.Instance.StartCoroutine(Timer());
+		m_controller.reqThirdGetData (false);
 	}
 
 	//定时刷新
@@ -37,7 +39,7 @@ public class MainUIPage : UIPage
 			//m_controller.reqThirdGetData(false);
 		}
 
-		this.transform.Find("bg_username/btn_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("RawImages/Public/Atlases/Icon/General_icon","General_icon_"+SavedData.s_instance.m_user.m_head);
+		this.transform.Find("bg_username/btn_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+SavedData.s_instance.m_user.m_head);
 		this.transform.Find ("bg_username/tx_nickname").GetComponent<Text> ().text = SavedData.s_instance.m_user.m_nickname;
 		this.transform.Find ("bg_username/tx_level").GetComponent<Text> ().text = ""+SavedData.s_instance.m_user.m_level+"级";
 	}
@@ -48,7 +50,7 @@ public class MainUIPage : UIPage
 	IEnumerator Timer() {
 		while (true) {
 			yield return new WaitForSeconds(1.0f);
-			Debug.Log ("AtRefresh");
+
 			AtRefresh ();
 		}
 	}
@@ -69,33 +71,34 @@ public class MainUIPage : UIPage
 
     public override void Awake(GameObject go)
     {
-		//定时器
-		//coroutine = UIRoot.Instance.StartCoroutine(Timer());
+		
 
 		m_controller = new Controller(this);
 
 
 		//初始化
 		Init();
-
-		InitToast ();
+		//InitToast ();
 
 		this.gameObject.transform.Find("bg_username/btn_head").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 个人信息
 				//UIPage.ShowPage<InfoUIPage>();
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUINotice>("未完成");
 			});
 		
 
 		this.gameObject.transform.Find("btn_bigpack").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				UIRoot.Instance.StopCoroutine(coroutine);
 				// 大礼包
 				UIPage.ShowPage<PublicUINotice>("大礼包未完成，敬请期待");
 			});
 
 		this.gameObject.transform.Find("btn_firstpay").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				UIRoot.Instance.StopCoroutine(coroutine);
 				// 首充
 				UIPage.ShowPage<PublicUINotice>("首充包未完成，敬请期待");
 
@@ -104,6 +107,7 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_enchanter").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 背包
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUINotice>("首充包未完成，敬请期待");
 			});
 				
@@ -111,6 +115,7 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_task").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 任务
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUITaskPage>();
 
 			});
@@ -118,12 +123,14 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_achievement").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 成就
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<AchievementUIPage>();
 			});
 
 		this.gameObject.transform.Find("btn_astrology").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 占星
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<AstrologyUIPage>();
 
 			});
@@ -131,6 +138,7 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_friends").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 好友
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<ChatUIPage>();
 			});
 		
@@ -138,6 +146,7 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_store").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 商城
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<StoreUIPage>();
 			});
 		
@@ -153,24 +162,28 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_set").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 设置界面
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUISetPage>();
 			});
 
 		this.gameObject.transform.Find("btn_email").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 邮件
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUIEmailPage>();
 			});
 
 		this.gameObject.transform.Find("btn_activity").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 今日活动
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUIActivityPage>();
 			});
 
 		this.gameObject.transform.Find("btn_check").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 签到
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUISignInPage>();
 			});
 				
@@ -178,6 +191,7 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_rank").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				//排行榜
+				UIRoot.Instance.StopCoroutine(coroutine);
 		});
 
 	
@@ -185,40 +199,45 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_copperbox").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				//免费宝箱
-
+				UIRoot.Instance.StopCoroutine(coroutine);
 		});
 
 		this.gameObject.transform.Find("btn_goldbox").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//星星宝箱
-
+				UIRoot.Instance.StopCoroutine(coroutine);
 			});
 
 
-		this.gameObject.transform.Find("btn_card/btn_card0").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_card/bar/btn_card0").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//荣耀对决
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
 
-		this.gameObject.transform.Find("btn_card/btn_card1").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_card/bar/btn_card1").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//荣耀对决
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
-		this.gameObject.transform.Find("btn_card/btn_card2").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_card/bar/btn_card2").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//荣耀对决
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
-		this.gameObject.transform.Find("btn_card/btn_card3").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_card/bar/btn_card3").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//荣耀对决
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
-		this.gameObject.transform.Find("btn_card/btn_card4").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_card/bar/btn_card4").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//荣耀对决
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
 
@@ -226,6 +245,7 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_modequick").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				//荣耀对决
+				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 		});
 
@@ -262,6 +282,7 @@ public class MainUIPage : UIPage
 
 	private void Init()
 	{
+		#if false
 		//初始化GameObject
 		btn_set = GameObject.Find("btn_set") as GameObject;
 		btn_email = GameObject.Find("btn_email") as GameObject;
@@ -269,21 +290,19 @@ public class MainUIPage : UIPage
 		btn_check = GameObject.Find("btn_check") as GameObject;
 		btn_rank = GameObject.Find("btn_rank") as GameObject;
 
-		himt_friends = GameObject.Find("btn_friends/img_hint") as GameObject;
+		//himt_friends = GameObject.Find("btn_friends/img_hint") as GameObject;
 		himt_store = GameObject.Find("btn_store/img_hint") as GameObject;
 		himt_hid = GameObject.Find("btn_hid/img_hint") as GameObject;
 
-		himt_friends.SetActive (false);
+		//himt_friends.SetActive (false);
 		himt_store.SetActive (false);
 		himt_hid.SetActive (false);
 	
-		m_controller.reqThirdGetData (false);
-
-
 		int iActive = PlayerPrefs.GetInt("hid");
 		//Debug.Log (iActive);
 		isActive = iActive == 0 ? false : true;
 		Active_btn(isActive);
+		#endif
 	}
 
 	private void Active_btn(bool isActive)
@@ -356,7 +375,7 @@ public class MainUIPage : UIPage
 		//获取用户数据
 		private const int REQ_THIRD_GETDATA = 3;
 
-		//重连时不需要后面的参数
+		//获取玩家信息
 		public void reqThirdGetData(bool isRetry)
 		{
 			Debug.Log ("reqThirdGetData");
@@ -379,27 +398,17 @@ public class MainUIPage : UIPage
 				paramsValObj = new ReqThirdGetData();
 				paramsValObj.m_isRetry = 0;
 				paramsValObj.m_checkID = checkID;
+				//SavedData.s_instance.m_user.m_token = "a55e257875aa400c3af73526da2982dff223efa7cbb925037e892828906729c4e6d5e5746b163e500d3beb0079ac296f";
 				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
-				//"a55e257875aa400c3af73526da2982dff223efa7cbb925037e892828906729c4cf684eb59fd9042ace19b92cec7e2a4c";
 				paramsValObj.m_user = 1;
-				paramsValObj.m_box = 0;//SavedData.s_instance.m_box.checkNeedReload() ? 1 : 0;
+				paramsValObj.m_box = 1;//SavedData.s_instance.m_box.checkNeedReload() ? 1 : 0;
 
-				//paramsValObj.m_email = 0;//SavedData.s_instance.m_email.checkNeedReload() ? 1 : 0;
-				//paramsValObj.m_astrology = 0;//SavedData.s_instance.m_astrology.checkNeedReload() ? 1 : 0;
+				paramsValObj.m_email = 0;//SavedData.s_instance.m_email.checkNeedReload() ? 1 : 0;
+				paramsValObj.m_astrology = 0;//SavedData.s_instance.m_astrology.checkNeedReload() ? 1 : 0;
 
-				//paramsValObj.m_friend = 1;
-				paramsValObj.m_signIn = 1;// SavedData.s_instance.m_signIn.checkNeedReload() ? 1 : 0;
+				paramsValObj.m_signIn = 0;// SavedData.s_instance.m_signIn.checkNeedReload() ? 1 : 0;
 				paramsValObj.m_Lng = gps.longitude;
 				paramsValObj.m_Lat = gps.latitude;
-
-				/*
-				paramsValObj.m_user = user;
-				paramsValObj.m_box = box;
-				paramsValObj.m_signIn = signIn;
-				paramsValObj.m_email = SavedData.s_instance.m_msg.checkNeedReload() ? 1 : 0;
-				paramsValObj.m_astrology = astrology;*/
-
-
 			}
 			string url = SavedContext.getApiUrl(api);
 			m_netHttp.postParamsValAsync(url, paramsValObj, REQ_THIRD_GETDATA,checkID);
@@ -409,7 +418,7 @@ public class MainUIPage : UIPage
 		//获取用户数据
 		private const int REQ_THIRD_BOXREWARD = 4;
 
-		//重连时不需要后面的参数
+		//领取宝箱
 		public void reqThirdBoxReward(bool isRetry,int user , int box, int friend, int signIn)
 		{
 
@@ -464,28 +473,29 @@ public class MainUIPage : UIPage
 								SavedData.s_instance.m_user.m_signature = js_userdata.signature;
 
 							}
-							/*if (resp.m_boxData != 0) {
+							if (resp.m_boxData != 0) {
 								SavedData.s_instance.m_box.reloadOk ();
-								//JsonTh js_singnindata = SimpleJson.SimpleJson.DeserializeObject<JsonThirdSignInData> (resp.m_signInData);
 								Debug.Log(resp.m_boxData);
-							}*/
-
+								Debug.Log(resp.m_utcMs);
+							}
+							#if false
 							if (!resp.m_signInData.Equals (string.Empty)) {
 								SavedData.s_instance.m_box.reloadOk ();
 								JsonThirdSignInData js_singnindata = SimpleJson.SimpleJson.DeserializeObject<JsonThirdSignInData> (resp.m_signInData);
 
 							}
-
-							/*if (resp.m_emailData == 1) {
+							#endif
+							if (resp.m_emailData == 1) {
 								SavedData.s_instance.m_email.reloadOk ();
-							}*/
+							}
 								
 
-							m_main.Refresh ();
+
 						}
 						break;
 					default:
 						{
+							Debug.Log (resp.m_code);
 							ValTableCache valCache = m_main.getValTableCache ();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_main.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);

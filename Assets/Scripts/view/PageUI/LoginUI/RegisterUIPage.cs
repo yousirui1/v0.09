@@ -25,7 +25,7 @@ public class RegisterUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		InitToast ();
+		//InitToast ();
 
         this.gameObject.transform.Find("content/btn_register").GetComponent<Button>().onClick.AddListener(() =>
         {
@@ -116,11 +116,11 @@ public class RegisterUIPage : UIPage
 				string password2 = GameObject.Find ("content/input_passwd2").GetComponent<InputField> ().text;
 
 				if (paramsValObj.m_password != password2) {
-					m_register.toast.showToast ("2次输入的密码不一致");
+					//m_register.showToast ("2次输入的密码不一致");
 				
 				} 
 				else if (password2.Length <6 || password2.Length > 12 ) {
-					m_register.toast.showToast ("密码长度不合法");
+					//m_register.showToast ("密码长度不合法");
 				}else {
 					//md5加密
 					paramsValObj.m_password = Md5Util.GetMd5FromStr (paramsValObj.m_password);
@@ -161,7 +161,7 @@ public class RegisterUIPage : UIPage
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_register.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
 							//UIPage.ShowPage<PublicUINotice> (val.text);
-							m_register.toast.showToast (val.text);
+							//m_register.showToast (val.text);
 						}
 						break;
 					}

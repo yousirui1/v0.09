@@ -161,7 +161,7 @@ public class GameMenu : MonoBehaviour
 	}
 
 	//击杀提示
-	public  void SetBroadcastData(PlayData data)
+	public  void SetBroadcastData(RespThirdPlayData data)
 	{
 
 		for (int i = 0; i < data.attackNum.type.Count; i++) {
@@ -572,7 +572,7 @@ public class GameMenu : MonoBehaviour
 	public void UpdateUserList()
 	{
 		//更新数值
-		foreach (UserData data in SavedData.s_instance.m_userCache.Values)
+		foreach (RespThirdUserData data in SavedData.s_instance.m_userCache.Values)
 		{
 			UserRank rank = SavedData.s_instance.m_userrank.Find ((UserRank x) => x.m_uid == data.nickname) as UserRank;
 			rank.m_score = data.score;

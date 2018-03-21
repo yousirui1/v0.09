@@ -3,23 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using tpgm.UI;
-using Pomelo.DotNetClient;
+using DG.Tweening;
 using tpgm;
+
 
 public class LoginUIPage : UIPage
 {
 	private const string TAG = "LoginUIPage";
-	//登录方式
-	private const int LOGIN_TYPE_MAC = 1;
-	private const int LOGIN_TYPE_UID = 2;
 
 	//http控制
 	Controller m_controller;
+	//登录方式 1 mac 2账号
+	private int m_login_type = 0;
 
-
-	public bool isFirst = false;
+	private string m_uid = "";
+	private string m_passwd = "";
 
 	Coroutine coroutine;
+
+	GameObject toastObj;
 
 	public LoginUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
 	{
@@ -30,34 +32,36 @@ public class LoginUIPage : UIPage
 
 	public override void Awake(GameObject go)
 	{
-		//Init(UIValue.login_btnID, UIValue.login_inputID, UIValue.login_txID, UIValue.login_imgID);
-		InitToast ();
-
-
+		//InitToast ();
+	
 		//定时器
 		coroutine = UIRoot.Instance.StartCoroutine(Timer());
 
-	
+		toastObj = this.transform.Find("toast").gameObject;
+		toastObj.SetActive (false);
 
 		m_controller = new Controller(this);
 
 		this.gameObject.transform.Find("btn_register").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				UIRoot.Instance.StopCoroutine(coroutine);
+				//UIRoot.Instance.StopCoroutine(coroutine);
 				// 注册
 				UIPage.ShowPage<RegisterUIPage>();
 			});
 
 		this.gameObject.transform.Find("btn_login").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				m_controller.reqThirdLogin (false,LOGIN_TYPE_UID);
+				m_uid = this.transform.Find("input_user").GetComponent<InputField>().text;
+				m_passwd = this.transform.Find ("input_passwd").GetComponent<InputField> ().text;
+				m_login_type = 2;
+				m_controller.reqThirdLogin (false);
 			});
 
 		this.gameObject.transform.Find("btn_maclogin").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				m_login_type = 1;
+				m_controller.reqThirdLogin (false);
 
-				m_controller.reqThirdLogin (false,LOGIN_TYPE_MAC);
-			
 			});
 
 		//创建局域网服务器
@@ -66,7 +70,7 @@ public class LoginUIPage : UIPage
 				SavedData.s_instance.m_mode = 2;
 				Application.LoadLevel("Game");
 			});
-		
+
 		//局域网客户端
 		this.gameObject.transform.Find("btn_wlanclient").GetComponent<Button>().onClick.AddListener(() =>
 			{
@@ -75,7 +79,13 @@ public class LoginUIPage : UIPage
 			});
 
 
+
+
 	}
+
+
+
+
 
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
 	{
@@ -96,55 +106,28 @@ public class LoginUIPage : UIPage
 		//coroutine = UIRoot.Instance.StartCoroutine(Timer());
 	}
 
+	int count = 0;
 	//秒定时器
 	IEnumerator Timer() {
 		while (true) {
-			onPomeloEvent_UpState ();
 			yield return new WaitForSeconds(1.0f);
-
 		}
 	}
-	private int showEnd = 0;
 
-	private string[] stringArr = {"", ".", "..", "..."};
-	private int index = 0;
-	void onPomeloEvent_UpState()
-	{
-		//Debug.Log ("onPomeloEvent_UpState");
-		//等待长连接成功
-		if (!SavedContext.s_gameServerConnected) {
-			//msg.GetComponent<Text> ().text = "连接中" + stringArr [index];
-			index++;
-			if (index >= stringArr.Length)
-				index = 0;
-		} else {
-			
-			if (isFirst) {
-				UIRoot.Instance.StopCoroutine(coroutine);
-				UIPage.ShowPage<CreateNameUIPage> ();
 
-			} else {
-				//UIPage.ShowPage<CreateNameUIPage> ();
-				UIRoot.Instance.StopCoroutine(coroutine);
-				UIPage.ShowPage<MainUIPage> ();
-			}
-		}
-
-	}
 
 
 	class Controller : BaseController<LoginUIPage>, NetHttp.INetCallback
 	{
 		NetHttp m_netHttp;
-		LoginUIPage m_login;
-
-		PomeloClient m_pClient;
+		LoginUIPage m_page;
+	
 
 		public Controller(LoginUIPage iview):base(null)
 		{
 			m_netHttp = new NetHttp();
 			m_netHttp.setPageNetCallback(this);
-			m_login = iview;
+			m_page = iview;
 		}
 
 		public void onDestroy()
@@ -157,11 +140,11 @@ public class LoginUIPage : UIPage
 				};
 			}
 		}
-			
+
 		//用于标识是那个接口用于处理接受函数
 		private const int REQ_THIRD_LOGIN = 1;
 
-		public void reqThirdLogin(bool isRetry,int type)
+		public void reqThirdLogin(bool isRetry)
 		{
 
 			ReqThirdLogin paramsValObj;
@@ -183,12 +166,13 @@ public class LoginUIPage : UIPage
 				//重连
 				paramsValObj.m_checkID = checkID;
 				paramsValObj.m_isRetry = 0;
-				paramsValObj.m_type = type;
+				paramsValObj.m_type = m_page.m_login_type;
 				paramsValObj.m_mac = InfoUtil.GetMac();
-				paramsValObj.m_account = GameObject.Find("input_user").GetComponent<InputField>().text;
-				paramsValObj.m_password = GameObject.Find ("input_passwd").GetComponent<InputField> ().text;
+				paramsValObj.m_account = m_page.m_uid;
+				paramsValObj.m_password = m_page.m_passwd;
 
 				paramsValObj.m_password = Md5Util.GetMd5FromStr(paramsValObj.m_password);
+
 
 				//保存数据
 				PlayerPrefs.SetString("account", paramsValObj.m_account);
@@ -202,7 +186,7 @@ public class LoginUIPage : UIPage
 		}
 
 
-	
+
 
 
 		public virtual void onHttpOk(DataNeedOnResponse data, ResponseData respData)
@@ -215,37 +199,35 @@ public class LoginUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-							m_login.toast.showToast ("登录成功");
+							//m_page.showToast ("登录成功");
 							if (null == SavedData.s_instance) {
 								SavedData.s_instance = new SavedData ();
 							}
+							Debug.Log (resp.m_uid);
 							User user = SavedData.s_instance.m_user;
 							user.m_uid = resp.m_uid; 
 							user.m_token = resp.m_token; 
 							if (resp.m_isFirst == 1) {
-								m_login.isFirst = true;
+								UIPage.ShowPage<CreateNameUIPage> ();
 							}
-							LoginConect client = new GameObject ("Client").AddComponent<LoginConect> ();
-							Debug.Log ("onLogin");
-							client.onLogin ();
-							//UIPage.ShowPage<MainUIPage> ();
+							UIPage.ShowPage<LinkServerUIPage> ();
+
 
 						}
 						break;
-					
-				
 					default:
 						{
-							ValTableCache valCache = m_login.getValTableCache();
-							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_login.m_pageID, ConstsVal.val_code);
+							ValTableCache valCache = m_page.getValTableCache();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							m_login.toast.showToast (val.text);
+							//m_page.showToast (val.text);
 						}
 						break;
 
 
 
 					}
+
 				}
 				break;
 			}
@@ -263,3 +245,4 @@ public class LoginUIPage : UIPage
 		}
 	}
 }
+	

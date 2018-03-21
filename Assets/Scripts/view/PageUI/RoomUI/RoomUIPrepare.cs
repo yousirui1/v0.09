@@ -15,8 +15,8 @@ public class RoomUIPrepare : UIPage
 {
 	private const string TAG = "RoomUIPrepare";
 
-	private GameObject friendItem = null;
-	private GameObject friendList = null;
+	private GameObject itemObj = null;
+	private GameObject listObj = null;
 
 	private List<UIFriendItem> friendItems = new List<UIFriendItem>();
 
@@ -27,7 +27,7 @@ public class RoomUIPrepare : UIPage
 
 	private List<TabIndex> tablist = new  List<TabIndex> ();
 
-	Controller m_controller;
+	Controller controller;
 
 	private GameObject userObj0;
 	private GameObject userObj1;
@@ -37,6 +37,9 @@ public class RoomUIPrepare : UIPage
 
 	private bool isActive_img = false;
 
+	//是否有邀请了其他玩家
+	private int other_count = 0;
+
 
 	public RoomUIPrepare() : base (UIType.Normal, UIMode.HideOther, UICollider.None )
 	{
@@ -45,20 +48,22 @@ public class RoomUIPrepare : UIPage
 
 	}
 
+	//刷新
+	public override void Refresh()
+	{
+		controller = new Controller (this);
+		controller.onPomeloEvent_EnterRoom ();
+
+		listObj.transform.localScale = Vector3.zero;
+		listObj.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
+
+
+	}
+
 	public override void Awake(GameObject go)
 	{
-		//Init(UIValue.room_btnID, UIValue.room_inputID, UIValue.room_txID, UIValue.room_imgID);
-
-		//向服务器创建房间
-		//ClientMgr.Instance().CreatRoom();
-
-		//m_controller = new Controller (this);
-		//m_controller.onPomeloEvent_EnterRoom ();
-
 		Init ();
-
 		//InitToast ();
-
 		tabControl = this.transform.Find ("tabcontrol").GetComponent<TabControl> () as TabControl;
 
 		tablist.Add (new TabIndex(0,"好友", null));
@@ -67,18 +72,15 @@ public class RoomUIPrepare : UIPage
 
 		for (int i = 0; i < tablist.Count; i++) {
 			tabControl.CreateTab (tablist[i].id, tablist[i].tabname, tablist[i].panelPath);
-			//this.gameObject.transform.Find("tabcontrol/Tabs/tab"+i+"/img_type").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("RawImages/Public/Atlases/Icon/General_icon","General_icon_"+i);
-
 		}
 
-
-		//friendList = this.transform.Find("tabcontrol/Panels/panel0").gameObject;
-
-		//friendItem = this.transform.Find("tabcontrol/Panels/panel0/Viewport/Content/item").gameObject;
-		//friendItem.SetActive(false);
+		//listObj = this.transform.Find ().gameObject;
+		//itemObj = this.transform.Find ().gameObject;
+		//itemObj.SetActive (false);
 
 		this.transform.Find("user0").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				controller.onPomeloEvent_Invite("7886be03be8c4b48904eb37a98c8bcd1");
 				Active_btn(userObj0);
 			});
 
@@ -95,7 +97,6 @@ public class RoomUIPrepare : UIPage
 
 		this.transform.Find("btn_start").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				//m_controller.onPomeloEvent_Match();
 				UIPage.ShowPage<RoomUIMatch>();
 			});
 
@@ -151,31 +152,7 @@ public class RoomUIPrepare : UIPage
 		//code
 		valCache.unmarkPageUse(m_pageID, ConstsVal.val_code);
 	}
-
-
-	//刷新
-	public override void Refresh()
-	{
-		//friendList.transform.localScale = Vector3.zero;	
-		//friendList.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
-
-		//Get Friend Data
-		//查看前一个页面有没有传入参data没有则初始化GameData	
-		//UDFriend.friends friendData = this.data != null ? this.data as UDFriend : GameData.Instance.playerFriend;
-
-		#if false
-		if (ConectData.Instance.friedns == null) {
-		//ConectData.Instance.friedns = GameData.Instance.playerFriend.friends;
-		} else {
-		for (int i = 0; i < ConectData.Instance.friedns.Count; i++) {
-		CreateFriendItem (ConectData.Instance.friedns [i]);
-		}
-		}
-		#endif
-
-	}
-
-
+		
 	//隐藏
 	public override void Hide()
 	{
@@ -192,8 +169,8 @@ public class RoomUIPrepare : UIPage
 
 	private void CreateFriendItem(UDFriend.Friend friend)
 	{
-		GameObject go = GameObject.Instantiate(friendItem) as GameObject;
-		go.transform.SetParent(friendItem.transform.parent);
+		GameObject go = GameObject.Instantiate(itemObj) as GameObject;
+		go.transform.SetParent(itemObj.transform.parent);
 		go.transform.localScale = Vector3.one;
 		go.SetActive(true);
 
@@ -215,94 +192,53 @@ public class RoomUIPrepare : UIPage
 		//Client.Send
 	}
 
-	private void SetPlayerInfo(string uid ,string name, string headpath)
+	private void SetPlayerInfo(string uid ,string name, int headpath)
 	{
-		Debug.Log ("SetPlayerInfo");
 		if (uid == SavedData.s_instance.m_user.m_uid) {
 			userObj0.transform.Find ("tx_username").GetComponent<Text> ().text = name;
-			userObj0.transform.Find ("img_user").GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("imges/ui/icon/General_icon","General_icon_"+headpath);
+			userObj0.transform.Find ("img_user").GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+headpath);
 		} else {
-
+			if (other_count == 0) {
+				userObj1.transform.Find ("tx_username").GetComponent<Text> ().text = name;
+				userObj1.transform.Find ("img_user").GetComponent<Image> ().sprite = TextureManage.getInstance ().LoadAtlasSprite ("images/ui/icon/General_icon", "General_icon_" + headpath);
+			} else if (other_count == 1) {
+				userObj2.transform.Find ("tx_username").GetComponent<Text> ().text = name;
+				userObj2.transform.Find ("img_user").GetComponent<Image> ().sprite = TextureManage.getInstance ().LoadAtlasSprite ("images/ui/icon/General_icon", "General_icon_" + headpath);
+			} else {
+				Debug.Log ("玩家数异常");
+			}
+			other_count++;
 		}
+
 	}
 
 
 
-	public const int MSG_POMELO_READY = 1;
+	public const int MSG_POMELO_ROOMADD = 1;
 	public const int MSG_POMELO_INVITE = 2;
-	public const int MSG_POMELO_ONCHAT = 3;
-	public const int MSG_POMELO_MATCH = 4;
-	public const int MSG_POMELO_ROOMADD = 5;
-	public const int MSG_POMELO_GLORYADD = 6;
-	public const int MSG_POMELO_PALYERINFO = 7;
+
 
 	private bool isLoadLevel = false;
 
 	protected override void onHandleMsg(HandlerMessage msg)
 	{
 		switch (msg.m_what) {
-		case MSG_POMELO_READY:
-			{
-
-			}
-			break;
-
-		case MSG_POMELO_INVITE:
-			{
-
-			}
-			break;
-
-		case MSG_POMELO_ONCHAT:
-			{
-
-			}
-			break;
-
-		case MSG_POMELO_MATCH:
-			{
-				JsonObject data = (JsonObject)msg.m_dataObj;
-				object match;
-				if (data.TryGetValue ("match", out match)) {
-					if (Convert.ToInt32 (match) == 2 && !isLoadLevel) {
-						isLoadLevel = true;
-						Application.LoadLevel("Game");
-					}
-				}
-			}
-			break;
 
 		case MSG_POMELO_ROOMADD:
 			{
-				Debug.Log ("MSG_POMELO_ROOMADD");
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				object uid;
-				object name;
-				object head;
+				object uid = null;
+				object name = null;
+				object head = null;
 				if (data.TryGetValue ("uid", out uid)
-					&& data.TryGetValue ("name", out name) 
-					&& data.TryGetValue ("head", out head) ) {
-					SetPlayerInfo (uid.ToString(), name.ToString(), head.ToString());
+					&& data.TryGetValue ("name", out name)
+					&& data.TryGetValue ("head", out head)) {
+					SetPlayerInfo (uid.ToString (), name.ToString (), Convert.ToInt32 (head));
+
 				}
 			}
 			break;
-
-		case MSG_POMELO_GLORYADD:
-			{
-				JsonObject data = (JsonObject)msg.m_dataObj;
-				UDGroup.StartPlayerBuf buf = null;
-				//buf = SimpleJson.SimpleJson.DeserializeObject<UDGroup.StartPlayerBuf>(jsMsg.ToString());
-				//ConectData.Instance.start_groups = new List<UDGroup.Group>(buf.newUser);
-			}
-			break;
-
-		case MSG_POMELO_PALYERINFO:
-			{
-				JsonObject data = (JsonObject)msg.m_dataObj;
-				//ConectData.Instance.playerInfo = jsMsg;
-			}
-			break;
-	
+			
 		default :
 			{
 
@@ -312,22 +248,20 @@ public class RoomUIPrepare : UIPage
 	}
 
 
-
-
 	class Controller : BaseController<RoomUIPrepare>
 	{
 
 		private MainLooper m_initedLooper;
 
 		PomeloClient m_pClient;
-		RoomUIPrepare m_roomuimain;
+		RoomUIPrepare m_page;
 		//code
 
 		public Controller(RoomUIPrepare iview):base(null)
 		{
 			m_initedLooper = MainLooper.instance();
 			InitNetEvent();
-			m_roomuimain = iview;
+			m_page = iview;
 		}
 
 		public void onDestroy()
@@ -347,66 +281,15 @@ public class RoomUIPrepare : UIPage
 		public void onPomeloEvent_EnterRoom()
 		{
 			if (SavedContext.s_client != null) {
-				SavedContext.s_client.request ("area.gloryHandler.enterRoom", (data) => {
-					//onMatch();
-					UDFriend.FriendBuf buf = null;
-					Debug.Log("onPomeloEvent_EnterRoom"+data);
+				SavedContext.s_client.request ("area.gloryHandler.enterRoom" ,(data) => {
+					Debug.Log(data);
 					if(null != data)
 					{
-						buf = SimpleJson.SimpleJson.DeserializeObject<UDFriend.FriendBuf>(data.ToString());
-						//ConectData.Instance.roomNum = buf.roomNum;
-
-						/*JObject jsMsg = JObject.Parse(data.ToString());
-						if(jsMsg.Property("friendArr")!=null)
+						System.Object roomNum = null;
+						if (data.TryGetValue("roomNum", out roomNum))
 						{
-							buf = JsonConvert.DeserializeObject<UDFriend.FriendBuf>(data.ToString());
-							ConectData.Instance.roomNum = buf.roomNum;
-							ConectData.Instance.friedns = new List<UDFriend.Friend>(buf.friendArr);
+							SavedData.s_instance.m_roomNum = roomNum.ToString();
 						}
-						else
-						{
-							Debug.Log("null friends");
-							object roomNum = new object();
-							object code = new object();
-							object utcMs = new object();
-							if (data.TryGetValue("roomNum", out roomNum) &&
-								data.TryGetValue("code", out code) &&
-								data.TryGetValue("utcMs", out utcMs))
-							{
-								Debug.Log(""+roomNum.ToString());
-								ConectData.Instance.roomNum = roomNum.ToString();
-							}
-						}*/
-					}
-				});
-			} else {
-				Debug.LogError ("pClient null");
-			}
-
-
-		}
-
-		//发送准备请求
-		public void onPomeloEvent_Prepare()
-		{
-
-			if (SavedContext.s_client != null) {
-				JsonObject jsMsg = new JsonObject();
-				jsMsg["roomNum"] = "";   //房间号
-				jsMsg["type"] = 1;       //1：准备，2：取消准备
-				SavedContext.s_client.request ("area.gloryHandler.prepare", jsMsg, (data) => {
-					Debug.Log ("onPomeloEvent_Prepare" + data);
-					UDFriend.FriendBuf buf = null;
-
-					if(null != data)
-					{
-						/*buf = SimpleJson.SimpleJson.DeserializeObject<UDFriend.FriendBuf>(data.ToString());
-						ConectData.Instance.roomNum = buf.roomNum;
-						Debug.Log(""+buf.roomNum);*/
-						//ConectData.Instance.friedns = new List<UDFriend.Friend>(buf.friendArr);
-						//Debug.Log(""+buf.friendArr.Length);
-						//ConectData.Instance.Channel = buf.frienaArr =UDfriends;
-						//eventObj.onove(buf);
 					}
 				});
 			} else {
@@ -414,35 +297,20 @@ public class RoomUIPrepare : UIPage
 			}
 		}
 
-		//发送匹配请求
-		public void onPomeloEvent_Match()
+		//邀请好友
+		public void onPomeloEvent_Invite(string uid)
 		{
 			if (SavedContext.s_client != null) {
 				JsonObject jsMsg = new JsonObject ();
-				jsMsg ["roomNum"] = "";
-				SavedContext.s_client.request ("area.gloryHandler.match", jsMsg, (data) => {
-					Debug.Log("onPomeloEvent_Match" + data);
-					object code;
-					if (data.TryGetValue ("code", out code)) {
-						if (Convert.ToInt32 (code) == 200 ) {
-							
-						}
-						else
-						{
-							ValTableCache valCache = m_roomuimain.getValTableCache();
-							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_roomuimain.m_pageID, ConstsVal.val_code);
-							ValCode val = ValUtils.getValByKeyOrThrow(valDict, Convert.ToInt32 (code));
-							Debug.Log(val.text);
-							m_roomuimain.toast.showToast (val.text);
-						}
-					}
-
+				jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
+				jsMsg["uid"] = uid;
+				SavedContext.s_client.request ("area.gloryHandler.invite",jsMsg, (data) => {
+					Debug.Log(data);
 				});
 			} else {
 				Debug.LogError ("pClient null");
 			}
 		}
-
 
 		//注册网络事件
 		void InitNetEvent()
@@ -450,61 +318,99 @@ public class RoomUIPrepare : UIPage
 			PomeloClient pClient = SavedContext.s_client;
 			if (pClient != null)
 			{
-
-				pClient.on ("ready", (data) => {
-					HandlerMessage msg = MainLooper.obtainMessage(m_roomuimain.handleMsgDispatch, MSG_POMELO_READY);
-					msg.m_dataObj = data;
-					m_initedLooper.sendMessage(msg);
-				});
-
-				pClient.on ("invite", (data) => {
-					HandlerMessage msg = MainLooper.obtainMessage(m_roomuimain.handleMsgDispatch, MSG_POMELO_INVITE);
+				//房间新玩家加入
+				pClient.on("roomAdd", (data) =>{
+					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_ROOMADD);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
 
 
-				pClient.on ("onChat", (data) => {
-					HandlerMessage msg = MainLooper.obtainMessage(m_roomuimain.handleMsgDispatch, MSG_POMELO_ONCHAT);
+			
+
+				#if false
+				pClient.on("match", (data) =>{
+					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MATCH);
+					Debug.Log(data);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
 
-				pClient.on ("match", (data) => {
-					Debug.Log("match"+ data);
-					HandlerMessage msg = MainLooper.obtainMessage(m_roomuimain.handleMsgDispatch, MSG_POMELO_MATCH);
+				pClient.on("gloryAdd", (data) =>{
+					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_GLORYADD);
+					Debug.Log(data);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
 
-				pClient.on ("roomAdd", (data) => {
-					Debug.Log("roomAdd"+ data);
-					HandlerMessage msg = MainLooper.obtainMessage(m_roomuimain.handleMsgDispatch, MSG_POMELO_ROOMADD);
+				pClient.on("load", (data) =>{
+					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_LOAD);
+					Debug.Log(data);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
 
-				pClient.on ("gloryAdd", (data) => {
-					Debug.Log("gloryAdd"+data);
-					HandlerMessage msg = MainLooper.obtainMessage(m_roomuimain.handleMsgDispatch, MSG_POMELO_GLORYADD);
+				pClient.on("playerInfo", (data) =>{
+					//HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_PLAYERINFO);
+					//msg.m_dataObj = data;
+					//m_initedLooper.sendMessage(msg);
+				});
+
+
+				pClient.on("moveInfo", (data) =>{
+					//Debug.Log(data);
+					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MOVEINFO);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
 
-				pClient.on ("playerInfo", (data) => {
-					Debug.Log("playerInfo"+data);
-					HandlerMessage msg = MainLooper.obtainMessage(m_roomuimain.handleMsgDispatch, MSG_POMELO_PALYERINFO);
+				pClient.on("playData", (data) =>{
+					//击杀等信息接收
+					//Debug.Log("playData"+data);
+					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_PLAYDATA);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
+				#endif
+
 			}
-		}
-
-
-
 
 	}
 
 
+	}
 }
+		
 
+	#if false
+	//friendList.transform.localScale = Vector3.zero;	
+	//friendList.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
+
+	//Get Friend Data
+	//查看前一个页面有没有传入参data没有则初始化GameData	
+	//UDFriend.friends friendData = this.data != null ? this.data as UDFriend : GameData.Instance.playerFriend;
+
+	if (ConectData.Instance.friedns == null) {
+	//ConectData.Instance.friedns = GameData.Instance.playerFriend.friends;
+	} else {
+	for (int i = 0; i < ConectData.Instance.friedns.Count; i++) {
+	CreateFriendItem (ConectData.Instance.friedns [i]);
+	}
+	}
+
+
+	#endif
+
+	//Init(UIValue.room_btnID, UIValue.room_inputID, UIValue.room_txID, UIValue.room_imgID);
+
+	//向服务器创建房间
+	//ClientMgr.Instance().CreatRoom();
+
+	//m_controller = new Controller (this);
+	//m_controller.onPomeloEvent_EnterRoom ();
+
+//friendList = this.transform.Find("tabcontrol/Panels/panel0").gameObject;
+
+//friendItem = this.transform.Find("tabcontrol/Panels/panel0/Viewport/Content/item").gameObject;
+//friendItem.SetActive(false);
+//this.gameObject.transform.Find("tabcontrol/Tabs/tab"+i+"/img_type").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("RawImages/Public/Atlases/Icon/General_icon","General_icon_"+i);

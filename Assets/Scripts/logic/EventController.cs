@@ -409,7 +409,7 @@ public class EventController : MonoBehaviour {
 	public void ev_InitPlayer(List<NewUser> newUser)
 	{
 		for (int i = 0; i < newUser.Count; i++) {
-			UserData data = new UserData ();
+			RespThirdUserData data = new RespThirdUserData ();
 			data.nickname = newUser [i].nickname;
 			data.score = 0;
 			data.kill = 0;
@@ -433,7 +433,7 @@ public class EventController : MonoBehaviour {
 	//更新玩家数据字典
 	private void UpdateUserData(string uid, int score,bool iskill, bool isdeath, bool isassit)
 	{
-		UserData data = null;
+		RespThirdUserData data = null;
 		if(SavedData.s_instance.m_userCache.TryGetValue(uid, out data))
 		{
 			if(iskill)
@@ -494,7 +494,7 @@ public class EventController : MonoBehaviour {
 	//获取阵营,null标识错误;
 	public string GetCamp(string uid)
 	{
-		UserData data = null;
+		RespThirdUserData data = null;
 		if(SavedData.s_instance.m_userCache.TryGetValue(uid, out data))
 		{
 			return data.group;
@@ -545,7 +545,7 @@ public class EventController : MonoBehaviour {
 	}
 
 
-	public void ev_OutTip(PlayData data)
+	public void ev_OutTip(RespThirdPlayData data)
 	{
 		//击杀数据存储在用户字典里
 		UpdateUserData (data.attackNum.kill,0,true,false,false); //击杀者

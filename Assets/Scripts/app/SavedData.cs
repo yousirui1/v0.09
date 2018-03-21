@@ -77,7 +77,7 @@ namespace tpgm
 		public string m_skillUid = "";
 
 		//玩家数据字典
-		public  Dictionary<string, UserData> m_userCache = new Dictionary<string, UserData>();
+		public  Dictionary<string, RespThirdUserData> m_userCache = new Dictionary<string, RespThirdUserData>();
 
 		//保存当前这一局游戏的玩家列表uid
 		public List<string> m_userlist ;
@@ -259,6 +259,7 @@ namespace tpgm
 		public int m_like;				//被赞数
 
 		public string m_signature =  "";  //签名
+	
 
     }
 
@@ -317,6 +318,7 @@ namespace tpgm
 
 	public class Msg_SignIn
 	{
+		//检查是否需要请求服务器
 		public bool checkNeedReload()
 		{
 			if (m_needReload)
@@ -330,7 +332,6 @@ namespace tpgm
 					m_needReload = true;
 				}
 			}
-
 			//return m_needReload;
 			return true;
 		}

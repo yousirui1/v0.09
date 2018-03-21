@@ -287,7 +287,7 @@ public class AreaConect : MonoBehaviour {
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				Debug.Log (data);
-				GloryAddBuf buf = SimpleJson.SimpleJson.DeserializeObject<GloryAddBuf> (data.ToString());
+				RespThirdGloryAdd buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdGloryAdd> (data.ToString());
 				Debug.Log (buf.newUser.Count);
 				eventController.ev_InitPlayer (buf.newUser);
 			}   
@@ -307,7 +307,7 @@ public class AreaConect : MonoBehaviour {
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				Debug.Log (data);
-				PlayerInfoBuf buf = SimpleJson.SimpleJson.DeserializeObject<PlayerInfoBuf> (data.ToString());
+				RespThirdPlayerInfo buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayerInfo> (data.ToString());
 				//eventController.ev_InitPlayer (buf.playerInfo);
 			}   
 			break;
@@ -328,7 +328,7 @@ public class AreaConect : MonoBehaviour {
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				Debug.Log (data);
-				PlayData buf = SimpleJson.SimpleJson.DeserializeObject<PlayData> (data.ToString());
+				RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
 				eventController.ev_OutTip (buf);
 			}   
 			break;

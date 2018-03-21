@@ -41,7 +41,7 @@ public class CreateNameUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		InitToast ();
+		//InitToast ();
 
 		InitJsonFile ();
 		this.gameObject.transform.Find("content/btn_random").GetComponent<Button>().onClick.AddListener(() =>
@@ -78,7 +78,7 @@ public class CreateNameUIPage : UIPage
 				}
 				else
 				{
-					toast.showToast("名字不合法");
+					//toast.showToast("名字不合法");
 				}
 			
 
@@ -226,7 +226,7 @@ public class CreateNameUIPage : UIPage
 							ValTableCache valCache = m_createname.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_createname.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							m_createname.toast.showToast (val.text);
+							//m_createname.showToast (val.text);
 						}
 						break;
 					}
