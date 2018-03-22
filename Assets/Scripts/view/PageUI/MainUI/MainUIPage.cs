@@ -375,16 +375,16 @@ public class MainUIPage : UIPage
 		//获取用户数据
 		private const int REQ_THIRD_GETDATA = 3;
 
-		//获取玩家信息
+		//获取玩家信息fa
 		public void reqThirdGetData(bool isRetry)
 		{
-			Debug.Log ("reqThirdGetData");
+			//Debug.Log ("reqThirdGetData");
 			ReqThirdGetData paramsValObj;
 			string checkID;
 
 			string api = "/getdata";
 
-			AppUtils.apiCheckID (api);
+			//AppUtils.apiCheckID (api);
 			if (isRetry) {
 				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdGetData> ();
 				paramsValObj.m_isRetry = 1;

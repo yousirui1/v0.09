@@ -54,8 +54,8 @@ public class RoomUIPrepare : UIPage
 		controller = new Controller (this);
 		controller.onPomeloEvent_EnterRoom ();
 
-		listObj.transform.localScale = Vector3.zero;
-		listObj.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
+		//listObj.transform.localScale = Vector3.zero;
+		//listObj.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
 
 
 	}
@@ -324,10 +324,7 @@ public class RoomUIPrepare : UIPage
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
-
-
-			
-
+					
 				#if false
 				pClient.on("match", (data) =>{
 					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MATCH);
