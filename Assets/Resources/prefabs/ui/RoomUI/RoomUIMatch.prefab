@@ -859,7 +859,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "9/9 \u5DF2\u5C31\u7EEA"
+  m_Text: "0/9 \u5DF2\u5C31\u7EEA"
 --- !u!114 &114236577134551144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1033,7 +1033,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 30
+  m_Text: 0
 --- !u!114 &114417368524746140
 MonoBehaviour:
   m_ObjectHideFlags: 1

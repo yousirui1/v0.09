@@ -152,7 +152,7 @@ public class RoomUIPrepare : UIPage
 		//code
 		valCache.unmarkPageUse(m_pageID, ConstsVal.val_code);
 	}
-		
+	#if false
 	//隐藏
 	public override void Hide()
 	{
@@ -164,7 +164,7 @@ public class RoomUIPrepare : UIPage
 
 		this.gameObject.SetActive(false);
 	}
-
+	#endif
 
 
 	private void CreateFriendItem(UDFriend.Friend friend)
@@ -282,7 +282,6 @@ public class RoomUIPrepare : UIPage
 		{
 			if (SavedContext.s_client != null) {
 				SavedContext.s_client.request ("area.gloryHandler.enterRoom" ,(data) => {
-					Debug.Log(data);
 					if(null != data)
 					{
 						System.Object roomNum = null;
@@ -312,6 +311,58 @@ public class RoomUIPrepare : UIPage
 			}
 		}
 
+
+		//其他玩家准备 1:准备 2:取消准备
+		public void onPomeloEvent_Prepare(int type)
+		{
+			if (SavedContext.s_client != null) {
+				JsonObject jsMsg = new JsonObject ();
+				jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
+				jsMsg["type"] = type;
+				SavedContext.s_client.request ("area.gloryHandler.prepare",jsMsg, (data) => {
+					Debug.Log(data);
+				});
+			} else {
+				Debug.LogError ("pClient null");
+			}
+		}
+
+
+
+
+		//房间里聊天
+		public void onPomeloEvent_Send(string content)
+		{
+			if (SavedContext.s_client != null) {
+				JsonObject jsMsg = new JsonObject ();
+				jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
+				//jsMsg["scope"] = SavedData.s_instance.m_roomNum;
+				jsMsg["content"] = content;
+				SavedContext.s_client.request ("area.gloryHandler.send",jsMsg, (data) => {
+					Debug.Log(data);
+				});
+			} else {
+				Debug.LogError ("pClient null");
+			}
+		}
+
+
+
+		//离开房间
+		public void onPomeloEvent_LeaveRoom()
+		{
+			if (SavedContext.s_client != null) {
+				JsonObject jsMsg = new JsonObject ();
+				jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
+				SavedContext.s_client.request ("area.gloryHandler.leaveRoom",jsMsg, (data) => {
+					Debug.Log(data);
+				});
+			} else {
+				Debug.LogError ("pClient null");
+			}
+		}
+
+
 		//注册网络事件
 		void InitNetEvent()
 		{
@@ -325,6 +376,7 @@ public class RoomUIPrepare : UIPage
 					m_initedLooper.sendMessage(msg);
 				});
 					
+
 				#if false
 				pClient.on("match", (data) =>{
 					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MATCH);

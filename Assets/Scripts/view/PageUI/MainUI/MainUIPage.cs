@@ -36,7 +36,6 @@ public class MainUIPage : UIPage
 		//检查是否要刷新
 		if (SavedData.s_instance.m_box.checkNeedReload ()||SavedData.s_instance.m_signIn.checkNeedReload()
 			|| SavedData.s_instance.m_email.checkNeedReload() ||SavedData.s_instance.m_astrology.checkNeedReload()) {
-			//m_controller.reqThirdGetData(false);
 		}
 
 		this.transform.Find("bg_username/btn_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+SavedData.s_instance.m_user.m_head);
@@ -401,12 +400,12 @@ public class MainUIPage : UIPage
 				//SavedData.s_instance.m_user.m_token = "a55e257875aa400c3af73526da2982dff223efa7cbb925037e892828906729c4e6d5e5746b163e500d3beb0079ac296f";
 				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
 				paramsValObj.m_user = 1;
-				paramsValObj.m_box = 1;//SavedData.s_instance.m_box.checkNeedReload() ? 1 : 0;
+				//paramsValObj.m_box = 1;//SavedData.s_instance.m_box.checkNeedReload() ? 1 : 0;
 
-				paramsValObj.m_email = 0;//SavedData.s_instance.m_email.checkNeedReload() ? 1 : 0;
-				paramsValObj.m_astrology = 0;//SavedData.s_instance.m_astrology.checkNeedReload() ? 1 : 0;
+				paramsValObj.m_email = 0; //SavedData.s_instance.m_email.checkNeedReload() ? 1 : 0;
+				paramsValObj.m_astrology = 0; //SavedData.s_instance.m_astrology.checkNeedReload() ? 1 : 0;
 
-				paramsValObj.m_signIn = 0;// SavedData.s_instance.m_signIn.checkNeedReload() ? 1 : 0;
+				paramsValObj.m_signIn = 0; // SavedData.s_instance.m_signIn.checkNeedReload() ? 1 : 0;
 				paramsValObj.m_Lng = gps.longitude;
 				paramsValObj.m_Lat = gps.latitude;
 			}
@@ -482,7 +481,6 @@ public class MainUIPage : UIPage
 							if (!resp.m_signInData.Equals (string.Empty)) {
 								SavedData.s_instance.m_box.reloadOk ();
 								JsonThirdSignInData js_singnindata = SimpleJson.SimpleJson.DeserializeObject<JsonThirdSignInData> (resp.m_signInData);
-
 							}
 							#endif
 							if (resp.m_emailData == 1) {

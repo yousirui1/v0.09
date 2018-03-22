@@ -6,12 +6,6 @@ using tpgm;
 namespace tpgm
 {
 
-	public class MapVal
-	{
-		public string map;
-		public List<int> magicStage;
-
-	}
 
 	public class GPSVal
 	{

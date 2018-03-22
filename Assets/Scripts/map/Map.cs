@@ -38,8 +38,11 @@ public class Map : MonoBehaviour
 		valCache.markPageUseOrThrow<ValGlobal> (m_gameID, ConstsVal.val_global);
 		valCache.markPageUseOrThrow<ValRoleBattle> (m_gameID, ConstsVal.val_role_battle);
 		valCache.markPageUseOrThrow<ValNum> (m_gameID, ConstsVal.val_num);
+
+		RespThirdLoad data = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (SavedData.s_instance.m_map);
+		InitMap (data.map, data.magicStage);
 	}
-		
+
 
 	void Destroy()
 	{

@@ -51,7 +51,9 @@ public class LinkServerUIPage : UIPage
 		switch (msg.m_what) {
 		case MSG_POMELO_LINKOK:
 			{
+				Debug.Log ("MSG_POMELO_LINKOK..........");
 				UIPage.ShowPage<MainUIPage> ();
+
 			}
 			break;
 		case MSG_POMELO_LINKERR:
@@ -103,7 +105,7 @@ public class LinkServerUIPage : UIPage
 				}
 				SavedContext.s_client.NetWorkStateChangedEvent += (state) =>
 				{
-					//Debug.Log(state);
+					Debug.Log(state);
 					//长连接状态改变，多是断连
 					//onPomeloEvent_State(state);
 				};
@@ -210,12 +212,12 @@ public class LinkServerUIPage : UIPage
 		void InitNetEvent()
 		{
 			if (SavedContext.s_client != null) {
+				//房间新玩家加入
 				SavedContext.s_client.on("invite", (data) =>{
-					Debug.Log(data);
-					//HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MATCH);
-					//Debug.Log(data);
+					//HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_ROOMADD);
 					//msg.m_dataObj = data;
 					//m_initedLooper.sendMessage(msg);
+					Debug.Log(data);
 				});
 			}
 		}

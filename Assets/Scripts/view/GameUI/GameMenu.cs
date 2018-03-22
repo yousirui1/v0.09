@@ -79,6 +79,10 @@ public class GameMenu : MonoBehaviour
 	GameObject itemRankObjself;
 	GameObject RankObj;
 
+	GameObject resultUIObj;
+	GameObject result_oneObj;  //个人结算界面
+	GameObject result_teamObj; //团队结算界面
+
 
 	//数值表缓存
 	ValTableCache valCache;
@@ -96,7 +100,8 @@ public class GameMenu : MonoBehaviour
 	void Start()
 	{
 		Init ();
-		Invoke ("InitUserList", 10);
+
+		InitUserList();
 		onClickListener ();
 		SendPing();
 	}
@@ -146,6 +151,12 @@ public class GameMenu : MonoBehaviour
 
 		RankObj = gameUIObj.transform.Find ("bg_rank").gameObject;
 
+		//结算界面
+		resultUIObj = ResourceMgr.Instance ().CreateGameObject ("prefabs/gameUI/ResultUI", false);
+		resultUIObj.transform.parent = this.transform;
+		resultUIObj.transform.localPosition = Vector3.zero;
+		resultUIObj.transform.localScale = Vector3.one;
+		resultUIObj.SetActive (false);
 
 
 		height = Screen.height;
@@ -244,9 +255,6 @@ public class GameMenu : MonoBehaviour
 
 
 
-
-
-
 	void SendPing()
 	{
 		ping = new Ping(SavedData.s_instance.s_clientUrl);
@@ -286,12 +294,17 @@ public class GameMenu : MonoBehaviour
 		else if (time > 300)
 		{
 			st_time = "00:00";
+
+		}
+		if (time > 0 && !isTure) {
+			isTure = true;
+			ActiveResultPanel ();
 		}
 		tiemObj.GetComponent<Text> ().text = st_time;
 		Invoke ("SetSystemInfoData", 1.0f);
 	}
 
-
+	bool isTure = false;
 
 	public JoyControl GetJoyControl()
 	{
@@ -329,13 +342,150 @@ public class GameMenu : MonoBehaviour
 	}
 
 	//激活死亡面板
-	public void SetDeathPanel()
+	public void ActiveDeathPanel()
 	{
 		deathPanelObj.SetActive (true);
 		deathPanelObj.transform.Find ("").GetComponent<Button> ().onClick.AddListener (delegate {
 			onClick (BTN_REVIVE);
 		});
 
+	}
+		
+
+	//激活结算面板
+	public void ActiveResultPanel()
+	{
+		gameUIObj.SetActive (false);
+		resultUIObj.SetActive (true);
+
+		SavedData.s_instance.m_home = 1;
+		resultUIObj.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				Application.LoadLevel("Home");
+				SavedData.s_instance.m_home = 2;
+				//回到房间
+		});
+
+		resultUIObj.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				Application.LoadLevel("Home");
+				SavedData.s_instance.m_home = 1;
+				//回到大厅
+		});
+
+		resultUIObj.transform.Find("btn_true").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				//转发
+		});
+
+		resultUIObj.transform.Find("btn_save").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				//保存视频
+		});
+
+		result_oneObj = resultUIObj.transform.Find ("panel_one").gameObject;
+		result_oneObj.transform.Find("btn_team").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				CheckResultPanel(false);
+		});
+		//头像
+		result_oneObj.transform.Find("panel/panel_one/img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+0);
+		//KDA
+		result_oneObj.transform.Find("panel/panel_one/tx_kda").GetComponent<Text>().text = "";
+
+
+		result_teamObj = resultUIObj.transform.Find ("panel_team").gameObject;
+		result_teamObj.transform.Find ("btn_one").GetComponent<Button> ().onClick.AddListener (() => {
+			CheckResultPanel (true);
+		});
+
+	}
+	//设置个人页面数据
+	public void SetResultOneData(GameObject parentObj,bool isasc)
+	{
+		parentObj.transform.Find ("tx_count").GetComponent<Text> ().text = "";
+		if (isasc) {
+			parentObj.transform.Find ("img_asc").gameObject.SetActive (true);
+			parentObj.transform.Find ("img_desc").gameObject.SetActive (false);
+			parentObj.transform.Find ("img_asc/tx_asc").GetComponent<Text> ().text = "";
+		} else {
+			parentObj.transform.Find ("img_asc").gameObject.SetActive (false);
+			parentObj.transform.Find ("img_desc").gameObject.SetActive (true);
+			parentObj.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = "";
+		}
+	}
+
+	//设置组队页面数据
+	public void SetResultOneData(int no)
+	{
+		GameObject itemObj;
+		switch (no) {
+		case 1:
+			{
+				itemObj = result_teamObj.transform.Find ("panel/item0/").gameObject;
+			}
+			break;
+		case 2:
+			{
+				itemObj = result_teamObj.transform.Find ("panel/item1/").gameObject;
+			}
+			break;
+		case 3:
+			{
+				itemObj = result_teamObj.transform.Find ("panel/item2/").gameObject;
+			}
+			break;
+		default:
+			{
+				
+				itemObj = result_teamObj.transform.Find ("panel/item3/").gameObject;
+				itemObj.SetActive (false);
+			}
+			break;
+			//第四名及之后的名次
+			if (no > 3) {
+				GameObject go = GameObject.Instantiate(itemObj) as GameObject;
+				go.transform.SetParent(itemObj.transform.parent);
+				go.transform.localScale = Vector3.one;
+				go.SetActive(true);
+
+				go.transform.Find("tx_no").GetComponent<Text>().text = "" + no;
+				go.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+0);
+				go.transform.Find("tx_name").GetComponent<Text>().text = "";
+				go.transform.Find("tx_kill").GetComponent<Text>().text = "";
+				go.transform.Find("tx_dead").GetComponent<Text>().text = "";
+				go.transform.Find("tx_assist").GetComponent<Text>().text = "";
+				go.transform.Find("tx_score").GetComponent<Text>().text = "";
+				go.transform.Find("tx_kda").GetComponent<Text>().text = "";
+
+			} else {
+				//1-3名
+				itemObj.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+0);
+				itemObj.transform.Find("tx_name").GetComponent<Text>().text = "";
+				itemObj.transform.Find("tx_kill").GetComponent<Text>().text = "";
+				itemObj.transform.Find("tx_dead").GetComponent<Text>().text = "";
+				itemObj.transform.Find("tx_assist").GetComponent<Text>().text = "";
+				itemObj.transform.Find("tx_score").GetComponent<Text>().text = "";
+				itemObj.transform.Find("img/kda").GetComponent<Text>().text = "";
+
+			}
+
+		}
+
+	}
+
+	//切换结算面板
+	public void CheckResultPanel(bool isteam)
+	{
+		Debug.Log ("CheckResultPanel"+isteam);
+		if (!isteam) {
+			result_oneObj.SetActive (false);
+			result_teamObj.SetActive (true);
+
+		} else {
+			result_oneObj.SetActive (true);
+			result_teamObj.SetActive (false);
+		}
 	}
 
 

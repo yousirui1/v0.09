@@ -44,8 +44,6 @@ public class AreaConect : MonoBehaviour {
 		InitNetEvent();
 	
 		SavedData.s_instance.m_userlist = UserNameList;
-
-		onPomeloEvent_EnterRoom ();
 	}	
 
 	void FixedUpdate()
@@ -54,43 +52,7 @@ public class AreaConect : MonoBehaviour {
 	}	
 
 
-	//发送加入房间请求
-	public void onPomeloEvent_EnterRoom()
-	{
-		if (SavedContext.s_client != null) {
-			SavedContext.s_client.request ("area.gloryHandler.enterRoom", (data) => {
-				if(null != data)
-				{
-					System.Object roomNum = null;
-					if (data.TryGetValue("roomNum", out roomNum))
-					{
-						SavedData.s_instance.m_roomNum = roomNum.ToString();
-						onPomeloEvent_Match();
-					}
-				}
-			});
-		} else {
-			Debug.LogError ("pClient null");
-		}
 
-
-	}
-
-
-
-	//发送匹配请求
-	public void onPomeloEvent_Match()
-	{
-		if (SavedContext.s_client != null) {
-			JsonObject jsMsg = new JsonObject ();
-			jsMsg ["roomNum"] = SavedData.s_instance.m_roomNum;
-			SavedContext.s_client.request ("area.gloryHandler.match", jsMsg, (data) => {
-                Debug.Log(data);
-			});
-		} else {
-			Debug.LogError ("pClient null");
-		}
-	}
 
 	//发送匹配请求
 	public void onPomeloEvent_Move(PlayerVal entite)
@@ -198,32 +160,11 @@ public class AreaConect : MonoBehaviour {
 		PomeloClient pClient = SavedContext.s_client;
 		if (pClient != null)
 		{
-
-			pClient.on("match", (data) =>{
-                HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MATCH);
-                Debug.Log(data);
-                msg.m_dataObj = data;
-                m_initedLooper.sendMessage(msg);
-            });
-
-			pClient.on("gloryAdd", (data) =>{
-				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_GLORYADD);
-				Debug.Log(data);
-				msg.m_dataObj = data;
-				m_initedLooper.sendMessage(msg);
-			});
-
-			pClient.on("load", (data) =>{
-				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_LOAD);
-				Debug.Log(data);
-				msg.m_dataObj = data;
-				m_initedLooper.sendMessage(msg);
-			});
-
+			
 			pClient.on("playerInfo", (data) =>{
-				//HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_PLAYERINFO);
-				//msg.m_dataObj = data;
-				//m_initedLooper.sendMessage(msg);
+				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_PLAYERINFO);
+				msg.m_dataObj = data;
+				m_initedLooper.sendMessage(msg);
 			});
 
 
@@ -247,64 +188,18 @@ public class AreaConect : MonoBehaviour {
 
 	}
 
-    private const int MSG_POMELO_MATCH = 1;
-	private const int MSG_POMELO_GLORYADD = 2;
-    private const int MSG_POMELO_LOAD = 3;
-	private const int MSG_POMELO_PLAYERINFO = 4;
-	private const int MSG_POMELO_MOVEINFO = 5;
-	private const int MSG_POMELO_PLAYDATA = 6;
+
+	private const int MSG_POMELO_PLAYERINFO = 1;
+	private const int MSG_POMELO_MOVEINFO = 2;
+	private const int MSG_POMELO_PLAYDATA = 3;
 
 
 	public void handleMessage(HandlerMessage msg)
 	{   
 		switch (msg.m_what)
 		{
-           case MSG_POMELO_MATCH:
-               {
-                    JsonObject data = (JsonObject)msg.m_dataObj;
-                    System.Object match = null;
-                    if (data.TryGetValue("match", out match))
-                    {
-                        if (Convert.ToInt32(match) == 1)
-                        {
-                            //Debug.Log(Convert.ToInt32(match));
-                        }
-						if (Convert.ToInt32 (match) == 2) 
-						{
-							System.Object roomNum = null;
-							if (data.TryGetValue ("roomNum", out roomNum)) {
-							SavedData.s_instance.m_roomNum = roomNum.ToString ();
-							}
-						}
-                    }
-                
-                }
-                break;
-
-
-		case MSG_POMELO_GLORYADD:
-			{   
-
-				JsonObject data = (JsonObject)msg.m_dataObj;
-				Debug.Log (data);
-				RespThirdGloryAdd buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdGloryAdd> (data.ToString());
-				Debug.Log (buf.newUser.Count);
-				eventController.ev_InitPlayer (buf.newUser);
-			}   
-			break;
-
-            case MSG_POMELO_LOAD:
-			{   
-				
-				JsonObject data = (JsonObject)msg.m_dataObj;
-				MapVal mapVal = SimpleJson.SimpleJson.DeserializeObject<MapVal> (data.ToString());
-				eventController.InitMap (mapVal.map, mapVal.magicStage);
-			}   
-			break;
-
 		case MSG_POMELO_PLAYERINFO:
 			{   
-
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				Debug.Log (data);
 				RespThirdPlayerInfo buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayerInfo> (data.ToString());
@@ -317,7 +212,6 @@ public class AreaConect : MonoBehaviour {
 			{   
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
-
 				FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
 				eventController.ev_Output (buf);
 			}   

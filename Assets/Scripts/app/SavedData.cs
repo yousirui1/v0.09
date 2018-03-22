@@ -14,6 +14,8 @@ namespace tpgm
 
 		public int m_mode = 1;
 
+		public int m_home = 1;
+
 		//#服务端当前的时间;
 		public long m_serverNow_UtcMs;
 
@@ -84,6 +86,8 @@ namespace tpgm
 
 		//保存当前这一局游戏的玩家列表排行榜用于显示
 		public List<UserRank> m_userrank = new List<UserRank>();
+
+		public string m_map = "";
 
         //#该gsid我所拥有的数量;
         public int getNum(int gsid)

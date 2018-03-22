@@ -196,8 +196,8 @@ public class WlanClient : MonoBehaviour {
 	{
 		if (!isInitMap) {
 			isInitMap = true;
-			MapVal mapVal = SimpleJson.SimpleJson.DeserializeObject<MapVal> (message);
-			eventController.InitMap (mapVal.map, mapVal.magicStage);
+			RespThirdLoad mapVal = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (message);
+			//eventController.InitMap (mapVal.map, mapVal.magicStage);
 		}
 	}
 

@@ -80,12 +80,6 @@ public class EventController : MonoBehaviour {
 	float lastRecvInfoTime = float.MinValue;
 
 
-
-
-
-
-
-
 	// Use this for initialization
 	void Start () {
 		shadow = new Shadow();
@@ -132,7 +126,7 @@ public class EventController : MonoBehaviour {
 		cameraObj.transform.localPosition = new Vector3(0,0,-100);
 		cameraObj.transform.localScale = Vector3.one;
 
-		areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
+		//areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
 
 	}
 		
@@ -141,10 +135,6 @@ public class EventController : MonoBehaviour {
 		valCache.unmarkPageUse(m_gameID, ConstsVal.val_magicup);
 	}
 
-	public void InitMap(string st_map, List<int> skill_list)
-	{
-		map.InitMap (st_map, skill_list);
-	}
 
 
 	public void SetSkillID(int id)
@@ -457,7 +447,6 @@ public class EventController : MonoBehaviour {
 			if (data.death == 0) {
 				data.kda = 0;
 			} else {
-				
 				data.kda = (data.kill + data.assit) / data.death;
 			}
 		}
@@ -529,7 +518,7 @@ public class EventController : MonoBehaviour {
 
 
 		//打开死亡面板
-		gameMenu.SetDeathPanel ();
+		gameMenu.ActiveDeathPanel ();
 
 		//发送给网络
 		areaConect.onPomeloEvent_Dead (stObj);
