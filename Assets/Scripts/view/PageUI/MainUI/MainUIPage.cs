@@ -28,6 +28,7 @@ public class MainUIPage : UIPage
 		//定时器
 		coroutine = UIRoot.Instance.StartCoroutine(Timer());
 		m_controller.reqThirdGetData (false);
+		//m_controller.reqThirdFriend (false);
 	}
 
 	//定时刷新
@@ -449,11 +450,40 @@ public class MainUIPage : UIPage
 
 		}
 
+		//获取好友数据
+		private const int REQ_THIRD_FRIEND = 15;
+
+		//获取好友数据
+		public void reqThirdFriend(bool isRetry)
+		{
+			ReqThirdFriend paramsValObj;
+			string checkID;
+
+			string api = "/friend";
+			if (isRetry) {
+				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdFriend> ();
+				paramsValObj.m_isRetry = 1;
+				checkID = paramsValObj.m_checkID;
+
+
+			} else {
+				checkID = AppUtils.apiCheckID(api);
+				paramsValObj = new ReqThirdFriend();
+				paramsValObj.m_isRetry = 0;
+				paramsValObj.m_checkID = checkID;
+				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
+				paramsValObj.m_type = 4;   //1关注，2好友，3粉丝，4附近的人
+				paramsValObj.m_page = 1;   //第几页
+			}
+			string url = SavedContext.getApiUrl(api);
+			m_netHttp.postParamsValAsync(url, paramsValObj, REQ_THIRD_FRIEND,checkID);
+
+		}
 
 
 		public virtual void onHttpOk(DataNeedOnResponse data, ResponseData respData)
 		{
-			Debug.Log ("onHttpOk");
+			
 			switch (data.m_reqTag) {
 			case REQ_THIRD_GETDATA:
 				{
@@ -504,8 +534,10 @@ public class MainUIPage : UIPage
 					}
 				}
 				break;
-			case REQ_THIRD_BOXREWARD:
+			case REQ_THIRD_FRIEND:
 				{
+					RespThirdFriend resp = Utils.bytesToObject<RespThirdFriend> (respData.m_protobufBytes);
+					Debug.Log (resp.m_friends);
 					/*Debug.Log(rewardBuf.reward.gold);
 
 					ItemAwad awad = new ItemAwad();

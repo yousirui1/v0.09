@@ -18,7 +18,7 @@ public class UIRankItem : MonoBehaviour
 	public void Refresh(UserRank data)
 	{
 		this.data = data;
-		this.transform.Find ("tx_name").GetComponent<Text> ().text = data.m_uid;
+		this.transform.Find ("tx_name").GetComponent<Text> ().text = data.m_nickname;
 		this.transform.Find ("tx_score").GetComponent<Text> ().text = "" +data.m_score;
 
 	}

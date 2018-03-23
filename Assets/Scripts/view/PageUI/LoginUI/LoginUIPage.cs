@@ -180,7 +180,7 @@ public class LoginUIPage : UIPage
 			}
 
 			string url = SavedContext.getApiUrl(api);
-			Debug.Log (url);
+		
 			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_LOGIN, checkID);
 
 		}
@@ -191,7 +191,6 @@ public class LoginUIPage : UIPage
 
 		public virtual void onHttpOk(DataNeedOnResponse data, ResponseData respData)
 		{
-			Debug.Log ("onHttpOk");
 			switch (data.m_reqTag) {
 			case REQ_THIRD_LOGIN:
 				{

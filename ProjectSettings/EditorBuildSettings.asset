@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Sence/Game.unity
     guid: 359fcf78550a14239ad4bcb38ffb4345
+  - enabled: 1
+    path: Assets/Sence/Home.unity
+    guid: 00000000000000000000000000000000

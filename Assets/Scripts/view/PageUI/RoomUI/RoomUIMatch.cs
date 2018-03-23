@@ -133,7 +133,7 @@ public class RoomUIMatch : UIPage
 
 					if (!SavedData.s_instance.m_userCache.ContainsKey (player.uid)) {
 						SavedData.s_instance.m_userCache.Add (player.uid, userdata);
-						UserRank rank = new UserRank (player.nickname,0);
+						UserRank rank = new UserRank (player.uid,player.nickname,0);
 						SavedData.s_instance.m_userrank.Add (rank);
 					}
 

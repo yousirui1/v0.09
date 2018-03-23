@@ -35,11 +35,13 @@ namespace tpgm
 	public class UserRank
 	{
 		public string m_uid { get; set ;}
+		public string m_nickname { get; set ;}
 		public int m_score { get; set ;}
 
-		public UserRank(string uid, int score)
+		public UserRank(string uid, string nickname, int score)
 		{
 			this.m_uid = uid;
+			this.m_nickname = nickname;
 			this.m_score = score;
 		}
 	}

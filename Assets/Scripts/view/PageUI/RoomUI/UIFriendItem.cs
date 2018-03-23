@@ -13,75 +13,93 @@ using SimpleJson;
 
 public class UIFriendItem : MonoBehaviour 
 {
-	public UDFriend.Friend data = null;
+	public JsonFriends data = null;
 
-	public void Refresh(UDFriend.Friend friend)
+	//邀请好友
+	public void onPomeloEvent_Invite(string uid)
+	{
+		if (SavedContext.s_client != null) {
+			JsonObject jsMsg = new JsonObject ();
+			jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
+			jsMsg["uid"] = uid;
+			SavedContext.s_client.request ("area.gloryHandler.invite",jsMsg, (data) => {
+				Debug.Log(data);
+			});
+		} else {
+			Debug.LogError ("pClient null");
+		}
+	}
+
+	public void Refresh(JsonFriends friend)
 	{
 		this.data = friend;
 		//背景
 		//this.transform.Find("item_bg").GetComponent<Text>().text = friend.name + "lv." + friend.level+ "]"; 
 		//头像
-		this.transform.Find("head_img").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("Public/Atlases/Icon/General_icon","General_icon_"+friend.head);
+		this.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+friend.head);
 		//名字
-		this.transform.Find("item_tx").GetComponent<Text>().text = friend.nickname;
+		this.transform.Find("tx_name").GetComponent<Text>().text = friend.nickname;
 		//段位图标
-		this.transform.Find("level_img").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("Public/Atlases/ui_atlas_battle","ui_atlas_battle_16");
+		//this.transform.Find("level_img").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("Public/Atlases/ui_atlas_battle","ui_atlas_battle_16");
 		//段位显示
-		this.transform.Find("level_tx").GetComponent<Text>().text = ""+friend.level;
+		this.transform.Find("tx_section").GetComponent<Text>().text = ""+friend.section;
 
-		//段位显示
-		this.transform.Find ("invite_btn").GetComponent<Button>().onClick.AddListener(() =>
+		//邀请好友
+		this.transform.Find ("status_on/status_1").GetComponent<Button>().onClick.AddListener(() =>
 		{
-				#if false
-				if (ConectData.Instance.pClient != null) {
-					JsonObject userMsg= new JsonObject();
-					userMsg.Add ("roomNum", ConectData.Instance.roomNum);
-					userMsg.Add ("uid", ConectData.Instance.Uid);
-					ConectData.Instance.pClient.request("area.gloryHandler.invite", userMsg, (data) =>
-					{
-								Debug.Log("Entry" + data);
-								
-					});
-				} else {
-					Debug.LogError ("pClient null");
-				}
-				#endif
+			onPomeloEvent_Invite(friend.uid);
 		});
 
 		//玩家状态 1：在线，2：离线，3：组队中，4：匹配中，5：战斗中
 		switch (friend.status) {
 		case 1:
-			//邀请按钮
-			this.transform.Find ("invite_btn").gameObject.SetActive (true);
-			this.transform.Find ("status_tx").gameObject.SetActive  (false);
+			//在线
+			this.transform.Find ("status_on").gameObject.SetActive  (true);
+			this.transform.Find ("status_off").gameObject.SetActive  (false);
+
+			this.transform.Find ("status_on/status_1").gameObject.SetActive  (true);
+			this.transform.Find ("status_on/status_3").gameObject.SetActive  (false);
+			this.transform.Find ("status_on/status_5").gameObject.SetActive  (false);
 			break;
 		case 2:
-			//邀请按钮
-			this.transform.Find ("invite_btn").gameObject.SetActive  (false);
-			this.transform.Find ("status_tx").gameObject.SetActive  (true);
-			this.transform.Find ("status_tx").GetComponent<Text> ().text = "离线";
+			//离线
+			this.transform.Find ("status_on").gameObject.SetActive  (false);
+			this.transform.Find ("status_off").gameObject.SetActive  (true);
+
 			break;
 		case 3:
-			//邀请按钮
-			this.transform.Find ("invite_btn").gameObject.SetActive  (true);
-			this.transform.Find ("status_tx").gameObject.SetActive (false);
+			//组队中
+			this.transform.Find ("status_on").gameObject.SetActive  (true);
+			this.transform.Find ("status_off").gameObject.SetActive  (false);
+
+			this.transform.Find ("status_on/status_1").gameObject.SetActive  (false);
+			this.transform.Find ("status_on/status_3").gameObject.SetActive  (true);
+			this.transform.Find ("status_on/status_5").gameObject.SetActive  (false);
 			break;
 		case 4:
-			//邀请按钮
-			this.transform.Find ("invite_btn").gameObject.SetActive  (false);
-			this.transform.Find ("status_tx").gameObject.SetActive  (true);
-			this.transform.Find ("status_tx").GetComponent<Text> ().text = "匹配中";
+			//匹配中
+			this.transform.Find ("status_on").gameObject.SetActive  (true);
+			this.transform.Find ("status_off").gameObject.SetActive  (false);
+
+			this.transform.Find ("status_on/status_1").gameObject.SetActive  (true);
+			this.transform.Find ("status_on/status_3").gameObject.SetActive  (false);
+			this.transform.Find ("status_on/status_5").gameObject.SetActive  (false);
 			break;
 		case 5:
-			//邀请按钮
-			this.transform.Find ("invite_btn").gameObject.SetActive  (false);
-			this.transform.Find ("status_tx").gameObject.SetActive  (true);
-			this.transform.Find ("status_tx").GetComponent<Text> ().text = "战斗中";
+			//战斗中
+			this.transform.Find ("status_on").gameObject.SetActive  (true);
+			this.transform.Find ("status_off").gameObject.SetActive  (false);
+
+			this.transform.Find ("status_on/status_1").gameObject.SetActive  (false);
+			this.transform.Find ("status_on/status_3").gameObject.SetActive  (false);
+			this.transform.Find ("status_on/status_5").gameObject.SetActive  (true);
 			break;
 		}
 
 
 		
 	}
+
+
 
 } 

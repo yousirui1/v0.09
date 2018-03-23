@@ -40,6 +40,8 @@ public class RoomUIPrepare : UIPage
 	//是否有邀请了其他玩家
 	private int other_count = 0;
 
+	private List<JsonFriends> list_friends;
+
 
 	public RoomUIPrepare() : base (UIType.Normal, UIMode.HideOther, UICollider.None )
 	{
@@ -54,10 +56,10 @@ public class RoomUIPrepare : UIPage
 		controller = new Controller (this);
 		controller.onPomeloEvent_EnterRoom ();
 
-		//listObj.transform.localScale = Vector3.zero;
-		//listObj.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
+		listObj.transform.localScale = Vector3.zero;
+		listObj.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
 
-
+		controller.reqThirdFriend (false);	
 	}
 
 	public override void Awake(GameObject go)
@@ -74,13 +76,12 @@ public class RoomUIPrepare : UIPage
 			tabControl.CreateTab (tablist[i].id, tablist[i].tabname, tablist[i].panelPath);
 		}
 
-		//listObj = this.transform.Find ().gameObject;
-		//itemObj = this.transform.Find ().gameObject;
-		//itemObj.SetActive (false);
+		listObj = this.transform.Find ("tabcontrol/Panels/panel2").gameObject;
+		itemObj = listObj.transform.Find ("Viewport/Content/item").gameObject;
+		itemObj.SetActive (false);
 
 		this.transform.Find("user0").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				controller.onPomeloEvent_Invite("7886be03be8c4b48904eb37a98c8bcd1");
 				Active_btn(userObj0);
 			});
 
@@ -167,11 +168,12 @@ public class RoomUIPrepare : UIPage
 	#endif
 
 
-	private void CreateFriendItem(UDFriend.Friend friend)
+	private void CreateFriendItem(JsonFriends friend)
 	{
 		GameObject go = GameObject.Instantiate(itemObj) as GameObject;
 		go.transform.SetParent(itemObj.transform.parent);
 		go.transform.localScale = Vector3.one;
+		go.name = friend.uid;
 		go.SetActive(true);
 
 		UIFriendItem item = go.AddComponent<UIFriendItem>();
@@ -212,13 +214,18 @@ public class RoomUIPrepare : UIPage
 
 	}
 
+	private void SetFriendData(int type, List<JsonFriends> friends)
+	{
+		for (int i = 0; i < friends.Count; i++) {
+			CreateFriendItem (friends[i]);
+		}
+
+	}
 
 
 	public const int MSG_POMELO_ROOMADD = 1;
 	public const int MSG_POMELO_INVITE = 2;
 
-
-	private bool isLoadLevel = false;
 
 	protected override void onHandleMsg(HandlerMessage msg)
 	{
@@ -248,7 +255,7 @@ public class RoomUIPrepare : UIPage
 	}
 
 
-	class Controller : BaseController<RoomUIPrepare>
+	class Controller : BaseController<RoomUIPrepare>,NetHttp.INetCallback
 	{
 
 		private MainLooper m_initedLooper;
@@ -256,12 +263,15 @@ public class RoomUIPrepare : UIPage
 		PomeloClient m_pClient;
 		RoomUIPrepare m_page;
 		//code
+		NetHttp m_netHttp;
 
 		public Controller(RoomUIPrepare iview):base(null)
 		{
+			m_netHttp = new NetHttp();
 			m_initedLooper = MainLooper.instance();
 			InitNetEvent();
 			m_page = iview;
+			m_netHttp.setPageNetCallback(this);
 		}
 
 		public void onDestroy()
@@ -273,6 +283,81 @@ public class RoomUIPrepare : UIPage
 					Debug.Log (""+state);
 				};
 			}
+
+		}
+
+		//获取好友数据
+		private const int REQ_THIRD_FRIEND = 15;
+
+		//获取好友数据
+		public void reqThirdFriend(bool isRetry)
+		{
+			ReqThirdFriend paramsValObj;
+			string checkID;
+			Debug.Log ("reqThirdFriend");
+			string api = "/friend";
+			if (isRetry) {
+				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdFriend> ();
+				paramsValObj.m_isRetry = 1;
+				checkID = paramsValObj.m_checkID;
+
+
+			} else {
+				checkID = AppUtils.apiCheckID(api);
+				paramsValObj = new ReqThirdFriend();
+				paramsValObj.m_isRetry = 0;
+				paramsValObj.m_checkID = checkID;
+				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
+				paramsValObj.m_type = 4;   //1关注，2好友，3粉丝，4附近的人
+				paramsValObj.m_page = 1;   //第几页
+			}
+			string url = SavedContext.getApiUrl(api);
+			m_netHttp.postParamsValAsync(url, paramsValObj, REQ_THIRD_FRIEND,checkID);
+
+		}
+
+		public virtual void onHttpOk(DataNeedOnResponse data, ResponseData respData)
+		{
+			Debug.Log ("onHttpOk");
+			switch (data.m_reqTag) {
+			case REQ_THIRD_FRIEND:
+				{
+					RespThirdFriend resp = Utils.bytesToObject<RespThirdFriend> (respData.m_protobufBytes);
+					switch (resp.m_code) {
+					case 200:
+						{
+							if (!resp.m_friends.Equals (string.Empty)) {
+								List<JsonFriends> js_friends  = SimpleJson.SimpleJson.DeserializeObject<List<JsonFriends>> (resp.m_friends);
+								m_page.SetFriendData (4, js_friends);
+							}
+						}
+						break;
+					default:
+						{
+							Debug.Log (resp.m_code);
+							ValTableCache valCache = m_page.getValTableCache ();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
+							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
+							UIPage.ShowPage<PublicUINotice> (val.text);
+						}
+						break;
+
+					}
+				}
+				break;
+			}
+
+
+		}
+
+		public virtual void onHttpErr(DataNeedOnResponse data, int statusCode, string errMsg)
+		{
+			Debug.Log (TAG +":" +"onHttpErr");
+		}
+
+		public virtual void onOtherErr(DataNeedOnResponse data, int type)
+		{
+			Debug.Log (TAG +":" +"onOtherErr");
 
 		}
 
@@ -296,20 +381,7 @@ public class RoomUIPrepare : UIPage
 			}
 		}
 
-		//邀请好友
-		public void onPomeloEvent_Invite(string uid)
-		{
-			if (SavedContext.s_client != null) {
-				JsonObject jsMsg = new JsonObject ();
-				jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
-				jsMsg["uid"] = uid;
-				SavedContext.s_client.request ("area.gloryHandler.invite",jsMsg, (data) => {
-					Debug.Log(data);
-				});
-			} else {
-				Debug.LogError ("pClient null");
-			}
-		}
+
 
 
 		//其他玩家准备 1:准备 2:取消准备

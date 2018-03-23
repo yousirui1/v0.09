@@ -130,7 +130,7 @@ public class EventController : MonoBehaviour {
 
 	}
 		
-	void Destroy()
+	void OnDestroy()
 	{
 		valCache.unmarkPageUse(m_gameID, ConstsVal.val_magicup);
 	}
@@ -227,8 +227,10 @@ public class EventController : MonoBehaviour {
 				//闪现
 				if(gameMenu.InputFlash() || Input.GetKey(KeyCode.K))
 				{
-					players[id].skill = 500;
-					lastFlashTime = Time.time;
+					if (map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().useFlash (-10)) {
+						players[id].skill = 500;
+						lastFlashTime = Time.time;
+					}
 				}
 			}else {
 				gameMenu.InputFlash ();
@@ -410,7 +412,7 @@ public class EventController : MonoBehaviour {
 
 			if (!SavedData.s_instance.m_userCache.ContainsKey (newUser [i].uid)) {
 				SavedData.s_instance.m_userCache.Add (newUser [i].uid, data);
-				UserRank rank = new UserRank (newUser [i].nickname,0);
+				UserRank rank = new UserRank (newUser [i].uid, newUser [i].nickname,0);
 				SavedData.s_instance.m_userrank.Add (rank);
 			}
 

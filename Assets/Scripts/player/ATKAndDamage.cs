@@ -289,6 +289,25 @@ public class ATKAndDamage : MonoBehaviour{
 	}
 
 
+	public bool useFlash(int sp)
+	{
+		//人物是否死亡
+		if (this.hp > 0) {
+			//sp不为零
+			if (this.sp > 0) {
+				this.sp += sp;
+				if (this.sp > 0) {
+					return true;
+
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
+
 	private void OnEffectEnd()
 	{
 		this.transform.Find ("role").gameObject.SetActive (true);

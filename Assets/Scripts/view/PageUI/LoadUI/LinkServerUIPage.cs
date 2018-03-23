@@ -51,7 +51,7 @@ public class LinkServerUIPage : UIPage
 		switch (msg.m_what) {
 		case MSG_POMELO_LINKOK:
 			{
-				Debug.Log ("MSG_POMELO_LINKOK..........");
+				//Debug.Log ("MSG_POMELO_LINKOK..........");
 				UIPage.ShowPage<MainUIPage> ();
 
 			}
@@ -105,7 +105,7 @@ public class LinkServerUIPage : UIPage
 				}
 				SavedContext.s_client.NetWorkStateChangedEvent += (state) =>
 				{
-					Debug.Log(state);
+					//Debug.Log(state);
 					//长连接状态改变，多是断连
 					//onPomeloEvent_State(state);
 				};

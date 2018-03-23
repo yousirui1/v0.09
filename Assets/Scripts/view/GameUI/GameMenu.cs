@@ -156,6 +156,9 @@ public class GameMenu : MonoBehaviour
 		resultUIObj.transform.parent = this.transform;
 		resultUIObj.transform.localPosition = Vector3.zero;
 		resultUIObj.transform.localScale = Vector3.one;
+
+		result_oneObj = resultUIObj.transform.Find ("panel_one").gameObject;
+		result_teamObj = resultUIObj.transform.Find ("panel_team").gameObject;
 		resultUIObj.SetActive (false);
 
 
@@ -355,10 +358,14 @@ public class GameMenu : MonoBehaviour
 	//激活结算面板
 	public void ActiveResultPanel()
 	{
+		
+
 		gameUIObj.SetActive (false);
 		resultUIObj.SetActive (true);
 
 		SavedData.s_instance.m_home = 1;
+
+
 		resultUIObj.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				Application.LoadLevel("Home");
@@ -382,103 +389,126 @@ public class GameMenu : MonoBehaviour
 		{
 				//保存视频
 		});
-
-		result_oneObj = resultUIObj.transform.Find ("panel_one").gameObject;
+				
 		result_oneObj.transform.Find("btn_team").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				CheckResultPanel(false);
 		});
+
+
+		RespThirdUserData self_data = null;
+		//更新显示
+		for(int i = 0; i<SavedData.s_instance.m_userrank.Count; i++) {
+			RespThirdUserData data = null;
+			Debug.Log (SavedData.s_instance.m_userrank [i].m_uid);
+			if (SavedData.s_instance.m_userCache.TryGetValue (SavedData.s_instance.m_userrank[i].m_uid, out data)) {
+				SetResultTempData (i+1, data);
+			}
+			//是不是主角
+			if (SavedData.s_instance.m_userrank [i].m_uid == SavedData.s_instance.m_user.m_uid) {
+				self_data = data;
+			}
+		}
+
+
 		//头像
-		result_oneObj.transform.Find("panel/panel_one/img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+0);
+		//result_oneObj.transform.Find("panel/panel_self/img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+self_data.head);
 		//KDA
-		result_oneObj.transform.Find("panel/panel_one/tx_kda").GetComponent<Text>().text = "";
+		//result_oneObj.transform.Find("panel/panel_self/tx_kda").GetComponent<Text>().text = ""+ self_data.kda;
 
 
-		result_teamObj = resultUIObj.transform.Find ("panel_team").gameObject;
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_score").gameObject,false ,0, 0);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_keepkill").gameObject,true , 0, 0);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_dead").gameObject, false ,0, 0);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_kill").gameObject, true ,0, 0);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_live").gameObject, false ,0, 0);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_time").gameObject, true ,0, 0);
+
+
 		result_teamObj.transform.Find ("btn_one").GetComponent<Button> ().onClick.AddListener (() => {
 			CheckResultPanel (true);
 		});
 
+		CheckResultPanel(true);
+
 	}
 	//设置个人页面数据
-	public void SetResultOneData(GameObject parentObj,bool isasc)
+	public void SetResultOneData(GameObject parentObj,bool isasc,int count , int asc)
 	{
-		parentObj.transform.Find ("tx_count").GetComponent<Text> ().text = "";
+		parentObj.transform.Find ("tx_count").GetComponent<Text> ().text = ""+count;
 		if (isasc) {
 			parentObj.transform.Find ("img_asc").gameObject.SetActive (true);
 			parentObj.transform.Find ("img_desc").gameObject.SetActive (false);
-			parentObj.transform.Find ("img_asc/tx_asc").GetComponent<Text> ().text = "";
+			parentObj.transform.Find ("img_asc/tx_asc").GetComponent<Text> ().text = ""+asc;
 		} else {
 			parentObj.transform.Find ("img_asc").gameObject.SetActive (false);
 			parentObj.transform.Find ("img_desc").gameObject.SetActive (true);
-			parentObj.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = "";
+			parentObj.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = ""+asc;
 		}
 	}
 
 	//设置组队页面数据
-	public void SetResultOneData(int no)
+	public void SetResultTempData(int no,RespThirdUserData data)
 	{
+		Debug.Log ("SetResultTempData");
 		GameObject itemObj;
 		switch (no) {
 		case 1:
 			{
-				itemObj = result_teamObj.transform.Find ("panel/item0/").gameObject;
+				itemObj = result_teamObj.transform.Find ("panel/Viewport/Contect/item0").gameObject;
 			}
 			break;
 		case 2:
 			{
-				itemObj = result_teamObj.transform.Find ("panel/item1/").gameObject;
+				itemObj = result_teamObj.transform.Find ("panel/Viewport/Contect/item1").gameObject;
 			}
 			break;
 		case 3:
 			{
-				itemObj = result_teamObj.transform.Find ("panel/item2/").gameObject;
+				itemObj = result_teamObj.transform.Find ("panel/Viewport/Contect/item2").gameObject;
 			}
 			break;
 		default:
 			{
-				
-				itemObj = result_teamObj.transform.Find ("panel/item3/").gameObject;
-				itemObj.SetActive (false);
+				itemObj = result_teamObj.transform.Find ("panel/Viewport/Contect/item3").gameObject;
 			}
 			break;
-			//第四名及之后的名次
-			if (no > 3) {
-				GameObject go = GameObject.Instantiate(itemObj) as GameObject;
-				go.transform.SetParent(itemObj.transform.parent);
-				go.transform.localScale = Vector3.one;
-				go.SetActive(true);
 
-				go.transform.Find("tx_no").GetComponent<Text>().text = "" + no;
-				go.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+0);
-				go.transform.Find("tx_name").GetComponent<Text>().text = "";
-				go.transform.Find("tx_kill").GetComponent<Text>().text = "";
-				go.transform.Find("tx_dead").GetComponent<Text>().text = "";
-				go.transform.Find("tx_assist").GetComponent<Text>().text = "";
-				go.transform.Find("tx_score").GetComponent<Text>().text = "";
-				go.transform.Find("tx_kda").GetComponent<Text>().text = "";
+		}
 
-			} else {
-				//1-3名
-				itemObj.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+0);
-				itemObj.transform.Find("tx_name").GetComponent<Text>().text = "";
-				itemObj.transform.Find("tx_kill").GetComponent<Text>().text = "";
-				itemObj.transform.Find("tx_dead").GetComponent<Text>().text = "";
-				itemObj.transform.Find("tx_assist").GetComponent<Text>().text = "";
-				itemObj.transform.Find("tx_score").GetComponent<Text>().text = "";
-				itemObj.transform.Find("img/kda").GetComponent<Text>().text = "";
+		//第四名及之后的名次
+		if (no > 3) {
+			GameObject go = GameObject.Instantiate(itemObj) as GameObject;
+			go.transform.SetParent(itemObj.transform.parent);
+			go.transform.localScale = Vector3.one;
+			go.SetActive(true);
+			go.transform.Find("tx_no").GetComponent<Text>().text = "" + no;
+			go.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+data.head);
+			go.transform.Find("tx_name").GetComponent<Text>().text = ""+data.nickname;
+			go.transform.Find("tx_kill").GetComponent<Text>().text = ""+data.kill;
+			go.transform.Find("tx_dead").GetComponent<Text>().text = ""+data.death;
+			go.transform.Find("tx_assist").GetComponent<Text>().text = ""+data.assit;
+			go.transform.Find("tx_score").GetComponent<Text>().text = ""+data.score;
+			go.transform.Find("tx_kda").GetComponent<Text>().text = ""+data.kda;
 
-			}
+		} else {
+			//1-3名
+			itemObj.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+data.head);
+			itemObj.transform.Find("tx_name").GetComponent<Text>().text = ""+data.nickname;
+			itemObj.transform.Find("tx_kill").GetComponent<Text>().text = ""+data.kill;
+			itemObj.transform.Find("tx_dead").GetComponent<Text>().text = ""+data.death;
+			itemObj.transform.Find("tx_assist").GetComponent<Text>().text = ""+data.assit;
+			itemObj.transform.Find("tx_score").GetComponent<Text>().text = ""+data.score;
+			itemObj.transform.Find("img_kda/tx_kda").GetComponent<Text>().text = ""+data.kda;
 
 		}
 
 	}
 
 	//切换结算面板
-	public void CheckResultPanel(bool isteam)
+	public void CheckResultPanel(bool isone)
 	{
-		Debug.Log ("CheckResultPanel"+isteam);
-		if (!isteam) {
+		if (!isone) {
 			result_oneObj.SetActive (false);
 			result_teamObj.SetActive (true);
 
@@ -724,7 +754,7 @@ public class GameMenu : MonoBehaviour
 		//更新数值
 		foreach (RespThirdUserData data in SavedData.s_instance.m_userCache.Values)
 		{
-			UserRank rank = SavedData.s_instance.m_userrank.Find ((UserRank x) => x.m_uid == data.nickname) as UserRank;
+			UserRank rank = SavedData.s_instance.m_userrank.Find ((UserRank x) => x.m_nickname == data.nickname) as UserRank;
 			rank.m_score = data.score;
 		}
 
