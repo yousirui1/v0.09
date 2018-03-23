@@ -126,7 +126,7 @@ public class EventController : MonoBehaviour {
 		cameraObj.transform.localPosition = new Vector3(0,0,-100);
 		cameraObj.transform.localScale = Vector3.one;
 
-		//areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
+		areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
 
 	}
 		
@@ -349,7 +349,9 @@ public class EventController : MonoBehaviour {
 
 		//接收数据的时间间隔
 		if (Time.time - lastRecvInfoTime > 0.2f) {
-			Debug.Log (Time.time - lastRecvInfoTime);
+			//延迟大于多少秒做延迟补偿
+
+			//Debug.Log (Time.time - lastRecvInfoTime);
 		}
 
 		lastRecvInfoTime = Time.time;
@@ -538,30 +540,42 @@ public class EventController : MonoBehaviour {
 
 	public void ev_OutTip(RespThirdPlayData data)
 	{
-		//击杀数据存储在用户字典里
-		UpdateUserData (data.attackNum.kill,0,true,false,false); //击杀者
-		UpdateUserData (data.attackNum.dead,0,false,true,false); //死亡者
 
-		for (int i = 0; i < data.attackNum.assists.Count; i++) {
-			UpdateUserData (data.attackNum.assists[i],0,false,false,true); //助攻
+		if (null != data.attackNum) {
+			//击杀数据存储在用户字典里
+			UpdateUserData (data.attackNum.kill, 0, true, false, false); //击杀者
+			UpdateUserData (data.attackNum.dead, 0, false, true, false); //死亡者
+
+			for (int i = 0; i < data.attackNum.assists.Count; i++) {
+				UpdateUserData (data.attackNum.assists [i], 0, false, false, true); //助攻
+			}
+			//击杀显示在页面上
+			gameMenu.SetBroadcastData (data);
+		}
+		if (!data.revive.Equals (string.Empty)) {
+			PlayerRevive (data.revive);
 		}
 
-		//击杀显示在页面上
-		gameMenu.SetBroadcastData (data);
 	}
 
 
-	//玩家复活
-	public void PlayerRevive() 
+	//玩家请求复活
+	public void RePlayerRevive() 
 	{
-
-		players [id].hp =(int) map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().hp_Max;
-		players [id].sp =(int) map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().sp_Max;
-		map.GetPlayerObj (id).SetActive (true);
-
-		//发送给网络
+		Debug.Log ("RePlayerRevive");
 		areaConect.onPomeloEvent_Revive();
-	
+	}
+	//玩家复活
+	public void PlayerRevive(string uid) 
+	{
+		int count = 0;
+		for (int i = 0; i < SavedData.s_instance.m_userlist.Count; i++) {
+			if (uid == SavedData.s_instance.m_userlist [i])
+				count = i;
+		}
+		players [count].hp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp_Max;
+		players [count].sp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().sp_Max;
+		map.GetPlayerObj (count).SetActive (true);
 	}
 
 

@@ -18,6 +18,7 @@ namespace tpgm
 	public class RespThirdPlayData
 	{
 		public AttackNum attackNum;
+		public string revive = "";
 	}
 
 	#if false

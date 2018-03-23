@@ -87,6 +87,7 @@ public class RoomUIMatch : UIPage
 		} else {
 			ResourceMgr.Instance ().CreateGameObject ("prefabs/maps/map2", true);
 		}
+		Debug.Log ("Load Map Over");
 		yield return 0;  
 	}
 
@@ -100,12 +101,14 @@ public class RoomUIMatch : UIPage
 
 		case MSG_POMELO_MATCH:
 			{
+				
 				JsonObject data = (JsonObject)msg.m_dataObj;
+				Debug.Log (data);
 				object match = null;
 				object roomNum = null;
-				object head = null;
-				if (data.TryGetValue ("match", out match)) {
+				if (data.TryGetValue ("match", out match) && data.TryGetValue ("roomNum", out roomNum)) {
 					if (Convert.ToInt32 (match) == 2) {
+						SavedData.s_instance.m_roomNum = roomNum.ToString ();
 						UIRoot.Instance.StopCoroutine (coroutine);
 						Application.LoadLevel ("Game");
 
@@ -284,6 +287,10 @@ public class RoomUIMatch : UIPage
 					m_initedLooper.sendMessage(msg);
 				});
 
+				//地图数据
+				pClient.on("playerInfo", (data) =>{
+					Debug.Log(data);
+				});
 			
 
 			}

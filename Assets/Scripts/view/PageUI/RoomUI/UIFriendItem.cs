@@ -49,7 +49,6 @@ public class UIFriendItem : MonoBehaviour
 		{
 			onPomeloEvent_Invite(friend.uid);
 		});
-
 		//玩家状态 1：在线，2：离线，3：组队中，4：匹配中，5：战斗中
 		switch (friend.status) {
 		case 1:

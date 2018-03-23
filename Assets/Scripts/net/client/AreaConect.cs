@@ -51,9 +51,6 @@ public class AreaConect : MonoBehaviour {
 		onPomeloEvent_Move (eventController.ev_Input ());
 	}	
 
-
-
-
 	//发送匹配请求
 	public void onPomeloEvent_Move(PlayerVal entite)
 	{
@@ -61,9 +58,7 @@ public class AreaConect : MonoBehaviour {
 			if (entite != null) {
 				
 				JsonObject jsMsg = new JsonObject ();
-                //sDebug.Log(SavedData.s_instance.m_roomNum);
                 jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
-               
                 jsMsg ["x"] = entite.x;
 				jsMsg ["y"] = entite.y;
 				jsMsg ["d"] = entite.d;
@@ -78,8 +73,9 @@ public class AreaConect : MonoBehaviour {
 				jsMsg ["magicStage"] = 0;
 				//Debug.Log (entite.skill);
 				jsMsg ["skill"] = entite.skill;
+				//Debug.Log (jsMsg);
 				SavedContext.s_client.request ("area.playHandler.move", jsMsg, (data) => {
-
+					//Debug.Log(data);
 				});
 				entite.skill = 0;
 			}
@@ -108,6 +104,7 @@ public class AreaConect : MonoBehaviour {
 	//玩家复活请求接口
 	public void onPomeloEvent_Revive()
 	{
+		Debug.Log ("onPomeloEvent_Revive");
 		if (SavedContext.s_client != null ) {
 			JsonObject jsMsg = new JsonObject ();
 			jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
@@ -160,13 +157,6 @@ public class AreaConect : MonoBehaviour {
 		PomeloClient pClient = SavedContext.s_client;
 		if (pClient != null)
 		{
-			
-			pClient.on("playerInfo", (data) =>{
-				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_PLAYERINFO);
-				msg.m_dataObj = data;
-				m_initedLooper.sendMessage(msg);
-			});
-
 
 			pClient.on("moveInfo", (data) =>{
 				//Debug.Log(data);

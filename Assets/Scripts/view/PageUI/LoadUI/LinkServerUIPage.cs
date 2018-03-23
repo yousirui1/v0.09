@@ -114,7 +114,7 @@ public class LinkServerUIPage : UIPage
 						SavedContext.s_client.connect(null, (data1) =>
 							{
 								JsonObject jsMsg = new JsonObject();
-								SavedData.s_instance.m_user.m_uid = "bc4d88ca1db0420b9043d6dc9ba145cc";
+								//SavedData.s_instance.m_user.m_uid = "bc4d88ca1db0420b9043d6dc9ba145cc";
 								jsMsg["uid"] = SavedData.s_instance.m_user.m_uid;
 								SavedContext.s_client.request("gate.gateHandler.queryEntry", jsMsg, onPomeloEvent_Request);
 							});

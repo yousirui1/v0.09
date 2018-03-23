@@ -202,7 +202,6 @@ public class LoginUIPage : UIPage
 							if (null == SavedData.s_instance) {
 								SavedData.s_instance = new SavedData ();
 							}
-							Debug.Log (resp.m_uid);
 							User user = SavedData.s_instance.m_user;
 							user.m_uid = resp.m_uid; 
 							user.m_token = resp.m_token; 

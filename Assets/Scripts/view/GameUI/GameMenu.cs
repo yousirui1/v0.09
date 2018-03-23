@@ -297,11 +297,12 @@ public class GameMenu : MonoBehaviour
 		else if (time > 300)
 		{
 			st_time = "00:00";
+			if(!isTure)
+			{
+				isTure = true;
+				ActiveResultPanel ();
+			}
 
-		}
-		if (time > 0 && !isTure) {
-			isTure = true;
-			ActiveResultPanel ();
 		}
 		tiemObj.GetComponent<Text> ().text = st_time;
 		Invoke ("SetSystemInfoData", 1.0f);
@@ -348,7 +349,7 @@ public class GameMenu : MonoBehaviour
 	public void ActiveDeathPanel()
 	{
 		deathPanelObj.SetActive (true);
-		deathPanelObj.transform.Find ("").GetComponent<Button> ().onClick.AddListener (delegate {
+		deathPanelObj.transform.Find ("btn_relive").GetComponent<Button> ().onClick.AddListener (delegate {
 			onClick (BTN_REVIVE);
 		});
 
@@ -412,16 +413,16 @@ public class GameMenu : MonoBehaviour
 
 
 		//头像
-		//result_oneObj.transform.Find("panel/panel_self/img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+self_data.head);
+		result_oneObj.transform.Find("panel/panel_self/img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+self_data.head);
 		//KDA
-		//result_oneObj.transform.Find("panel/panel_self/tx_kda").GetComponent<Text>().text = ""+ self_data.kda;
+		result_oneObj.transform.Find("panel/panel_self/tx_kda").GetComponent<Text>().text = ""+ self_data.kda;
 
 
-		SetResultOneData (result_oneObj.transform.Find ("panel/panel_score").gameObject,false ,0, 0);
-		SetResultOneData (result_oneObj.transform.Find ("panel/panel_keepkill").gameObject,true , 0, 0);
-		SetResultOneData (result_oneObj.transform.Find ("panel/panel_dead").gameObject, false ,0, 0);
-		SetResultOneData (result_oneObj.transform.Find ("panel/panel_kill").gameObject, true ,0, 0);
-		SetResultOneData (result_oneObj.transform.Find ("panel/panel_live").gameObject, false ,0, 0);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_score").gameObject,true ,self_data.score, self_data.score);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_keepkill").gameObject,true , self_data.kill, self_data.kill);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_dead").gameObject, true ,self_data.death, self_data.death);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_kill").gameObject, true ,self_data.kill, self_data.kill);
+		SetResultOneData (result_oneObj.transform.Find ("panel/panel_live").gameObject, true ,0, 0);
 		SetResultOneData (result_oneObj.transform.Find ("panel/panel_time").gameObject, true ,0, 0);
 
 
@@ -690,7 +691,7 @@ public class GameMenu : MonoBehaviour
 		case BTN_REVIVE:
 			{
 				deathPanelObj.SetActive (false);
-				eventController.PlayerRevive ();
+				eventController.RePlayerRevive ();
 			}
 			break;	
 			default:
