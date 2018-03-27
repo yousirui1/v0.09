@@ -69,7 +69,7 @@ public class ATKAndDamage : MonoBehaviour{
 
 		valDict2 = valCache.getValDictInPageScopeOrThrow<ValNum>(m_gameID, ConstsVal.val_num);
 		ValNum valspeed = ValUtils.getValByKeyOrThrow (valDict2, 28);
-		this.speed_Max = valspeed.num; //设置速度上限
+		this.speed_Max = 50;//valspeed.num; //设置速度上限
 
 		//每秒钟回复体力
 		ValNum valat_sp = ValUtils.getValByKeyOrThrow (valDict2, 3);
@@ -298,7 +298,6 @@ public class ATKAndDamage : MonoBehaviour{
 				this.sp += sp;
 				if (this.sp > 0) {
 					return true;
-
 				} else {
 					return false;
 				}

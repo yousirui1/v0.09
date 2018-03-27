@@ -44,7 +44,14 @@ public class EventController : MonoBehaviour {
 	private int iFlash = 0;     //闪现
 
 
-	//人物移动方向
+	/*			 3			
+	 * 		  2	   4	
+	 * 		1		 5
+	 * 		  8    6
+	 *           7
+	 */
+
+	//人物移动方向  参考上图
 	private int[,] direction = new int[9, 2] { {0,0 },{0, -1},{1, -1},{1, 0},{1, 1},
 											   {0, 1},{-1, 1},{-1, 0},{-1, -1}};
 	public const int BTN_FIRE = 1;
@@ -227,7 +234,7 @@ public class EventController : MonoBehaviour {
 				//闪现
 				if(gameMenu.InputFlash() || Input.GetKey(KeyCode.K))
 				{
-					if (map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().useFlash (-10)) {
+					if (map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().useFlash (-50)) {
 						players[id].skill = 500;
 						lastFlashTime = Time.time;
 					}
@@ -236,18 +243,22 @@ public class EventController : MonoBehaviour {
 				gameMenu.InputFlash ();
 				gameMenu.SetFlashCD (1 - (Time.time - lastFlashTime) / flashInterval);
 			}
-		
+
 			if (Time.time - lastSkillTime > skillInterval) {
-				//技能
-				if(gameMenu.InputSkill() || Input.GetKey(KeyCode.L))
-				{
-					if (SavedData.s_instance.m_skillCount > 0) 
+				
+				if (SavedData.s_instance.m_skillCount > 0) {
+					//技能
+					if(gameMenu.InputSkill() || Input.GetKey(KeyCode.L))
 					{
 						players [id].skill = SavedData.s_instance.m_skillID;
 						SavedData.s_instance.m_skillCount--;
 						lastSkillTime = Time.time;
-					} 
+					}
+				} else {
+					gameMenu.ClearSkill ();
 				}
+
+
 			}else {
 				gameMenu.InputSkill ();
 				gameMenu.SetSkillCD (1 -(Time.time - lastSkillTime) / skillInterval);
@@ -314,13 +325,18 @@ public class EventController : MonoBehaviour {
 			}
 
 			//发射射线判断障碍物
-			RaycastHit2D hit = Physics2D.Raycast(gameObj.transform.position, vec, 3, 1<<LayerMask.NameToLayer("barrier"));
+			RaycastHit2D hit = Physics2D.Raycast(gameObj.transform.position, vec, (players [id].v * 0.03f + 1.0f), 1<<LayerMask.NameToLayer("barrier"));
 
 			if (hit.collider == null) {
 				shadow.craft_move (players [id], 1);
+			} else {
+				if ((hit.collider.transform.position.x - gameObj.transform.position.x) * vec.x < 0)
+					shadow.craft_move (players [id], 1);
+				if ((hit.collider.transform.position.y - gameObj.transform.position.y) * vec.y < 0)
+					shadow.craft_move (players [id], 1);
 			}
 
-			else if(players[id].skill == 500)
+			if(players[id].skill == 500)
 			{
 				shadow.craft_move (players [id], 1);
 				shadow.craft_move (players [id], 1);
@@ -522,7 +538,7 @@ public class EventController : MonoBehaviour {
 
 
 		//打开死亡面板
-		gameMenu.ActiveDeathPanel ();
+		gameMenu.ActiveDeathPanel (kill_user);
 
 		//发送给网络
 		areaConect.onPomeloEvent_Dead (stObj);

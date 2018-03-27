@@ -106,12 +106,12 @@ public class JoyControl : MonoBehaviour {
 			
 			pointerObj.transform.localEulerAngles =  new Vector3(0, 0, -(float)(Math.Atan2(rect.anchoredPosition.x, rect.anchoredPosition.y) * 180 / Math.PI-45));
 	
-            if (rect.anchoredPosition.x > 3)
+            if (rect.anchoredPosition.x > 20)
             {
 				
                 horizontal = 1;
             }
-            else if(rect.anchoredPosition.x <-3)
+            else if(rect.anchoredPosition.x <-20)
             {
 				
                 horizontal = -1;
@@ -121,12 +121,12 @@ public class JoyControl : MonoBehaviour {
                 horizontal = 0;
             }
 
-            if (rect.anchoredPosition.y > 3)
+            if (rect.anchoredPosition.y > 20)
             {
 				
                 vertical = 1;
             }
-            else if(rect.anchoredPosition.y <-3)
+            else if(rect.anchoredPosition.y <-20)
             {
 				
                 vertical = -1;

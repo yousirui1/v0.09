@@ -1686,7 +1686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1608981977474486
 GameObject:
   m_ObjectHideFlags: 0
@@ -2870,7 +2870,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 0
 --- !u!114 &114006855191976822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2990,7 +2990,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 0
 --- !u!114 &114030667792696312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5359,7 +5359,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 0
 --- !u!114 &114508311818169258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5767,7 +5767,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD9\u91CC\u6700\u591A\u4E03\u4E2A\u5B57"
+  m_Text: 
 --- !u!114 &114600719840654388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6425,7 +6425,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 0
 --- !u!114 &114773479354956232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6857,7 +6857,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD9\u91CC\u6700\u591A\u4E03\u4E2A\u5B57"
+  m_Text: 
 --- !u!114 &114881535401966916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7004,7 +7004,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD9\u91CC\u6700\u591A\u4E03\u4E2A\u5B57"
+  m_Text: 
 --- !u!114 &114898268140083184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7099,7 +7099,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 0
 --- !u!114 &114915791344895266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7308,7 +7308,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 0
 --- !u!114 &114959156044052224
 MonoBehaviour:
   m_ObjectHideFlags: 1

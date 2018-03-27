@@ -87,6 +87,8 @@ public class SkillManage : MonoBehaviour {
 				newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,d, type,uid, eventController);
 
 			} else if (type == 500) {
+
+
 				SavedData.s_instance.m_skillUid = uid;
 				foreach (Transform child in playerObj.transform)
 				{

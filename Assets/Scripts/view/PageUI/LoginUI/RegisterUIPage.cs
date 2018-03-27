@@ -25,7 +25,7 @@ public class RegisterUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		//InitToast ();
+		toast.InitToast (this.gameObject);
 
         this.gameObject.transform.Find("content/btn_register").GetComponent<Button>().onClick.AddListener(() =>
         {
@@ -62,13 +62,13 @@ public class RegisterUIPage : UIPage
 	class Controller : BaseController<RegisterUIPage>,NetHttp.INetCallback
 	{
 		NetHttp m_netHttp;
-		RegisterUIPage m_register;
+		RegisterUIPage m_page;
 	
 		public Controller(RegisterUIPage iview):base(null)
 		{
 			m_netHttp = new NetHttp();
 			m_netHttp.setPageNetCallback(this);
-			m_register = iview;
+			m_page = iview;
 		}
 
 		public void onDestroy()
@@ -116,11 +116,11 @@ public class RegisterUIPage : UIPage
 				string password2 = GameObject.Find ("content/input_passwd2").GetComponent<InputField> ().text;
 
 				if (paramsValObj.m_password != password2) {
-					//m_register.showToast ("2次输入的密码不一致");
+					m_page.toast.showToast ("2次输入的密码不一致");
 				
 				} 
 				else if (password2.Length <6 || password2.Length > 12 ) {
-					//m_register.showToast ("密码长度不合法");
+					m_page.toast.showToast ("密码长度不合法");
 				}else {
 					//md5加密
 					paramsValObj.m_password = Md5Util.GetMd5FromStr (paramsValObj.m_password);
@@ -150,18 +150,17 @@ public class RegisterUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-							m_register.Hide ();
+							m_page.Hide ();
 							UIPage.ShowPage<LoginUIPage> ();
 						}
 						break;
 
 					default:
 						{
-							ValTableCache valCache = m_register.getValTableCache();
-							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_register.m_pageID, ConstsVal.val_code);
+							ValTableCache valCache = m_page.getValTableCache();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							//UIPage.ShowPage<PublicUINotice> (val.text);
-							//m_register.showToast (val.text);
+							m_page.toast.showToast (val.text);
 						}
 						break;
 					}

@@ -254,7 +254,7 @@ public class MainUIPage : UIPage
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
 	{
 		//code
-		valCache.markPageUseOrThrow<ValCode>(m_pageID, ConstsVal.val_code);
+		//valCache.markPageUseOrThrow<ValCode>(m_pageID, ConstsVal.val_code);
 	}
 
 	protected override void unloadRes(TexCache texCache, ValTableCache valCache)

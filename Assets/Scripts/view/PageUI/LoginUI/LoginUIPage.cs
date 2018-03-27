@@ -32,13 +32,10 @@ public class LoginUIPage : UIPage
 
 	public override void Awake(GameObject go)
 	{
-		//InitToast ();
-	
+		
 		//定时器
 		coroutine = UIRoot.Instance.StartCoroutine(Timer());
-
-		toastObj = this.transform.Find("toast").gameObject;
-		toastObj.SetActive (false);
+		toast.InitToast (this.gameObject);
 
 		m_controller = new Controller(this);
 
@@ -77,9 +74,6 @@ public class LoginUIPage : UIPage
 				SavedData.s_instance.m_mode = 3;
 				Application.LoadLevel("Game");
 			});
-
-
-
 
 	}
 
@@ -218,7 +212,7 @@ public class LoginUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							//m_page.showToast (val.text);
+							m_page.toast.showToast (val.text);
 						}
 						break;
 

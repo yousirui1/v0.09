@@ -27,7 +27,7 @@ public class PlayerATKAndDamage : ATKAndDamage{
 		{0, 1},{-1, 1},{-1, 0},{-1, -1}};
 
 	//保存最后的玩家的方向
-	public int d = 0;
+	//public int d = 0;
 
 	//0 idle 1 left 2 right -1 死亡
 	//Animator animator;
@@ -54,7 +54,6 @@ public class PlayerATKAndDamage : ATKAndDamage{
 		m_sprite = this.gameObject.transform.Find ("role").GetComponent<SpriteRenderer> ();
 	}
 
-	JoyControl joy = new JoyControl();
 
 	void FixedUpdate()
 	{

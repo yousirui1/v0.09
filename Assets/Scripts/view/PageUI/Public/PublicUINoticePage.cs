@@ -140,8 +140,7 @@ public class PublicUINotice : UIPage
 							//user.m_token = resp.m_token; 
 
 
-							LoginConect client = new GameObject ("Client").AddComponent<LoginConect> ();
-							client.onLogin ();
+						
 						}
 						break;
 

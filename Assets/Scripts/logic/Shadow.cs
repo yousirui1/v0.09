@@ -63,10 +63,10 @@ public class Shadow  {
 
 
             //三个数取中间值 限定移动范围
-           // player_craft.x = middle(80, player_craft.x, 6660);
-            //player_craft.y = middle(128, player_craft.y, 6660);
-			 player_craft.x = middle(-550, player_craft.x, 6660);
-			player_craft.y = middle(-300, player_craft.y, 6660);
+            player_craft.x = middle(80, player_craft.x, 6660);
+            player_craft.y = middle(128, player_craft.y, 6660);
+			 //player_craft.x = middle(-550, player_craft.x, 6660);
+			//player_craft.y = middle(-300, player_craft.y, 6660);
 			
         }
        

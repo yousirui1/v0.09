@@ -42,6 +42,9 @@ public class RoomUIPrepare : UIPage
 
 	private List<JsonFriends> list_friends;
 
+	Dictionary<string, string> dic_user = new Dictionary<string, string>();
+
+
 
 	public RoomUIPrepare() : base (UIType.Normal, UIMode.HideOther, UICollider.None )
 	{
@@ -60,6 +63,8 @@ public class RoomUIPrepare : UIPage
 		listObj.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
 
 		controller.reqThirdFriend (false);	
+		dic_user.Clear ();
+		this.transform.Find ("bg_message/tx_message").GetComponent<Text> ().text = "";
 	}
 
 	public override void Awake(GameObject go)
@@ -98,13 +103,20 @@ public class RoomUIPrepare : UIPage
 
 		this.transform.Find("btn_start").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				
 				UIPage.ShowPage<RoomUIMatch>();
 			});
 
 		this.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				controller.onPomeloEvent_LeaveRoom();
 				ClosePage();
 			});
+		this.transform.Find ("btn_send").GetComponent<Button> ().onClick.AddListener (() => {
+			string st = this.transform.Find ("input_message/InputField").GetComponent<InputField> ().text;
+			controller.onPomeloEvent_Send (st);
+			this.transform.Find ("input_message/InputField").GetComponent<InputField> ().text = "";
+		});
 	}
 
 	private void Init()
@@ -140,6 +152,19 @@ public class RoomUIPrepare : UIPage
 		isActive_img = !isActive_img;
 		gameObj.transform.Find ("img_prepare").gameObject.SetActive (isActive_img);
 		gameObj.transform.Find ("img_prepare").gameObject.SetActive (isActive_img);
+	}
+
+	//姓名：聊天内容
+	private void SetMessage(string uid, string msg)
+	{
+		Debug.Log ("SetMessage");
+		string name = "";
+		dic_user.TryGetValue (uid, out name);
+		if (uid == SavedData.s_instance.m_user.m_uid) {
+			this.transform.Find ("bg_message/tx_message").GetComponent<Text> ().text  += "<color=#FFC925FF>"+ name +":"+ msg + "\n"+"</color>";
+		} else {
+			this.transform.Find ("bg_message/tx_message").GetComponent<Text> ().text  += name +":"+ msg + "\n";
+		}
 	}
 
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
@@ -225,7 +250,7 @@ public class RoomUIPrepare : UIPage
 
 	public const int MSG_POMELO_ROOMADD = 1;
 	public const int MSG_POMELO_INVITE = 2;
-
+	public const int MSG_POMELO_SEND = 3;
 
 	protected override void onHandleMsg(HandlerMessage msg)
 	{
@@ -241,8 +266,24 @@ public class RoomUIPrepare : UIPage
 					&& data.TryGetValue ("name", out name)
 					&& data.TryGetValue ("head", out head)) {
 					SetPlayerInfo (uid.ToString (), name.ToString (), Convert.ToInt32 (head));
+					if (!dic_user.ContainsKey(uid.ToString ())) dic_user.Add(uid.ToString (), name.ToString ());
+				}
+			}
+			break;
+
+		case MSG_POMELO_SEND:
+			{
+				JsonObject data = (JsonObject)msg.m_dataObj;
+				object uid = null;
+				object content = null;
+				object scope = null;
+				if (data.TryGetValue ("uid", out uid)
+				    && data.TryGetValue ("content", out content)
+				    && data.TryGetValue ("scope", out scope)) {
+					SetMessage (uid.ToString (), content.ToString ());
 
 				}
+
 			}
 			break;
 			
@@ -401,17 +442,16 @@ public class RoomUIPrepare : UIPage
 
 
 
-
+		//323232FF
 		//房间里聊天
 		public void onPomeloEvent_Send(string content)
 		{
 			if (SavedContext.s_client != null) {
 				JsonObject jsMsg = new JsonObject ();
 				jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
-				//jsMsg["scope"] = SavedData.s_instance.m_roomNum;
+				jsMsg["scope"] = "group";
 				jsMsg["content"] = content;
 				SavedContext.s_client.request ("area.gloryHandler.send",jsMsg, (data) => {
-					Debug.Log(data);
 				});
 			} else {
 				Debug.LogError ("pClient null");
@@ -433,7 +473,8 @@ public class RoomUIPrepare : UIPage
 				Debug.LogError ("pClient null");
 			}
 		}
-
+		//姓名：聊天内容
+		//FFC925FF
 
 		//注册网络事件
 		void InitNetEvent()
@@ -447,8 +488,15 @@ public class RoomUIPrepare : UIPage
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
+			
+				//房间里聊天
+				pClient.on("chat", (data) => {
+					Debug.Log(data);
+					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_SEND);
+					msg.m_dataObj = data;
+					m_initedLooper.sendMessage(msg);
+				});
 					
-
 				#if false
 				pClient.on("match", (data) =>{
 					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MATCH);

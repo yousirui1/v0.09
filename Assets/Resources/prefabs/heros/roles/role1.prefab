@@ -254,7 +254,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1670112525487270}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -640, y: -360, z: 0}
+  m_LocalPosition: {x: -443.7, y: -190.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4429290005690622}
@@ -517,11 +517,14 @@ MonoBehaviour:
   exp_Max: 0
   level: 1
   score: 0
+  at_sp: 0
+  d: 0
   death: {fileID: 0}
+  state: 0
+  buffer_time: 0
   attackRange: 0
   attack: 10
   pickeUpItem: {fileID: 0}
-  d: 0
   m_clips: []
   m_state: 0
 --- !u!114 &114666940844502696
@@ -689,7 +692,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -474810653
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -729,14 +732,14 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -474810653
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: dca265eb36b81fa4d878b746598ba6d9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c44a90465059442ebabc01a2af8b0be5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.24, y: 1.53}
+  m_Size: {x: 1.01, y: 0.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
 --- !u!222 &222082386829849556

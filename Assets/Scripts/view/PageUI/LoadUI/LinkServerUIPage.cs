@@ -51,7 +51,8 @@ public class LinkServerUIPage : UIPage
 		switch (msg.m_what) {
 		case MSG_POMELO_LINKOK:
 			{
-				//Debug.Log ("MSG_POMELO_LINKOK..........");
+				//全局监听服务端数据
+				new GameObject ("GlobalNet").AddComponent<GlobalConect> ();
 				UIPage.ShowPage<MainUIPage> ();
 
 			}
@@ -212,13 +213,15 @@ public class LinkServerUIPage : UIPage
 		void InitNetEvent()
 		{
 			if (SavedContext.s_client != null) {
-				//房间新玩家加入
+				#if false
 				SavedContext.s_client.on("invite", (data) =>{
 					//HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_ROOMADD);
 					//msg.m_dataObj = data;
 					//m_initedLooper.sendMessage(msg);
 					Debug.Log(data);
 				});
+				#endif
+
 			}
 		}
 

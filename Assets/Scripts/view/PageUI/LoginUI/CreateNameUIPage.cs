@@ -41,14 +41,14 @@ public class CreateNameUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		//InitToast ();
+		toast.InitToast (this.gameObject);
 
 		InitJsonFile ();
 		this.gameObject.transform.Find("content/btn_random").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//随机姓名
 				isMan = (this.gameObject.transform.Find ("content/Dropdown").GetComponent<Dropdown> ().value != 0 ? false : true); 
-				//Debug.Log(isMan);
+
 				if(isMan)
 				nickname = list[new System.Random().Next(list.Count)].boy + list[new System.Random().Next(list.Count)].familyName;
 				else
@@ -78,7 +78,7 @@ public class CreateNameUIPage : UIPage
 				}
 				else
 				{
-					//toast.showToast("名字不合法");
+					toast.showToast("名字不合法");
 				}
 			
 
@@ -144,13 +144,13 @@ public class CreateNameUIPage : UIPage
 	class Controller : BaseController<RegisterUIPage>,NetHttp.INetCallback
 	{
 		NetHttp m_netHttp;
-		CreateNameUIPage m_createname;
+		CreateNameUIPage m_page;
 
 		public Controller(CreateNameUIPage iview):base(null)
 		{
 			m_netHttp = new NetHttp();
 			m_netHttp.setPageNetCallback(this);
-			m_createname = iview;
+			m_page = iview;
 		}
 
 		public void onDestroy()
@@ -192,7 +192,7 @@ public class CreateNameUIPage : UIPage
 				paramsValObj.m_checkID = checkID;
 				paramsValObj.m_isRetry = 0;
 				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
-				paramsValObj.m_name = m_createname.nickname;
+				paramsValObj.m_name = m_page.nickname;
 			}
 			string url = SavedContext.getApiUrl(api);
 			Debug.Log (url);
@@ -215,7 +215,7 @@ public class CreateNameUIPage : UIPage
 					case 200:
 						{
 							Debug.Log ("" + resp.m_code);
-							m_createname.Hide ();
+							m_page.Hide ();
 							UIPage.ShowPage<MainUIPage> ();
 						}
 						break;
@@ -223,10 +223,10 @@ public class CreateNameUIPage : UIPage
 					default:
 						{
 							Debug.Log ("" + resp.m_code);
-							ValTableCache valCache = m_createname.getValTableCache();
-							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_createname.m_pageID, ConstsVal.val_code);
+							ValTableCache valCache = m_page.getValTableCache();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							//m_createname.showToast (val.text);
+							m_page.toast.showToast (val.text);
 						}
 						break;
 					}

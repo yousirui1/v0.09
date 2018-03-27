@@ -110,62 +110,11 @@ namespace tpgm.UI
 			
 
         }
-		#if false
-
-        public virtual void InitToast()
-        {
-			
-			toastObj = this.transform.Find("toast").gameObject;
-			toastObj.SetActive (false);
-
-           
+	
 
 
-        }
+    
 
-
-		public void showToastT(string text)
-		{
-
-			toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().text = text;
-			toastObj.transform.localPosition = new Vector2 (0.0f, -100.0f);
-
-			Sequence seq = DOTween.Sequence();
-			//#先快, 后慢(快落到底的时候), 然后快速回弹;
-			/*seq.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, 13.0f), 1.8f).SetRelative())
-					.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, -13.0f), 2.0f).SetRelative())
-					.SetDelay(0.1f)
-					.SetLoops(-1);*/  //翻转位置
-			//m_page.toastObj.GetComponent<Renderer> ().material.color = new Color (0, 1, 0, TimeUtils.utcNowMs());
-			toastObj.SetActive (true);
-			seq.Append (toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
-				.Append (toastObj.GetComponent<Renderer>().material.DOFade(1,1).SetLoops(-1,LoopType.Yoyo))
-				.Append(toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
-				.SetDelay (1.0f);
-
-
-			//.SetLoops(-1);
-
-		}
-
-		public void postShowWaitDialogMessage()
-		{
-			MainLooper looper = MainLooper.instance();
-			HandlerMessage msg = MainLooper.obtainMessage(looper_ShowEndToast);
-			looper.postMessageDelay(msg, 4600);
-		}
-
-		public void removeShowToast()
-		{
-			MainLooper looper = MainLooper.instance();
-			looper.removeMessagesByToExecute (looper_ShowEndToast);
-		}
-
-		private void looper_ShowEndToast(HandlerMessage msg)
-		{
-			toastObj.SetActive (false);
-		}
-		#endif
 
         //show ui refresh eachtime
         public virtual void Refresh() { }
@@ -307,93 +256,150 @@ namespace tpgm.UI
 
 			//public static List<Params> m_queue = new List<Params>();
 
+			internal long m_sec = 3500;
+
+
+			public GameObject toastObj;
+
+			public MessageHandlerProxy m_msgHandlerProxy;
+
+			public float start_time;
+
 			public Toast(UIPage iview):base(null)
 			{
 				m_page = iview;
-
+				m_msgHandlerProxy = new MessageHandlerProxy(handleMsg);
 			}
 
 			public void onDestroy()
 			{
-
 				//m_queue.RemoveAt(0);
 
 				//checkToastQueue();
 			}
-			#if false
-			public void showToast(string text, long sec)
+				
+			public void InitToast(GameObject parentObj)
+			{
+				toastObj = parentObj.transform.Find("toast").gameObject;
+				toastObj.SetActive (false);
+
+			}
+
+			public void showToast(string text)
 			{
 				
-				m_page.toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().text = text;
-				m_page.toastObj.transform.localPosition = new Vector2 (0.0f, -100.0f);
-
+				toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().text = text;
+				toastObj.transform.localPosition = new Vector2 (0.0f, -100.0f);
 				Sequence seq = DOTween.Sequence();
+				//#先快, 后慢(快落到底的时候), 然后快速回弹;
+				/*seq.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, 13.0f), 1.8f).SetRelative())
+					.Append(m_page.toastObj.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0.0f, -13.0f), 2.0f).SetRelative())
+					.SetDelay(0.1f)
+					.SetLoops(-1);*/  //翻转位置
+				//m_page.toastObj.GetComponent<Renderer> ().material.color = new Color (0, 1, 0, TimeUtils.utcNowMs());
+				toastObj.SetActive (true);
+				seq.Append (toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
+					.Append (toastObj.GetComponent<Renderer>().material.DOFade(1,1).SetLoops(-1,LoopType.Yoyo))
+					.Append(toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
+					.SetDelay (1.0f);
+				
 				MainLooper looper = m_page.getMainLooper();
-				HandlerMessage msg = MainLooper.obtainMessage(looper_ShowEndToast);
-				looper.postMessageDelay(msg, sec);
+				//渐变
+
+				HandlerMessage msg1 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 2);
+				looper.postMessageDelay (msg1, 500);
+
+				HandlerMessage msg2 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 3);
+				looper.postMessageDelay (msg2, 1000);
+
+				HandlerMessage msg3 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 4);
+				looper.postMessageDelay (msg3, 1500);
+
+				HandlerMessage msg4 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 5);
+				looper.postMessageDelay (msg4, 2000);
+
+				HandlerMessage msg5 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 6);
+				looper.postMessageDelay (msg5, 2500);
+
+				HandlerMessage msg6 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 7);
+				looper.postMessageDelay (msg6, 3000);
+
+
+				HandlerMessage msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 1);
+				looper.postMessageDelay (msg, m_sec);
+
 
 			}
-			#endif
-
-
-			#if false
-			public  void create(string text)
+		
+			private void looper_ShowEndToast()
 			{
-				Params p = new Params(text);
-
-				queueToast(p);
+				Debug.Log ("looper_ShowEndToast");
+				toastObj.SetActive (false);
 			}
 
-			public  void create(string text, long sec)
+			private void looper_CheckAlpha(float bg_alpha,float tx_alpha)
 			{
-				Params p = new Params(text);
-				p.m_sec = sec;
+				Color bg_color = toastObj.transform.Find ("bg_toast").GetComponent<Image> ().color;
+				bg_color = new Color (bg_color.r, bg_color.g, bg_color.b, bg_alpha);
+				toastObj.transform.Find ("bg_toast").GetComponent<Image> ().color = bg_color;
 
-				queueToast(p);
+				Color tx_color = toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().color;
+				tx_color = new Color (tx_color.r, tx_color.g, tx_color.b, tx_alpha);
+				toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().color = tx_color;
 			}
 
 		
-
-			 void queueToast(Params p)
+			void handleMsg(HandlerMessage msg)
 			{
-				if (m_queue.Count > 0)
-				{
-				}
-				else
-				{
-					showToast(p.m_text, p.m_sec);
+				switch (msg.m_what) {
+				case 1:
+					{
+						looper_ShowEndToast ();
+					}
+					break;
+
+				case 2:
+					{
+						looper_CheckAlpha (0.6f, 0.9f);
+					}
+					break;
+
+				case 3:
+					{
+						looper_CheckAlpha (0.5f, 0.8f);
+					}
+					break;
+				case 4:
+					{
+						looper_CheckAlpha (0.4f, 0.7f);
+					}
+					break;
+
+				case 5:
+					{
+						looper_CheckAlpha (0.3f, 0.6f);
+					}
+					break;
+				case 6:
+					{
+						looper_CheckAlpha (0.2f, 0.5f);
+					}
+					break;
+
+				case 7:
+					{
+						looper_CheckAlpha (0.1f, 0.3f);
+					}
+					break;
+
 				}
 
-				m_queue.Add(p);
 			}
 
-			//#检查是否还有要显示的toast;
-			 void checkToastQueue()
-			{
-				if (m_queue.Count > 0)
-				{
-					Params p = m_queue[0];
-					showToast(p.m_text, p.m_sec);
-				}
-			}
-
-
-			public class Params
-			{
-				public Params(string str)
-				{
-					m_text = str;
-				}
-
-				internal string m_text = "";
-				internal long m_sec = 3500;
-			}
-			#endif
-		
 		}
 
 
-			
+
 
 
 
@@ -407,7 +413,7 @@ namespace tpgm.UI
 		//页面总数
 		private static long s_createCount;
 
-		GameObject toastObj = null;
+		//GameObject toastObj = null;
 
 
 
@@ -420,6 +426,7 @@ namespace tpgm.UI
             this.name = this.GetType().ToString();
 
 			m_toast =new Toast (this);
+			//m_toast.InitToast (this.gameObject);
 
             //Init();
             UIBind.Bind();
@@ -431,7 +438,6 @@ namespace tpgm.UI
 
 
 			//Interlocked.Increment(ref s_createCount);
-
 
         }
 
@@ -1002,4 +1008,89 @@ imgId++;
 }
 }*/
 
+
+
+
+public  void create(string text)
+{
+Params p = new Params(text);
+
+queueToast(p);
+}
+
+public  void create(string text, long sec)
+{
+Params p = new Params(text);
+p.m_sec = sec;
+
+queueToast(p);
+}
+
+
+
+void queueToast(Params p)
+{
+if (m_queue.Count > 0)
+{
+}
+else
+{
+showToast(p.m_text, p.m_sec);
+}
+
+m_queue.Add(p);
+}
+
+//#检查是否还有要显示的toast;
+void checkToastQueue()
+{
+if (m_queue.Count > 0)
+{
+Params p = m_queue[0];
+showToast(p.m_text, p.m_sec);
+}
+}
+
+
+public class Params
+{
+public Params(string str)
+{
+m_text = str;
+}
+
+internal string m_text = "";
+internal long m_sec = 3500;
+}
+
+
+
+
+public void postShowWaitDialogMessage()
+{
+MainLooper looper = MainLooper.instance();
+HandlerMessage msg = MainLooper.obtainMessage(looper_ShowEndToast);
+looper.postMessageDelay(msg, 4600);
+}
+
+public void removeShowToast()
+{
+MainLooper looper = MainLooper.instance();
+looper.removeMessagesByToExecute (looper_ShowEndToast);
+}
+
+
+
+public void showToast(string text, long sec)
+{
+
+m_page.toastObj.transform.Find ("bg_toast/tx_toast").GetComponent<Text> ().text = text;
+m_page.toastObj.transform.localPosition = new Vector2 (0.0f, -100.0f);
+
+Sequence seq = DOTween.Sequence();
+MainLooper looper = m_page.getMainLooper();
+HandlerMessage msg = MainLooper.obtainMessage(looper_ShowEndToast);
+looper.postMessageDelay(msg, sec);
+
+}
 #endif

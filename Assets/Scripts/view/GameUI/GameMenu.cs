@@ -18,6 +18,8 @@ public class GameMenu : MonoBehaviour
 	GameObject joyObj;			//遥感
 	GameObject gameUIObj;		
 	GameObject deathPanelObj;  //死亡面板
+	GameObject bastplayerObj;  //最佳
+	GameObject killplayerObj;  //击杀
 
 	GameObject broadcastObj;   //广播通知
 
@@ -120,7 +122,10 @@ public class GameMenu : MonoBehaviour
 
 		joyObj = gameUIObj.transform.Find ("JoyControl").gameObject;
 
+		//死亡面板
 		deathPanelObj = gameUIObj.transform.Find ("bg_death").gameObject;
+		bastplayerObj = deathPanelObj.transform.Find ("bg_bestplayer").gameObject;
+		killplayerObj = deathPanelObj.transform.Find ("bg_killer").gameObject;
 		deathPanelObj.SetActive (false);
 
 		broadcastObj = gameUIObj.transform.Find ("broadcast").gameObject;
@@ -160,6 +165,7 @@ public class GameMenu : MonoBehaviour
 		result_oneObj = resultUIObj.transform.Find ("panel_one").gameObject;
 		result_teamObj = resultUIObj.transform.Find ("panel_team").gameObject;
 		resultUIObj.SetActive (false);
+
 
 
 		height = Screen.height;
@@ -335,6 +341,12 @@ public class GameMenu : MonoBehaviour
 	}
 
 
+	//技能用完后
+	public void ClearSkill()
+	{
+		gameUIObj.transform.Find ("btn_skill/img_skill").GetComponent<Image> ().sprite = ResourceMgr.Instance().Load<Sprite>("images/ui/tp_page_fight/fight_ban_jineng", true);
+	}
+
 	public void SetSkillCD(float cd)
 	{
 		gameUIObj.transform.Find ("btn_skill/img_cd").GetComponent<Image> ().fillAmount = cd;
@@ -345,13 +357,37 @@ public class GameMenu : MonoBehaviour
 		gameUIObj.transform.Find ("btn_flash/img_cd").GetComponent<Image> ().fillAmount = cd;
 	}
 
+
 	//激活死亡面板
-	public void ActiveDeathPanel()
+	public void ActiveDeathPanel(string killer)
 	{
+
+		RespThirdUserData killerdata = null;
+		RespThirdUserData bastdata = null;
+
+		if (SavedData.s_instance.m_userCache.TryGetValue (SavedData.s_instance.m_userrank[0].m_uid, out bastdata)) {
+			
+		}
+
+		if (SavedData.s_instance.m_userCache.TryGetValue (killer, out killerdata)) {
+
+		}
 		deathPanelObj.SetActive (true);
 		deathPanelObj.transform.Find ("btn_relive").GetComponent<Button> ().onClick.AddListener (delegate {
 			onClick (BTN_REVIVE);
 		});
+			
+		bastplayerObj.transform.Find ("bg_userhead/img_userhead").GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+bastdata.head);
+		bastplayerObj.transform.Find ("tx_userdata/tx_name").GetComponent<Text> ().text = "" + bastdata.nickname;
+		bastplayerObj.transform.Find ("tx_userdata/tx_death").GetComponent<Text> ().text = "" + bastdata.death;
+		bastplayerObj.transform.Find ("tx_userdata/tx_assit").GetComponent<Text> ().text = "" + bastdata.assit;
+
+		killplayerObj.transform.Find ("bg_userhead/img_userhead").GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+killerdata.head);
+		killplayerObj.transform.Find ("tx_userdata/tx_name").GetComponent<Text> ().text = "" + killerdata.nickname;
+		killplayerObj.transform.Find ("tx_userdata/tx_death").GetComponent<Text> ().text = "" + killerdata.death;
+		killplayerObj.transform.Find ("tx_userdata/tx_assit").GetComponent<Text> ().text = "" + killerdata.assit;
+
+		deathPanelObj.transform.Find ("tx_message/tx_killer").GetComponent<Text> ().text = "" + killerdata.nickname;
 
 	}
 		
