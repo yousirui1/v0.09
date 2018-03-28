@@ -111,7 +111,8 @@ public class RoomUIMatch : UIPage
 						SavedData.s_instance.m_roomNum = roomNum.ToString ();
 						UIRoot.Instance.StopCoroutine (coroutine);
 						Application.LoadLevel ("Game");
-
+						//Hide ();
+						//UIPage.ClosePage<RoomUIPrepare> ();
 					}
 				}
 

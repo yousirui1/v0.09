@@ -44,6 +44,8 @@ namespace tpgm
 		public int sy;
 		public int sd;
 		public int sv;
+
+		public int old_d;
 	}
 
 

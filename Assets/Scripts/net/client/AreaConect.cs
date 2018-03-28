@@ -56,7 +56,6 @@ public class AreaConect : MonoBehaviour {
 	{
 		if (SavedContext.s_client != null ) {
 			if (entite != null) {
-				
 				JsonObject jsMsg = new JsonObject ();
                 jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
                 jsMsg ["x"] = entite.x;
@@ -71,7 +70,7 @@ public class AreaConect : MonoBehaviour {
 
 				jsMsg ["item"] = 0;
 				jsMsg ["magicStage"] = 0;
-				//Debug.Log (entite.skill);
+
 				jsMsg ["skill"] = entite.skill;
 				//Debug.Log (jsMsg);
 				SavedContext.s_client.request ("area.playHandler.move", jsMsg, (data) => {
@@ -90,7 +89,6 @@ public class AreaConect : MonoBehaviour {
 	{
 		if (SavedContext.s_client != null ) {
 			JsonObject jsMsg = (JsonObject)SimpleJson.SimpleJson.DeserializeObject (stObj);
-			Debug.Log (jsMsg);
 				SavedContext.s_client.request ("area.playHandler.dead", jsMsg, (data) => {
 					Debug.Log(data);
 				});
@@ -200,7 +198,6 @@ public class AreaConect : MonoBehaviour {
 
 		case MSG_POMELO_MOVEINFO:
 			{   
-
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
 				eventController.ev_Output (buf);
@@ -209,7 +206,7 @@ public class AreaConect : MonoBehaviour {
 
 		case MSG_POMELO_PLAYDATA:
 			{   
-
+				
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				Debug.Log (data);
 				RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());

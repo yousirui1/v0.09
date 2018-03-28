@@ -184,44 +184,34 @@ public class Map : MonoBehaviour
 	{
 		if(null != playerObjs[id])
 		{
-			//Vector2 pos = playerObjs [id].transform.position;
-
-			//Rigidbody2D rigidbody2D = playerObjs [id].GetComponent<Rigidbody2D> ();
-
-			//rigidbody2D.velocity = new Vector2 (0, 1); 
-
-			//playerObjs [id].transform.localPosition = Vector3.Lerp (pos, new Vector3 (playerVal.x, playerVal.y, 0), 1.0f);
-
 			iTween.MoveTo(playerObjs[id], iTween.Hash("x", playerVal.x,
                                            "y", playerVal.y,
                                            "z", 0,
                                            "time", 1.0,
                                            "islocal", true
              )); 
+			if (playerVal.d != 0) {
+				//保存当前最后的面向
+				playerVal.old_d = playerVal.d;
 
+				//释放技能
+				if(playerVal.skill != 0)
+				{   
+					skillMgrObj.GetComponent<SkillManage> ().onFire (playerVal.skill, 1, playerVal.d, playerObjs [id], playerVal.uid);
+				}
 
-
-		
-            //释放技能
-    
-            if(playerVal.skill != 0)
-            {   
-				skillMgrObj.GetComponent<SkillManage> ().onFire (playerVal.skill, 1, playerVal.d, playerObjs [id], playerVal.uid);
-            }
-			//玩家面向
-			if (playerVal.d >= 3 && playerVal.d <= 6) {
-
-				playerObjs [id].GetComponent<PlayerATKAndDamage> ().m_state = 2;
-			} else if (playerVal.d == 0) {
-
-				playerObjs [id].GetComponent<PlayerATKAndDamage> ().m_state = 0;
-			} else {
-
-				playerObjs [id].GetComponent<PlayerATKAndDamage> ().m_state = 1;
-			}
+			} 
+			else {
 				
-			//playerVal.x = (int)playerObjs [id].transform.localPosition.x;
-			//playerVal.y = (int)playerObjs [id].transform.localPosition.y;
+				//释放技能
+				if(playerVal.skill != 0)
+				{   
+					skillMgrObj.GetComponent<SkillManage> ().onFire (playerVal.skill, 1, playerVal.old_d, playerObjs [id], playerVal.uid);
+				}
+			}
+			//( int d,  int skill,GameObject playerObj)
+			skillMgrObj.GetComponent<SkillManage> ().onAnimator (playerVal.d, playerVal.skill, playerObjs [id]);
+		
 		}
 	}
 

@@ -36,6 +36,8 @@ public class SkillManage : MonoBehaviour {
 
 	EventController eventController;
 
+	private MessageHandlerProxy m_msgHandlerProxy;
+
     void Start()
     {
         //读入所以技能的数值表
@@ -49,28 +51,53 @@ public class SkillManage : MonoBehaviour {
 			throw new NullReferenceException("MainLooper not inited");
 		}
 		eventController = GameObject.Find("EventController").GetComponent<EventController> ();
+
+		m_initedLooper = MainLooper.instance ();
+		m_msgHandlerProxy = new MessageHandlerProxy (handleMsg);
       	
     }
+
+	public const int SKILL_FLASH = 1 ;
+	public const int SKILL_FIRE = 2 ;
+
+	void handleMsg(HandlerMessage msg)
+	{
+		switch (msg.m_what) {
+		case 1:
+			{
+				//闪现
+				GameObject playerObj =(GameObject) msg.m_dataObj;
+				foreach(Transform child in playerObj.transform)
+				{
+					child.gameObject.SetActive (true);
+				}
+
+				GameObject newObj = ResourceMgr.Instance().CreateGameObject("prefabs/heros/state/state_flash2",true);
+				newObj.transform.parent = playerObj.transform;
+				newObj.transform.localPosition = new Vector3 (0, -50, 0);
+				newObj.transform.localScale = 100 * Vector3.one;
+				Destroy (newObj, 1.5f);
+			}
+			break;
+
+		case 2:
+			{
+				Animator animator = (Animator) msg.m_dataObj;
+				animator.SetBool ("isfire", false);
+
+			}
+			break;
+
+		}
+
+	}
+
 
 	void Destroy()
 	{
 		//valCache.unmarkPageUse(m_gameID, ConstsVal.val_magicup);
 	}
 
-	void OnFlashEnd()
-	{
-		GameObject player = GameObject.Find (SavedData.s_instance.m_skillUid).gameObject;
-		foreach (Transform child in player.transform)
-		{
-			child.gameObject.SetActive (true);
-		}
-	}
-
-	IEnumerator WaitCallback(int time)  
-	{  
-		yield return new WaitForSeconds(time);  
-
-	}  
 
 
     //释放技能 1 普攻 2 闪现
@@ -88,13 +115,22 @@ public class SkillManage : MonoBehaviour {
 
 			} else if (type == 500) {
 
-
-				SavedData.s_instance.m_skillUid = uid;
-				foreach (Transform child in playerObj.transform)
+				foreach(Transform child in playerObj.transform)
 				{
 					child.gameObject.SetActive (false);
 				}
-				Invoke ("OnFlashEnd", 1);
+				//闪现特效1
+				GameObject newObj = ResourceMgr.Instance().CreateGameObject("prefabs/heros/state/state_flash",true);
+				newObj.transform.position = new Vector3(playerObj.transform.position.x,playerObj.transform.position.y - 0.75f ,0);
+				newObj.transform.localScale = Vector3.one;
+				Destroy (newObj, 1.5f);
+
+				//延迟闪现特效2
+
+				HandlerMessage msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage,SKILL_FLASH);
+				msg.m_dataObj = (object)playerObj;
+				m_initedLooper.postMessageDelay (msg, 800);
+			
 			} else {
 				string st = "";
 				Transform portTra = findChild (playerObj, "port");
@@ -199,7 +235,44 @@ public class SkillManage : MonoBehaviour {
 	
 			}
 		}
+
+
 	
+	}
+
+	//设置人物动画
+	public void onAnimator(int d, int skill, GameObject playerObj )
+	{
+
+		Animator animator = playerObj.transform.Find ("role").GetComponent<Animator> ();
+		SpriteRenderer sprite = playerObj.transform.Find ("role").GetComponent<SpriteRenderer> ();
+
+		if (d != 0) {
+			if (d >= 3 && d < 7) {
+				//right
+				sprite.transform.eulerAngles = new Vector3 (0, 180f, 0);
+				animator.SetInteger ("state",2);
+			} else {
+				//left
+				sprite.transform.eulerAngles = new Vector3 (0, 0f, 0);
+				animator.SetInteger ("state",2);
+			}
+
+
+		} else {
+			//idle
+			animator.SetInteger ("state",0);
+		}
+
+		//除开闪现都需要播放攻击动画
+		if (skill != 500 && skill != 0) {
+			animator.SetBool ("isfire", true);
+			long ms = (long)0.5 * 1000;
+			HandlerMessage msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage,SKILL_FIRE);
+			msg.m_dataObj =(object) animator;
+			m_initedLooper.postMessageDelay (msg, ms);
+		}
+
 	}
 
 	//查找玩家身上的子物体,射击点和动画位置

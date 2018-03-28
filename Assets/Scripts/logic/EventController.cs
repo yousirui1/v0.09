@@ -135,6 +135,8 @@ public class EventController : MonoBehaviour {
 
 		areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
 
+		m_msgHandlerProxy = new MessageHandlerProxy(handleMsg);
+
 	}
 		
 	void OnDestroy()
@@ -189,9 +191,8 @@ public class EventController : MonoBehaviour {
 
 		//遥感
 		if (null == joyControl) {
-			joyControl = gameMenu.GetJoyControl();
-			if (null == joyControl)
-				return null;
+			joyControl = gameMenu.transform.Find ("GameUI/JoyControl").gameObject.GetComponent<JoyControl> ();
+			return null;
 		}
 
 		//获取遥感数据
@@ -218,7 +219,6 @@ public class EventController : MonoBehaviour {
 					players[id].d = i;
 					break;
 				}
-
 			}
 			//普攻
 			if(gameMenu.InputFire() || Input.GetKey(KeyCode.J))
@@ -229,12 +229,12 @@ public class EventController : MonoBehaviour {
 				}
 			}
 
-
 			if (Time.time - lastFlashTime > flashInterval) {
 				//闪现
 				if(gameMenu.InputFlash() || Input.GetKey(KeyCode.K))
 				{
-					if (map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().useFlash (-50)) {
+					//if (map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().useFlash (-50)) 
+					{
 						players[id].skill = 500;
 						lastFlashTime = Time.time;
 					}
@@ -269,7 +269,7 @@ public class EventController : MonoBehaviour {
 			GameObject gameObj = map.GetPlayerObj (id);
 
 
-			gameObj.GetComponent<PlayerATKAndDamage> ().d = players [id].d;
+			//gameObj.GetComponent<PlayerATKAndDamage> ().d = players [id].d;
 
 			//获取玩家的数据
 			players [id].v =(int) gameObj.GetComponent<PlayerATKAndDamage> ().speed;
@@ -327,7 +327,7 @@ public class EventController : MonoBehaviour {
 			//发射射线判断障碍物
 			RaycastHit2D hit = Physics2D.Raycast(gameObj.transform.position, vec, (players [id].v * 0.03f + 1.0f), 1<<LayerMask.NameToLayer("barrier"));
 
-			if (hit.collider == null) {
+			if (hit.collider == null ) {
 				shadow.craft_move (players [id], 1);
 			} else {
 				if ((hit.collider.transform.position.x - gameObj.transform.position.x) * vec.x < 0)
@@ -335,13 +335,10 @@ public class EventController : MonoBehaviour {
 				if ((hit.collider.transform.position.y - gameObj.transform.position.y) * vec.y < 0)
 					shadow.craft_move (players [id], 1);
 			}
-
+	
 			if(players[id].skill == 500)
 			{
-				shadow.craft_move (players [id], 1);
-				shadow.craft_move (players [id], 1);
-				shadow.craft_move (players [id], 1);
-				shadow.craft_move (players [id], 1);
+				shadow.craft_flash (players [id], 1);
 			}
 
 			//对事件处理
@@ -363,17 +360,18 @@ public class EventController : MonoBehaviour {
 	{
 		bool isFind = false;
 
-		//接收数据的时间间隔
-		if (Time.time - lastRecvInfoTime > 0.2f) {
-			//延迟大于多少秒做延迟补偿
 
-			//Debug.Log (Time.time - lastRecvInfoTime);
-		}
+
+	
 
 		lastRecvInfoTime = Time.time;
 
 		for(int i = 0; i<buf.data.Count; i++)
 		{
+
+			if (buf.data [i].skill != 0) {
+				Debug.Log (buf.data [i].skill);
+			}
 			//用户积分更新
 			UpdateUserData (buf.data[i].uid,buf.data[i].score,false,false,false); 
 			//在用户列表查找
@@ -386,15 +384,38 @@ public class EventController : MonoBehaviour {
                     //判断是否为主角用户
                     //shadow.shadow_refresh(buf.data[i]);
 
-					if (buf.data [i].uid == SavedData.s_instance.m_user.m_uid)
-						id = i;
-					else {
-						//shadow.shadow_move (buf.data [i], 1);
-						//shadow.trace (1, buf.data [i], 1);
+					if (buf.data [i].uid != SavedData.s_instance.m_user.m_uid)
+					{	
+						if (buf.data[i].d != 0) {
+							players [i].old_d = buf.data [i].d;
+						}
+						//保存接受到其他玩家的数据
+						players [i].x = buf.data [i].x;
+						players [i].y = buf.data [i].y;
+						players [i].v = buf.data [i].v;
+						players [i].d = buf.data [i].d;
+						players [i].sp = buf.data [i].sp;
+						players [i].hp = buf.data [i].hp;
+
+						players [i].skill = buf.data [i].skill;
+						players [i].score = buf.data [i].score;
+						players [i].lev= buf.data [i].lev;
+
+						//接收数据的时间间隔
+						if (Time.time - lastRecvInfoTime > 0.2f) {
+							//延迟大于多少秒做延迟补偿
+							Debug.Log (Time.time - lastRecvInfoTime);
+
+							shadow.shadow_refresh(players [i]);
+							shadow.shadow_move (players [i], 1);
+							shadow.trace (1, players [i], 1);
+						}
+
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().hp = buf.data [i].hp;
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().sp = buf.data [i].sp;
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().level = buf.data [i].lev;
-						map.OnEvent (i, buf.data [i]);
+						map.OnEvent (i, players [i]);
+
 
 					}
 						break;
@@ -500,15 +521,15 @@ public class EventController : MonoBehaviour {
 		map.ClearPlayerObj ();
 	}
 
-	//获取阵营,null标识错误;
-	public string GetCamp(string uid)
+	//获取阵营,0标识错误;
+	public int GetCamp(string uid)
 	{
 		RespThirdUserData data = null;
 		if(SavedData.s_instance.m_userCache.TryGetValue(uid, out data))
 		{
-			return data.group;
+			return int.Parse (data.group.Substring (data.group.Length - 1));
 		}
-		return null;
+		return 0;
 
 	}
 
@@ -569,10 +590,12 @@ public class EventController : MonoBehaviour {
 			gameMenu.SetBroadcastData (data);
 		}
 		if (!data.revive.Equals (string.Empty)) {
+			//Debug.Log (data.revive);
 			PlayerRevive (data.revive);
 		}
 
 	}
+	public MessageHandlerProxy m_msgHandlerProxy;
 
 
 	//玩家请求复活
@@ -584,6 +607,7 @@ public class EventController : MonoBehaviour {
 	//玩家复活
 	public void PlayerRevive(string uid) 
 	{
+		MainLooper looper = MainLooper.instance ();
 		int count = 0;
 		for (int i = 0; i < SavedData.s_instance.m_userlist.Count; i++) {
 			if (uid == SavedData.s_instance.m_userlist [i])
@@ -591,8 +615,54 @@ public class EventController : MonoBehaviour {
 		}
 		players [count].hp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp_Max;
 		players [count].sp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().sp_Max;
+		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp = players [count].hp;
+		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().sp = players [count].sp;
+
 		map.GetPlayerObj (count).SetActive (true);
+		//复活之后频闪
+		#if false
+		GameObject roleObj = map.GetPlayerObj (count).transform.Find ("role").gameObject;
+
+		HandlerMessage msg1 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 1);
+		msg1.m_dataObj = (object)roleObj;
+		looper.postMessageDelay (msg1, 500);
+
+		HandlerMessage msg2 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 2);
+		msg1.m_dataObj = (object)roleObj;
+		looper.postMessageDelay (msg2, 1000);
+
+		HandlerMessage msg3 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 3);
+		msg1.m_dataObj = (object)roleObj;
+		looper.postMessageDelay (msg3, 1500);
+
+		HandlerMessage msg4 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 4);
+		msg1.m_dataObj = (object)roleObj;
+		looper.postMessageDelay (msg4, 2000);
+		#endif
+
+
 	}
+
+	private void looper_CheckAlpha(int fream, object obj)
+	{
+		GameObject roleObj = (GameObject)obj;
+		Debug.Log (roleObj.name);
+		#if false
+		if (fream % 2 == 0) {
+			roleObj.GetComponent<SpriteRenderer> ().color = new Color (roleObj.GetComponent<SpriteRenderer> ().color.a,roleObj.GetComponent<SpriteRenderer> ().color.b,roleObj.GetComponent<SpriteRenderer> ().color.g,0);
+
+		} else {
+			roleObj.GetComponent<SpriteRenderer> ().color = new Color (roleObj.GetComponent<SpriteRenderer> ().color.a,roleObj.GetComponent<SpriteRenderer> ().color.b,roleObj.GetComponent<SpriteRenderer> ().color.g,1.0f);
+		}
+		#endif
+	}
+
+	void handleMsg(HandlerMessage msg)
+	{
+		looper_CheckAlpha (msg.m_what,msg.m_dataObj);
+
+	}
+
 
 
 	public class KillData

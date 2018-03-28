@@ -97,6 +97,7 @@ public class LinkServerUIPage : UIPage
 
 		public void onPomeloEvent_Login()
 		{
+			Debug.Log ("onPomeloEvent_Login");
 			if (null == SavedContext.s_client)
 			{
 
@@ -106,7 +107,7 @@ public class LinkServerUIPage : UIPage
 				}
 				SavedContext.s_client.NetWorkStateChangedEvent += (state) =>
 				{
-					//Debug.Log(state);
+					Debug.Log(state);
 					//长连接状态改变，多是断连
 					//onPomeloEvent_State(state);
 				};
@@ -115,8 +116,8 @@ public class LinkServerUIPage : UIPage
 						SavedContext.s_client.connect(null, (data1) =>
 							{
 								JsonObject jsMsg = new JsonObject();
-								//SavedData.s_instance.m_user.m_uid = "bc4d88ca1db0420b9043d6dc9ba145cc";
 								jsMsg["uid"] = SavedData.s_instance.m_user.m_uid;
+								//Debug.Log(SavedData.s_instance.m_user.m_uid);
 								SavedContext.s_client.request("gate.gateHandler.queryEntry", jsMsg, onPomeloEvent_Request);
 							});
 					});

@@ -75,8 +75,7 @@ namespace tpgm
 
 		//技能等级 0 - 2
 		public int m_skillLevel = 0;
-
-		public string m_skillUid = "";
+	
 
 		//玩家数据字典
 		public  Dictionary<string, RespThirdUserData> m_userCache = new Dictionary<string, RespThirdUserData>();

@@ -192,7 +192,7 @@ public class LoginUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-							//m_page.showToast ("登录成功");
+							//m_page.toast.showToast ("登录成功");
 							if (null == SavedData.s_instance) {
 								SavedData.s_instance = new SavedData ();
 							}
@@ -229,11 +229,13 @@ public class LoginUIPage : UIPage
 		public virtual void onHttpErr(DataNeedOnResponse data, int statusCode, string errMsg)
 		{
 			Debug.Log (TAG +":" +"onHttpErr");
+			m_page.toast.showToast ("登录异常");
 		}
 
 		public virtual void onOtherErr(DataNeedOnResponse data, int type)
 		{
 			Debug.Log (TAG +":" +"onOtherErr");
+			m_page.toast.showToast ("登录异常");
 		}
 	}
 }

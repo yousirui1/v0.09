@@ -60,7 +60,7 @@ public class ATKAndDamage : MonoBehaviour{
     protected void Awake()
     {
 
-        animator = this.GetComponent<Animator>();
+		animator = this.transform.Find("role").GetComponent<Animator>();
 		valCache = SavedContext.s_valTableCache;
 
 		valDict1 = valCache.getValDictInPageScopeOrThrow<ValRoleBattle>(m_gameID, ConstsVal.val_role_battle);
@@ -205,7 +205,8 @@ public class ATKAndDamage : MonoBehaviour{
 
             	if (this.tag == Tags.player) {
 					//击退
-					this.transform.Translate (Vector2.left * 0.1F);
+					//this.transform.Translate (Vector2.left * 0.1F);
+					animator.SetInteger ("state",1);
 				}
 
 			} 
@@ -213,17 +214,18 @@ public class ATKAndDamage : MonoBehaviour{
 			else {
 				if (this.name == SavedData.s_instance.m_user.m_uid) {
 					eventController.PlayerDead (queue_assit, user);
+					animator.SetInteger ("state",-1);
 				}
 			
-				animator.SetTrigger ("Dead");
             
 				//死亡后掉落的资源比例
 				ValNum val = ValUtils.getValByKeyOrThrow (valDict2, 5);
 				//死亡后爆装备
 				SpawnAwardItem (val.num);
 
+				Invoke ("OnDeathEnd", 1.5f);
 				//Remove移除角色
-				this.gameObject.SetActive (false);
+
           
 			}
 		}
@@ -318,7 +320,10 @@ public class ATKAndDamage : MonoBehaviour{
 	}
 
 
-
+	private void OnDeathEnd()
+	{
+		this.gameObject.SetActive (false);
+	}
 
     //死亡后爆装备
 	void SpawnAwardItem(int val)

@@ -15,7 +15,6 @@ using tpgm;
 
 public class GameMenu : MonoBehaviour
 {
-	GameObject joyObj;			//遥感
 	GameObject gameUIObj;		
 	GameObject deathPanelObj;  //死亡面板
 	GameObject bastplayerObj;  //最佳
@@ -118,9 +117,8 @@ public class GameMenu : MonoBehaviour
 		gameUIObj.transform.parent = this.transform;
 		gameUIObj.transform.localPosition = Vector3.zero;
 		gameUIObj.transform.localScale = Vector3.one;
+		gameUIObj.name = "GameUI";
 
-
-		joyObj = gameUIObj.transform.Find ("JoyControl").gameObject;
 
 		//死亡面板
 		deathPanelObj = gameUIObj.transform.Find ("bg_death").gameObject;
@@ -173,6 +171,8 @@ public class GameMenu : MonoBehaviour
 
 		SetSkillData (0,0,0);
 		SetSystemInfoData ();
+
+
 	}
 
 	void Destroy()
@@ -316,12 +316,6 @@ public class GameMenu : MonoBehaviour
 
 	bool isTure = false;
 
-	public JoyControl GetJoyControl()
-	{
-		if(joyObj.GetComponent<JoyControl> () == null)
-		joyObj.AddComponent<JoyControl> ();
-		return joyObj.GetComponent<JoyControl> ();
-	}
 
 	public void SetSkillID(int id)
 	{

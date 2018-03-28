@@ -265,6 +265,8 @@ namespace tpgm.UI
 
 			public float start_time;
 
+			//public Vector3 init_pos;
+
 			public Toast(UIPage iview):base(null)
 			{
 				m_page = iview;
@@ -282,7 +284,7 @@ namespace tpgm.UI
 			{
 				toastObj = parentObj.transform.Find("toast").gameObject;
 				toastObj.SetActive (false);
-
+				//init_pos = toastObj.GetComponent<RectTransform> ().position;
 			}
 
 			public void showToast(string text)
@@ -297,7 +299,10 @@ namespace tpgm.UI
 					.SetDelay(0.1f)
 					.SetLoops(-1);*/  //翻转位置
 				//m_page.toastObj.GetComponent<Renderer> ().material.color = new Color (0, 1, 0, TimeUtils.utcNowMs());
+				//toastObj.GetComponent<RectTransform> ().position = init_pos;
+
 				toastObj.SetActive (true);
+
 				seq.Append (toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
 					.Append (toastObj.GetComponent<Renderer>().material.DOFade(1,1).SetLoops(-1,LoopType.Yoyo))
 					.Append(toastObj.GetComponent<RectTransform> ().DOAnchorPos (new Vector2 (0.0f, 100.0f), 1.5f).SetRelative ())
@@ -333,7 +338,7 @@ namespace tpgm.UI
 		
 			private void looper_ShowEndToast()
 			{
-				Debug.Log ("looper_ShowEndToast");
+				//Debug.Log ("looper_ShowEndToast");
 				toastObj.SetActive (false);
 			}
 

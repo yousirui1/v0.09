@@ -112,7 +112,6 @@ public class CreateNameUIPage : UIPage
 
 	void InitJsonFile()
 	{
-
 		string path_name = SavedContext.getExternalPath("data/" + "val_name.json");
 		string text_name = File.ReadAllText(path_name, Encoding.UTF8);
 		list = SimpleJson.SimpleJson.DeserializeObject<List<ValName>>(text_name);
@@ -195,7 +194,6 @@ public class CreateNameUIPage : UIPage
 				paramsValObj.m_name = m_page.nickname;
 			}
 			string url = SavedContext.getApiUrl(api);
-			Debug.Log (url);
 			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_CREATENAME, checkID);
 		}
 
@@ -206,7 +204,6 @@ public class CreateNameUIPage : UIPage
 
 		public virtual void onHttpOk(DataNeedOnResponse data, ResponseData respData)
 		{
-			Debug.Log ("onHttpOk");
 			switch (data.m_reqTag) {
 			case REQ_THIRD_CREATENAME:
 				{
@@ -214,7 +211,6 @@ public class CreateNameUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-							Debug.Log ("" + resp.m_code);
 							m_page.Hide ();
 							UIPage.ShowPage<MainUIPage> ();
 						}
@@ -222,7 +218,6 @@ public class CreateNameUIPage : UIPage
 
 					default:
 						{
-							Debug.Log ("" + resp.m_code);
 							ValTableCache valCache = m_page.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);

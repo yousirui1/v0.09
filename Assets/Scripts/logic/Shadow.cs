@@ -72,6 +72,39 @@ public class Shadow  {
        
     }
 
+	//飞机移动
+	public void craft_flash(PlayerVal player_craft, int step)
+	{
+		int inc = 1;
+
+		if (step < 0)
+		{
+			step = -step;
+			inc = -1;
+		}
+
+		for (int i = 0; i < step; i++)
+		{
+
+			if(player_craft.d != 0)
+			{
+				player_craft.x += 30 * direction[player_craft.d, 1] * inc;
+				player_craft.y += 30 * direction[player_craft.d, 0] * inc;
+			}
+			else
+			{
+				player_craft.x += 30 * direction[player_craft.old_d, 1] * inc;
+				player_craft.y += 30 * direction[player_craft.old_d, 0] * inc;
+			}
+
+			//三个数取中间值 限定移动范围
+			player_craft.x = middle(80, player_craft.x, 6660);
+			player_craft.y = middle(128, player_craft.y, 6660);
+		}
+
+	}
+
+
 
     public void shadow_refresh(PlayerVal player_shadow )
     {

@@ -56,6 +56,7 @@ public class RoomUIPrepare : UIPage
 	//刷新
 	public override void Refresh()
 	{
+		Debug.Log ("Refresh");
 		controller = new Controller (this);
 		controller.onPomeloEvent_EnterRoom ();
 
@@ -69,6 +70,7 @@ public class RoomUIPrepare : UIPage
 
 	public override void Awake(GameObject go)
 	{
+		Debug.Log ("Awake");
 		Init ();
 		//InitToast ();
 		tabControl = this.transform.Find ("tabcontrol").GetComponent<TabControl> () as TabControl;
@@ -103,7 +105,6 @@ public class RoomUIPrepare : UIPage
 
 		this.transform.Find("btn_start").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				
 				UIPage.ShowPage<RoomUIMatch>();
 			});
 
