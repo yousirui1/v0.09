@@ -88,6 +88,12 @@ namespace tpgm
 
 		public string m_map = "";
 
+		//可移动状态标识符
+		public bool m_isMove = true;
+
+		//无敌标识符
+		public bool m_isInvincible = false;
+
         //#该gsid我所拥有的数量;
         public int getNum(int gsid)
         {

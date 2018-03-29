@@ -157,6 +157,7 @@ public class ATKAndDamage : MonoBehaviour{
 			if(this.speed + speed > speed_Max)
 			{
 				this.speed = speed_Max;
+				//Invoke ();
 			}
 			else
 			{

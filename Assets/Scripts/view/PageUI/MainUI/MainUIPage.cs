@@ -106,9 +106,10 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_enchanter").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				// 背包
+				// 法师界面
 				UIRoot.Instance.StopCoroutine(coroutine);
-				UIPage.ShowPage<PublicUINotice>("首充包未完成，敬请期待");
+
+				//UIPage.ShowPage<PublicUINotice>("首充包未完成，敬请期待");
 			});
 				
 

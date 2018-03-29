@@ -67,16 +67,17 @@ public class SkillManage : MonoBehaviour {
 			{
 				//闪现
 				GameObject playerObj =(GameObject) msg.m_dataObj;
-				foreach(Transform child in playerObj.transform)
-				{
-					child.gameObject.SetActive (true);
-				}
 
 				GameObject newObj = ResourceMgr.Instance().CreateGameObject("prefabs/heros/state/state_flash2",true);
 				newObj.transform.parent = playerObj.transform;
 				newObj.transform.localPosition = new Vector3 (0, -50, 0);
 				newObj.transform.localScale = 100 * Vector3.one;
 				Destroy (newObj, 1.5f);
+
+				foreach(Transform child in playerObj.transform)
+				{
+					child.gameObject.SetActive (true);
+				}
 			}
 			break;
 
@@ -121,7 +122,7 @@ public class SkillManage : MonoBehaviour {
 				}
 				//闪现特效1
 				GameObject newObj = ResourceMgr.Instance().CreateGameObject("prefabs/heros/state/state_flash",true);
-				newObj.transform.position = new Vector3(playerObj.transform.position.x,playerObj.transform.position.y - 0.75f ,0);
+				newObj.transform.position = new Vector3(playerObj.transform.position.x,playerObj.transform.position.y - 0.65f ,0);
 				newObj.transform.localScale = Vector3.one;
 				Destroy (newObj, 1.5f);
 
@@ -129,7 +130,7 @@ public class SkillManage : MonoBehaviour {
 
 				HandlerMessage msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage,SKILL_FLASH);
 				msg.m_dataObj = (object)playerObj;
-				m_initedLooper.postMessageDelay (msg, 800);
+				m_initedLooper.postMessageDelay (msg, 400);
 			
 			} else {
 				string st = "";

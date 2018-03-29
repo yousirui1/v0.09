@@ -269,8 +269,6 @@ public class EventController : MonoBehaviour {
 			GameObject gameObj = map.GetPlayerObj (id);
 
 
-			//gameObj.GetComponent<PlayerATKAndDamage> ().d = players [id].d;
-
 			//获取玩家的数据
 			players [id].v =(int) gameObj.GetComponent<PlayerATKAndDamage> ().speed;
 			players [id].hp =(int) gameObj.GetComponent<PlayerATKAndDamage> ().hp;
@@ -324,22 +322,29 @@ public class EventController : MonoBehaviour {
 				break;
 			}
 
+			if(players[id].skill == 500 )
+			{
+				//players [id].v = 200;
+				shadow.craft_flash (players [id], 1);
+				SavedData.s_instance.m_isMove = false;
+
+				Invoke ("OnFlashEnd",0.8f);
+			}
+
+
 			//发射射线判断障碍物
 			RaycastHit2D hit = Physics2D.Raycast(gameObj.transform.position, vec, (players [id].v * 0.03f + 1.0f), 1<<LayerMask.NameToLayer("barrier"));
 
-			if (hit.collider == null ) {
+			if (hit.collider == null && SavedData.s_instance.m_isMove) {
 				shadow.craft_move (players [id], 1);
-			} else {
+			} else if (hit.collider != null && SavedData.s_instance.m_isMove){
 				if ((hit.collider.transform.position.x - gameObj.transform.position.x) * vec.x < 0)
 					shadow.craft_move (players [id], 1);
 				if ((hit.collider.transform.position.y - gameObj.transform.position.y) * vec.y < 0)
 					shadow.craft_move (players [id], 1);
 			}
 	
-			if(players[id].skill == 500)
-			{
-				shadow.craft_flash (players [id], 1);
-			}
+
 
 			//对事件处理
 			map.OnEvent(id, players[id]);
@@ -351,7 +356,12 @@ public class EventController : MonoBehaviour {
 		return null;
 	}
 
+	void OnFlashEnd()
+	{
+		players [id].v = 20;
+		SavedData.s_instance.m_isMove = true;
 
+	}
 
 
 
@@ -613,7 +623,11 @@ public class EventController : MonoBehaviour {
 			if (uid == SavedData.s_instance.m_userlist [i])
 				count = i;
 		}
+		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().state = 3;
+		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().buffer_time = 2.0f;
+
 		players [count].hp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp_Max;
+
 		players [count].sp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().sp_Max;
 		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp = players [count].hp;
 		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().sp = players [count].sp;
