@@ -198,7 +198,9 @@ public class AreaConect : MonoBehaviour {
 
 		case MSG_POMELO_MOVEINFO:
 			{   
+				
 				JsonObject data = (JsonObject)msg.m_dataObj;
+				//Debug.Log (data);
 				FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
 				eventController.ev_Output (buf);
 			}   
@@ -208,7 +210,7 @@ public class AreaConect : MonoBehaviour {
 			{   
 				
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				Debug.Log (data);
+				//Debug.Log (data);
 				RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
 				eventController.ev_OutTip (buf);
 			}   

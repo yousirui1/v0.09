@@ -143,7 +143,6 @@ public class ATKAndDamage : MonoBehaviour{
 				this.hp += hp;
 			}
      
-
 			if(this.sp + sp > sp_Max)
 			{
 				this.sp = sp_Max;
@@ -152,8 +151,7 @@ public class ATKAndDamage : MonoBehaviour{
 			{
 				this.sp += sp;
 			}
-
-
+				
 			if(this.speed + speed > speed_Max)
 			{
 				this.speed = speed_Max;
@@ -204,12 +202,6 @@ public class ATKAndDamage : MonoBehaviour{
 					queue_assit.Enqueue(user);
 				}
 
-            	if (this.tag == Tags.player) {
-					//击退
-					//this.transform.Translate (Vector2.left * 0.1F);
-					animator.SetInteger ("state",1);
-				}
-
 			} 
 			//造成伤害后死亡
 			else {
@@ -227,7 +219,6 @@ public class ATKAndDamage : MonoBehaviour{
 				Invoke ("OnDeathEnd", 1.5f);
 				//Remove移除角色
 
-          
 			}
 		}
     }

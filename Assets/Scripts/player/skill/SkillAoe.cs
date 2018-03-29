@@ -106,9 +106,14 @@ public class SkillAoe : MonoBehaviour {
 				break;
 			case 14: 
 				{
-					if ( this.durationTime == Time.time - instantiateTime) {
+					//变雪人
+					if (this.durationTime == Time.time - instantiateTime) {
 						collider.GetComponent<ATKAndDamage> ().TakeBuffer (1, this.durationTime);
+					} else {
+						//没变雪人之前减速
+						//collider.GetComponent<ATKAndDamage> ().TakeBuffer (1, this.durationTime);
 					}
+
 
 				}
 				break;

@@ -137,6 +137,8 @@ public class EventController : MonoBehaviour {
 
 		m_msgHandlerProxy = new MessageHandlerProxy(handleMsg);
 
+		Invoke ("InitJoyControl", 0.5f);
+
 	}
 		
 	void OnDestroy()
@@ -144,6 +146,11 @@ public class EventController : MonoBehaviour {
 		valCache.unmarkPageUse(m_gameID, ConstsVal.val_magicup);
 	}
 
+
+	void InitJoyControl()
+	{
+		joyControl = gameMenu.transform.Find ("GameUI/JoyControl").gameObject.GetComponent<JoyControl> ();
+	}
 
 
 	public void SetSkillID(int id)
@@ -182,6 +189,7 @@ public class EventController : MonoBehaviour {
 
 
 
+
 	//主角输入	
 	public PlayerVal ev_Input()
 	{
@@ -191,10 +199,10 @@ public class EventController : MonoBehaviour {
 
 		//遥感
 		if (null == joyControl) {
-			joyControl = gameMenu.transform.Find ("GameUI/JoyControl").gameObject.GetComponent<JoyControl> ();
 			return null;
 		}
-
+		//
+	
 		//获取遥感数据
 		if(joyControl.isMove)
 		{
@@ -324,10 +332,8 @@ public class EventController : MonoBehaviour {
 
 			if(players[id].skill == 500 )
 			{
-				//players [id].v = 200;
 				shadow.craft_flash (players [id], 1);
 				SavedData.s_instance.m_isMove = false;
-
 				Invoke ("OnFlashEnd",0.8f);
 			}
 
@@ -343,9 +349,6 @@ public class EventController : MonoBehaviour {
 				if ((hit.collider.transform.position.y - gameObj.transform.position.y) * vec.y < 0)
 					shadow.craft_move (players [id], 1);
 			}
-	
-
-
 			//对事件处理
 			map.OnEvent(id, players[id]);
 
@@ -369,10 +372,6 @@ public class EventController : MonoBehaviour {
 	public void ev_Output(FrameBuf buf)
 	{
 		bool isFind = false;
-
-
-
-	
 
 		lastRecvInfoTime = Time.time;
 

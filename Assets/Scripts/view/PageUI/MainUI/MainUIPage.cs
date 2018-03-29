@@ -71,14 +71,11 @@ public class MainUIPage : UIPage
 
     public override void Awake(GameObject go)
     {
-		
-
 		m_controller = new Controller(this);
-
 
 		//初始化
 		Init();
-		//InitToast ();
+		toast.InitToast (this.gameObject);
 
 		this.gameObject.transform.Find("bg_username/btn_head").GetComponent<Button>().onClick.AddListener(() =>
 			{
@@ -528,7 +525,7 @@ public class MainUIPage : UIPage
 							ValTableCache valCache = m_main.getValTableCache ();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_main.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
-							UIPage.ShowPage<PublicUINotice> (val.text);
+							m_main.toast.showToast (val.text);
 						}
 						break;
 
