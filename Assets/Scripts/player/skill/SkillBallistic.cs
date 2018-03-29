@@ -110,8 +110,9 @@ public class SkillBallistic  : MonoBehaviour {
 				this.transform.Rotate(0, 0, -135);
 			}
 			break;
-			Destroy(this.gameObject, time);
+
 		}
+		Destroy(this.gameObject, time);
 	}
 
 

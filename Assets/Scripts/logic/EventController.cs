@@ -241,7 +241,7 @@ public class EventController : MonoBehaviour {
 				//闪现
 				if(gameMenu.InputFlash() || Input.GetKey(KeyCode.K))
 				{
-					//if (map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().useFlash (-50)) 
+					if (map.GetPlayerObj (id).GetComponent<PlayerATKAndDamage> ().useFlash (-50)) 
 					{
 						players[id].skill = 500;
 						lastFlashTime = Time.time;
