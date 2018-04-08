@@ -9,23 +9,19 @@ public class FollowPlayer : MonoBehaviour {
 
 	GameObject userObj ;
 
-	GameObject playerManage ;
-
 	private string uid;
 
 	private Vector3 vector3;
 
 	// Use this for initialization
 	void Start () {
-		playerManage = GameObject.Find ("GameRoot/Map/PlayerManage").gameObject;
     }
 
   
 
-	public bool SetUid(string uid)
+	public bool SetUid(GameObject userObj)
 	{
-		this.uid = uid;
-		userObj = playerManage.transform.Find (uid).gameObject;
+		this.userObj = userObj;
 		if (null != userObj)
 		{
 			this.transform.localPosition = new Vector3(userObj.transform.localPosition.x, userObj.transform.localPosition.y, -400);

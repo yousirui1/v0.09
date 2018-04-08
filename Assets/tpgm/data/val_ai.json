@@ -1,1 +1,1 @@
-[{"id":1,"type":1,"bat":3000,"res":2,"dif":1},{"id":2,"type":1,"bat":2000,"res":4,"dif":2},{"id":3,"type":1,"bat":1000,"res":6,"dif":3},{"id":4,"type":2,"bat":3000,"res":0,"dif":1},{"id":5,"type":2,"bat":2000,"res":0,"dif":2},{"id":6,"type":2,"bat":1000,"res":0,"dif":3}]
+[{"id":1,"type":1,"mmr":30,"rank":0,"dif":1},{"id":2,"type":1,"mmr":80,"rank":500,"dif":2},{"id":3,"type":1,"mmr":130,"rank":1800,"dif":3},{"id":4,"type":1,"mmr":180,"rank":3000,"dif":4},{"id":5,"type":1,"mmr":240,"rank":4500,"dif":5}]

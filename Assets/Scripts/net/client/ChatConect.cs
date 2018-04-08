@@ -6,8 +6,6 @@ using UnityEngine.UI;
 using Pomelo.DotNetClient;
 using SimpleJson;
 using System.Threading;
-using Newtonsoft.Json;
-using Newtonsoft;
 using tpgm;
 
 /**************************************
@@ -208,7 +206,7 @@ public class ChatConect : MonoBehaviour
      	FrameBuf buf = null;
 	   	if(null != jsonObj)
 		{
-			buf = JsonConvert.DeserializeObject<FrameBuf>(jsonObj.ToString());
+			//buf = JsonConvert.DeserializeObject<FrameBuf>(jsonObj.ToString());
             //mTaskExecutor.ScheduleTask(new Task(new Action<FrameBuf>(eventObj.onMove), buf));
 			eventController.ev_Output(buf);
 		}	

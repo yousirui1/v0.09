@@ -26,7 +26,9 @@ public class EventController : MonoBehaviour {
 	private GameObject cameraObj; //ui相机
 	private GameObject touchObj;
 
-	private FollowPlayer followPlayer;
+	private FollowPlayer followPlayer; //跟随玩家脚本
+
+	private CArrowLockAt cArrowLockAt; //箭头指示
 
 	private JoyControl joyControl;
 	
@@ -125,6 +127,8 @@ public class EventController : MonoBehaviour {
 		gameMenu.transform.localScale = Vector3.one;
 		gameMenu.transform.localPosition = Vector3.zero;
 		followPlayer = gameMenu.gameObject.AddComponent<FollowPlayer> ();
+
+		cArrowLockAt = gameMenu.gameObject.AddComponent<CArrowLockAt> ();
 
 		//UI相机渲染
 		cameraObj = canvasObj.transform.Find ("UICamera").gameObject;
@@ -261,6 +265,11 @@ public class EventController : MonoBehaviour {
 						players [id].skill = SavedData.s_instance.m_skillID;
 						SavedData.s_instance.m_skillCount--;
 						lastSkillTime = Time.time;
+						if(players [id].skill >= 14 && players [id].skill <=19)
+						{
+							SavedData.s_instance.m_isMove = false;
+							Invoke ("OnFlashEnd",2.0f);
+						}
 					}
 				} else {
 					gameMenu.ClearSkill ();
@@ -368,6 +377,9 @@ public class EventController : MonoBehaviour {
 
 
 
+
+
+
 	//处理服务端发送过来的数据
 	public void ev_Output(FrameBuf buf)
 	{
@@ -378,9 +390,6 @@ public class EventController : MonoBehaviour {
 		for(int i = 0; i<buf.data.Count; i++)
 		{
 
-			if (buf.data [i].skill != 0) {
-				Debug.Log (buf.data [i].skill);
-			}
 			//用户积分更新
 			UpdateUserData (buf.data[i].uid,buf.data[i].score,false,false,false); 
 			//在用户列表查找
@@ -420,11 +429,11 @@ public class EventController : MonoBehaviour {
 							shadow.trace (1, players [i], 1);
 						}
 
+
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().hp = buf.data [i].hp;
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().sp = buf.data [i].sp;
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().level = buf.data [i].lev;
 						map.OnEvent (i, players [i]);
-
 
 					}
 						break;
@@ -435,15 +444,26 @@ public class EventController : MonoBehaviour {
 			{
 				ev_AddPlayer (buf.data [i], i);
 				map.AddPlayerObj (i, buf.data [i].uid, buf.data[i].x, buf.data[i].y);
+
+				//判断是否是队友设置箭头指向队友
+				if (IsSameCamp (SavedData.s_instance.m_user.m_uid, buf.data [i].uid )) {
+					gameMenu.SetArrowGroup (map.GetPlayerObj (i).transform);
+				}
+
 				SavedData.s_instance.m_userlist.Add(buf.data[i].uid);
 				if (SavedData.s_instance.m_user.m_uid == buf.data[i].uid) {
 					id = i;
-					followPlayer.SetUid (SavedData.s_instance.m_user.m_uid);
+					followPlayer.SetUid (map.GetPlayerObj (i));
+					gameMenu.SetArrowSelf (map.GetPlayerObj (i).transform);
 				}
 			}
 		}
 	}
 		
+	public Map GetMap()
+	{
+		return map;
+	}
 
 	//建立玩家字典数据
 	public void ev_InitPlayer(List<NewUser> newUser)

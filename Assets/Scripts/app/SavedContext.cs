@@ -73,9 +73,9 @@ namespace tpgm
         {
             #if UNITY_ANDROID && !UNITY_EDITOR
         s_externalPath = "/sdcard/fsdzz/";
-		s_externalPath = Application.persistentDataPath;
             #elif UNITY_IPHONE && !UNITY_EDITOR
-        s_externalPath = "/sdcard/fsdzz/";
+        //s_externalPath = "/sdcard/fsdzz/";
+		s_externalPath = Application.persistentDataPath;
             #elif UNITY_STANDALONE_WIN || UNITY_EDITOR
 			s_externalPath = Application.dataPath;
             int idx = s_externalPath.LastIndexOf("game_Data");

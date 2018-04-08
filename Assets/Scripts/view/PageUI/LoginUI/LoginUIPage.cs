@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using tpgm.UI;
 using DG.Tweening;
+using System.IO;
+using System.Text;
 using tpgm;
 
 
@@ -74,7 +76,42 @@ public class LoginUIPage : UIPage
 				SavedData.s_instance.m_mode = 3;
 				Application.LoadLevel("Game");
 			});
+		#if false
+		string  path = SavedContext.getExternalPath("data/");
 
+		Debug.Log(TAG +""+path);
+
+		//获取指定路径下面的所有资源文件  
+		if (Directory.Exists (path)) {
+			Debug.Log (TAG + ":" + "有文件");
+			DirectoryInfo direction = new DirectoryInfo (path);
+			FileInfo[] files = direction.GetFiles ("*", SearchOption.AllDirectories);
+
+			Debug.Log (files.Length);
+
+			for (int i = 0; i < files.Length; i++) {
+				if (files [i].Name.EndsWith (".meta")) {
+					continue;
+				}
+				Debug.Log ("Name:" + files [i].Name);
+				//Debug.Log ("FullName:" + files [i].FullName);
+				//Debug.Log ("DirectoryName:" + files [i].DirectoryName);
+			}
+		} else {
+			Debug.Log (TAG + ":" + path + "不存在文件");
+		}
+		path += "val_code.json";
+		string text = File.ReadAllText(path, Encoding.UTF8);
+		//Log.d<ValUpdateLayer>("json: " + text);
+
+		Debug.Log (TAG+":"+text);
+
+
+		#endif
+	
+
+		//List<ValCode> lb = JsonUtility.FromJson<List<ValCode>> (text);
+		//sDebug.Log("ysr");
 	}
 
 
@@ -199,6 +236,7 @@ public class LoginUIPage : UIPage
 							User user = SavedData.s_instance.m_user;
 							user.m_uid = resp.m_uid; 
 							user.m_token = resp.m_token; 
+							Debug.Log (resp.m_token);
 							if (resp.m_isFirst == 1) {
 								UIPage.ShowPage<CreateNameUIPage> ();
 							}

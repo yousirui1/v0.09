@@ -191,9 +191,7 @@ public class MainUIPage : UIPage
 				//排行榜
 				UIRoot.Instance.StopCoroutine(coroutine);
 		});
-
-	
-
+				
 		this.gameObject.transform.Find("btn_copperbox").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				//免费宝箱
@@ -205,8 +203,7 @@ public class MainUIPage : UIPage
 				//星星宝箱
 				UIRoot.Instance.StopCoroutine(coroutine);
 			});
-
-
+				
 		this.gameObject.transform.Find("btn_card/bar/btn_card0").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				//荣耀对决
@@ -305,7 +302,6 @@ public class MainUIPage : UIPage
 
 	private void Active_btn(bool isActive)
 	{
-
 		btn_set.SetActive(isActive);
 		btn_email.SetActive(isActive);
 		btn_activity.SetActive(isActive);
@@ -376,13 +372,10 @@ public class MainUIPage : UIPage
 		//获取玩家信息fa
 		public void reqThirdGetData(bool isRetry)
 		{
-			//Debug.Log ("reqThirdGetData");
 			ReqThirdGetData paramsValObj;
 			string checkID;
-
 			string api = "/getdata";
 
-			//AppUtils.apiCheckID (api);
 			if (isRetry) {
 				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdGetData> ();
 				paramsValObj.m_isRetry = 1;
@@ -405,8 +398,15 @@ public class MainUIPage : UIPage
 				paramsValObj.m_astrology = 0; //SavedData.s_instance.m_astrology.checkNeedReload() ? 1 : 0;
 
 				paramsValObj.m_signIn = 0; // SavedData.s_instance.m_signIn.checkNeedReload() ? 1 : 0;
+
 				paramsValObj.m_Lng = gps.longitude;
 				paramsValObj.m_Lat = gps.latitude;
+
+				if(gps.longitude == 0 || gps.latitude == 0)
+				{
+					paramsValObj.m_Lng = 31.0f;
+					paramsValObj.m_Lat = 120.0f; //默认经纬度太湖
+				}
 			}
 			string url = SavedContext.getApiUrl(api);
 			m_netHttp.postParamsValAsync(url, paramsValObj, REQ_THIRD_GETDATA,checkID);
@@ -440,12 +440,10 @@ public class MainUIPage : UIPage
 				paramsValObj.m_checkID = checkID;
 				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
 				Debug.Log (SavedData.s_instance.m_user.m_uid);
-
 			}
 
 			string url = SavedContext.getApiUrl(api);
 			m_netHttp.postParamsValAsync(url, paramsValObj, REQ_THIRD_GETDATA,checkID);
-
 		}
 
 		//获取好友数据
@@ -532,22 +530,7 @@ public class MainUIPage : UIPage
 					}
 				}
 				break;
-			case REQ_THIRD_FRIEND:
-				{
-					RespThirdFriend resp = Utils.bytesToObject<RespThirdFriend> (respData.m_protobufBytes);
-					Debug.Log (resp.m_friends);
-					/*Debug.Log(rewardBuf.reward.gold);
-
-					ItemAwad awad = new ItemAwad();
-					awad.id = 0;
-					awad.num = 100;
-
-					UIPage.ShowPage<PublicUIAwadPage>(awad);
-					ConectData.Instance.userInfo.boxData = rewardBuf.boxTime +30000;
-					ConectData.Instance.NewTime =rewardBuf.utcMs;*/
-
-				}
-				break;
+			
 			}
 
 
@@ -564,10 +547,7 @@ public class MainUIPage : UIPage
 
 		}
 
-
-			
-
-}
+	}
 }
 
 

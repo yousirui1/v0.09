@@ -148,6 +148,17 @@ public class Map : MonoBehaviour
 		return playerObjs [id];
 	}
 
+
+	public GameObject GetPlayerObj(string uid)
+	{
+		for (int i = 0; i < playerMgrObj.transform.childCount; i++) {
+			if (playerMgrObj.transform.GetChild (i).name == uid) {
+				return playerMgrObj.transform.GetChild (i).gameObject;
+			}
+		}
+		return null;
+	}
+
 	//添加一个玩家
 	public void AddPlayerObj(int i, string name, int x, int y)
 	{

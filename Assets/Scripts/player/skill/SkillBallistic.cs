@@ -118,8 +118,10 @@ public class SkillBallistic  : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
+		
 		if (other.tag == Tags.player && other.name != uid)
 		{
+			//Debug.Log (other.name);
 			//判断是否一个队
 			//if(eventController.IsSameCamp(other.name, uid))
 			{

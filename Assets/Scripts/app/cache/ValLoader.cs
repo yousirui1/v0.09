@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
+using UnityEngine;
 
 /**************************************
 *FileName: ValLoader.cs
@@ -86,11 +87,11 @@ namespace tpgm
             try
             {
 				path = SavedContext.getExternalPath("data/" + valFileName);
-                //string path = SavedContext.getExternalPath("data/val_signIn_15.json");
-                string text = File.ReadAllText(path, Encoding.UTF8);
-                //Log.d<ValUpdateLayer>("json: " + text);
-
+                
+				string text = File.ReadAllText(path, Encoding.UTF8);
+                
                 List<T_Val> list = SimpleJson.SimpleJson.DeserializeObject<List<T_Val>>(text);
+
                 outList = list;
                 m_dict.Add(valFileName, list);
 
@@ -104,16 +105,19 @@ namespace tpgm
             {
                 //直接显示: 游戏数据损坏, 请重新启动游戏;
                 Log.w<ValUtils>(ex.Message);
+				Debug.Log("IOException ysr"+ex.Message);
                 tellOnTableLoadErr();
             }
             catch (SerializationException ex)
             {
                 //直接显示: 游戏数据损坏, 请重新启动游戏;
                 Log.w<ValUtils>(ex.Message);
+				Debug.Log("SerializationException ysr"+ex.Message);
                 tellOnTableLoadErr();
             }
             catch (Exception ex)
             {
+				Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
                 Log.w<ValUtils>(ex.Message + ", " + ex.GetType().FullName);
                 tellOnTableLoadErr();
             }

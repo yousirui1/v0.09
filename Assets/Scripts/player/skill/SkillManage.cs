@@ -268,7 +268,7 @@ public class SkillManage : MonoBehaviour {
 		//除开闪现都需要播放攻击动画
 		if (skill != 500 && skill != 0) {
 			animator.SetBool ("isfire", true);
-			long ms = (long)0.5 * 1000;
+			long ms = (long)1.5 * 1000;
 			HandlerMessage msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage,SKILL_FIRE);
 			msg.m_dataObj =(object) animator;
 			m_initedLooper.postMessageDelay (msg, ms);

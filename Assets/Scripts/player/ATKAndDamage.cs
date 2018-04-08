@@ -36,8 +36,7 @@ public class ATKAndDamage : MonoBehaviour{
 
     //动画控制器    
     private Animator animator;
-    //死亡音效
-    public AudioClip death;
+
 
 	//数值表缓存
 	ValTableCache valCache;
@@ -209,8 +208,6 @@ public class ATKAndDamage : MonoBehaviour{
 					eventController.PlayerDead (queue_assit, user);
 					animator.SetInteger ("state",-1);
 				}
-			
-            
 				//死亡后掉落的资源比例
 				ValNum val = ValUtils.getValByKeyOrThrow (valDict2, 5);
 				//死亡后爆装备

@@ -28,12 +28,9 @@ public class LinkServerUIPage : UIPage
 		controller.onPomeloEvent_Login ();
 	}
 
-
-
-
-
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
 	{
+		
 	}
 
 	protected override void unloadRes(TexCache texCache, ValTableCache valCache)
@@ -54,7 +51,6 @@ public class LinkServerUIPage : UIPage
 				//全局监听服务端数据
 				new GameObject ("GlobalNet").AddComponent<GlobalConect> ();
 				UIPage.ShowPage<MainUIPage> ();
-
 			}
 			break;
 		case MSG_POMELO_LINKERR:
@@ -100,7 +96,6 @@ public class LinkServerUIPage : UIPage
 			Debug.Log ("onPomeloEvent_Login");
 			if (null == SavedContext.s_client)
 			{
-
 				if (null == SavedContext.s_client)
 				{
 					SavedContext.s_client = new PomeloClient();
@@ -117,7 +112,6 @@ public class LinkServerUIPage : UIPage
 							{
 								JsonObject jsMsg = new JsonObject();
 								jsMsg["uid"] = SavedData.s_instance.m_user.m_uid;
-								//Debug.Log(SavedData.s_instance.m_user.m_uid);
 								SavedContext.s_client.request("gate.gateHandler.queryEntry", jsMsg, onPomeloEvent_Request);
 							});
 					});

@@ -84,6 +84,8 @@ public class GameMenu : MonoBehaviour
 	GameObject result_oneObj;  //个人结算界面
 	GameObject result_teamObj; //团队结算界面
 
+	CArrowLockAt cArrowLockAt;
+
 
 	//数值表缓存
 	ValTableCache valCache;
@@ -97,6 +99,7 @@ public class GameMenu : MonoBehaviour
 
 	EventController eventController;
 
+	Map map;
 
 	void Start()
 	{
@@ -105,6 +108,7 @@ public class GameMenu : MonoBehaviour
 		InitUserList();
 		onClickListener ();
 		SendPing();
+		map = eventController.GetMap ();
 	}
 
 	void Init()
@@ -164,10 +168,12 @@ public class GameMenu : MonoBehaviour
 		result_teamObj = resultUIObj.transform.Find ("panel_team").gameObject;
 		resultUIObj.SetActive (false);
 
-
+		cArrowLockAt = gameUIObj.transform.Find ("bg_arrow").GetComponent<CArrowLockAt> ();
 
 		height = Screen.height;
 		width = Screen.width;
+
+
 
 		SetSkillData (0,0,0);
 		SetSystemInfoData ();
@@ -180,6 +186,31 @@ public class GameMenu : MonoBehaviour
 		valCache.unmarkPageUse(m_gameID, ConstsVal.val_magic);
 	}
 
+	public void SetArrowSelf(Transform selfTr)
+	{
+		cArrowLockAt.SetSelf (selfTr);
+	}
+
+	bool isArrowGroup = false;
+	public void SetArrowGroup(Transform groupTr)
+	{
+		if(!isArrowGroup)
+		{
+			cArrowLockAt.SetGroup1 (groupTr);
+			isArrowGroup = true;
+		}
+		else
+		{
+			cArrowLockAt.SetGroup2 (groupTr);
+		}
+	}
+		
+
+	public void SetArrowBast(Transform bastTr)
+	{
+		cArrowLockAt.SetBast (bastTr);
+	}
+		
 	//击杀提示
 	public  void SetBroadcastData(RespThirdPlayData data)
 	{
@@ -799,8 +830,16 @@ public class GameMenu : MonoBehaviour
 		for(int i = 0; i<SavedData.s_instance.m_userrank.Count; i++) {
 			SortItem (SavedData.s_instance.m_userrank [i], i);
 		}
+
+		if(bast_player != SavedData.s_instance.m_userrank [0].m_uid)
+		{
+			bast_player = SavedData.s_instance.m_userrank [0].m_uid;
+			SetArrowBast (map.GetPlayerObj (bast_player).transform);
+		}
+		//SetArrowBast (map.GetPlayerObj (SavedData.s_instance.m_userrank [0].m_uid).transform);
 	}
 
+	string bast_player = "";
 	private void SortItem(UserRank data,int id)
 	{
 		GameObject obj = RankObj.transform.Find ("item_"+id).gameObject;
