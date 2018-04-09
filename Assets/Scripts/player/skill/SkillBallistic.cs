@@ -123,11 +123,16 @@ public class SkillBallistic  : MonoBehaviour {
 		{
 			//Debug.Log (other.name);
 			//判断是否一个队
-			//if(eventController.IsSameCamp(other.name, uid))
+			if(eventController.IsSameCamp(other.name, uid))
 			{
 				other.GetComponent<ATKAndDamage> ().TakeDamage (GetAtt(),uid,eventController);
 				Destroy (this.gameObject);
 			}
+		}
+
+		if(other.gameObject.layer == Layers.barrier)
+		{
+			Destroy (this.gameObject);
 		}
 	}
 

@@ -10,6 +10,9 @@ public class CArrowLockAt : MonoBehaviour {
 	float showWidth;
 	float showHeight;
 
+	float Width;
+	float Height;
+
 	Transform self;
 
 	Transform group1Tr;
@@ -30,9 +33,8 @@ public class CArrowLockAt : MonoBehaviour {
 
 	void Start()
 	{
-
-		Debug.Log (Screen.width);
-		Debug.Log (Screen.height);
+		Width = 1280f;
+		Height = 720f;
 	}
 
 	//设置自身
@@ -96,10 +98,11 @@ public class CArrowLockAt : MonoBehaviour {
 		float direction;
 		Vector3 u;
 
-		showWidth = Screen.width / 2 - devValue;
-		showHeight = Screen.height / 2 - devValue;
+	
+		showWidth = Width/ 2 - devValue ;
+		showHeight = Height / 2 - devValue ;
 
-
+	
 
 		//计算向量和角度
 		Vector3 forVec = self.forward;
@@ -130,9 +133,13 @@ public class CArrowLockAt : MonoBehaviour {
 
 		//计算当前物体在屏幕上的位置
 		//Vector2 screenPos = camera.WorldToScreenPoint(target.position);
-		Vector2 screenPos = new Vector2(self.transform.position.x, self.transform.position.y);
 
-		if(screenPos.x < devValue || screenPos.x > Screen.width - devValue || screenPos.y < devValue || screenPos.y > Screen.height - devValue || Vector3.Dot(forVec, angVec) < 0)
+
+		Vector2 screenPos = new Vector2 (self.transform.position.x, self.transform.position.y) ;
+
+
+
+		if(screenPos.x < devValue || screenPos.x > Width - devValue || screenPos.y < devValue || screenPos.y > Height - devValue || Vector3.Dot(forVec, angVec) < 0)
 		{
 			Vector3 result = Vector3.zero;
 			if(direction == 0)
@@ -191,14 +198,21 @@ public class CArrowLockAt : MonoBehaviour {
 		}	
 	}
 
+
+
+
+
+
+
+
 	void bg_bastAt(Transform self, Transform target)
 	{
 
 		float direction;
 		Vector3 u;
 
-		showWidth = Screen.width / 2 - devValue;
-		showHeight = Screen.height / 2 - devValue;
+		showWidth = Width / 2 - devValue;
+		showHeight = Height / 2 - devValue;
 
 		//计算向量和角度
 		Vector3 forVec = self.forward;

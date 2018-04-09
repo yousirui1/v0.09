@@ -642,8 +642,8 @@ public class EventController : MonoBehaviour {
 			if (uid == SavedData.s_instance.m_userlist [i])
 				count = i;
 		}
-		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().state = 3;
-		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().buffer_time = 2.0f;
+		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().isInvincible = true;
+		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().invincible_buffer_time = 2.0f;
 
 		players [count].hp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp_Max;
 

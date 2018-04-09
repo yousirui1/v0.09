@@ -7,11 +7,12 @@ using tpgm;
 
 public class RegisterUIPage : UIPage
 {
-	private const string TAG = "ChatUIPage";
+	private const string TAG = "RegisterUIPage";
 	Controller m_controller;
 
-
-
+	private string m_uid = "";
+	private string m_passwd = "";
+	private string m_passwd2 = "";
 
     public RegisterUIPage() : base(UIType.PopUp, UIMode.DoNothing, UICollider.WithBg)
     {
@@ -25,21 +26,27 @@ public class RegisterUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		toast.InitToast (this.gameObject);
+		//toast.InitToast (this.gameObject);
 
         this.gameObject.transform.Find("content/btn_register").GetComponent<Button>().onClick.AddListener(() =>
         {
-         
+				m_uid = this.transform.Find("content/input_uid").GetComponent<InputField>().text;
+				m_passwd = this.transform.Find ("content/input_passwd").GetComponent<InputField> ().text;
+				m_passwd2 = this.transform.Find ("content/input_passwd2").GetComponent<InputField> ().text;
 				m_controller.reqThirdRegister(false);
-				
         });
 
+		this.gameObject.transform.Find("content/btn_back").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				UIPage.ShowPage<LoginUIPage>();
+			Hide();
+		});
+
 		this.gameObject.transform.Find("content/btn_close").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				Hide();
-
-
-			});
+		{
+			Hide();
+				UIPage.ShowPage<StartUIPage>();
+		});
 		
     }
 
@@ -110,23 +117,24 @@ public class RegisterUIPage : UIPage
 				paramsValObj.m_isRetry = 0;   
 				paramsValObj.m_type = 1;   	//1：注册，2：绑定mac地址
 				paramsValObj.m_mac = InfoUtil.GetMac ();
-				paramsValObj.m_account = GameObject.Find ("content/input_user").GetComponent<InputField> ().text;
-				paramsValObj.m_password = GameObject.Find ("content/input_passwd1").GetComponent<InputField> ().text;
+				paramsValObj.m_account = m_page.m_uid;
+				paramsValObj.m_password = m_page.m_passwd;
 
-				string password2 = GameObject.Find ("content/input_passwd2").GetComponent<InputField> ().text;
+				string password2 = m_page.m_passwd2;
 
 				if (paramsValObj.m_password != password2) {
-					m_page.toast.showToast ("2次输入的密码不一致");
+					
 				
 				} 
-				else if (password2.Length <6 || password2.Length > 12 ) {
-					m_page.toast.showToast ("密码长度不合法");
+				else if (password2.Length < 6 || password2.Length > 12 ) {
+					
 				}else {
 					//md5加密
 					paramsValObj.m_password = Md5Util.GetMd5FromStr (paramsValObj.m_password);
+
 					//保存数据
-					PlayerPrefs.SetString ("account", paramsValObj.m_account);
-					PlayerPrefs.SetString ("password", paramsValObj.m_password);
+					PrefValSet.saveUid (paramsValObj.m_account);
+					PrefValSet.savePasswd (paramsValObj.m_password);
 				}
 			}
 			string url = SavedContext.getApiUrl(api);
@@ -134,9 +142,6 @@ public class RegisterUIPage : UIPage
 			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_REGISTER, checkID);
 					
 		}
-
-
-
 
 
 
@@ -160,7 +165,8 @@ public class RegisterUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							m_page.toast.showToast (val.text);
+							Debug.Log (val.text);
+							//m_page.toast.showToast (val.text);
 						}
 						break;
 					}

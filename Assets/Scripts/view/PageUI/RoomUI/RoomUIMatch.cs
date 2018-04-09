@@ -43,6 +43,7 @@ public class RoomUIMatch : UIPage
 		tiemObj = this.transform.Find("content/tx_time").gameObject;
 		this.gameObject.transform.Find("content/btn_close").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				Hide();
 				UIRoot.Instance.StopCoroutine(coroutine);
 

@@ -55,7 +55,7 @@ namespace tpgm
 		private const int MSG_NET_ERR = 3;
 
 		const string ENCRYPT_KEY = "0123456789abcd0123456789";
-		const bool ENCRTYP_ENABLE = false;
+		const bool ENCRTYP_ENABLE = true;
 
 		private INetCallback m_callbackOrNull;
 

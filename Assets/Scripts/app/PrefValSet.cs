@@ -15,45 +15,67 @@ namespace tpgm
 	{
 		private const string PREF_NAME = "pref_val_";
 
-		private const string KEY_LAST_MODIFIED = "last_modified";
+		private const string KEY_UID = "uid";
 
-		private const string KEY_ETAG = "etag";
+		private const string KEY_PASSWD = "passwd";
+
+		private const string KEY_BTN_HID = "btn_hid";
 
 	
 
 
-		public static void saveButtonHid(string ifModifiedSince, string etag)
+		public static void saveUid(string uid)
 		{
-			PlayerPrefs.SetString(PREF_NAME + KEY_LAST_MODIFIED, ifModifiedSince);
-			PlayerPrefs.SetString(PREF_NAME + KEY_ETAG, etag);
+			PlayerPrefs.SetString(PREF_NAME + KEY_UID, uid);
 			PlayerPrefs.Save();
 		}
 
 
-		public static string getButtonHid()
+		public static void savePasswd(string passwd)
 		{
-			string ret = PlayerPrefs.GetString(PREF_NAME + KEY_ETAG, "");
+			PlayerPrefs.SetString(PREF_NAME + KEY_PASSWD, passwd);
+			PlayerPrefs.Save();
+		}
+
+
+
+		public static void saveButtonHid(int iActive)
+		{
+			PlayerPrefs.SetInt(PREF_NAME + KEY_BTN_HID, iActive);
+			PlayerPrefs.Save();
+		}
+
+
+		public static bool isLogin()
+		{
+			if (getUid ().Equals (string.Empty))
+				return false;
+			else
+				return true;
+		}
+
+		public static string getUid()
+		{
+			string ret = PlayerPrefs.GetString(PREF_NAME + KEY_UID, "");
+			return ret;
+		}
+
+		public static string getPasswd()
+		{
+			string ret = PlayerPrefs.GetString(PREF_NAME + KEY_PASSWD, "");
 			return ret;
 		}
 
 	
 
-		#if false
-		//语音设置
-		public static string getButtonHid()
+		public static int getButtonHid()
 		{
-			string ret = PlayerPrefs.GetString(PREF_NAME + KEY_ETAG, "");
+			int ret = PlayerPrefs.GetInt(PREF_NAME + KEY_BTN_HID);
 			return ret;
 		}
 
-
-		public static void saveButtonHid(string ifModifiedSince, string etag)
-		{
-			PlayerPrefs.SetString(PREF_NAME + KEY_LAST_MODIFIED, ifModifiedSince);
-			PlayerPrefs.SetString(PREF_NAME + KEY_ETAG, etag);
-			PlayerPrefs.Save();
-		}
-		#endif
+	
+	
 			
 
 		public static void clear()

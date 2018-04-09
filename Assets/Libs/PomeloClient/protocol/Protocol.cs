@@ -15,6 +15,9 @@ namespace Pomelo.DotNetClient
         private HeartBeatService heartBeatService = null;
         private PomeloClient m_initedPc;
 
+		const string ENCRYPT_KEY = "0123456789abcd0123456789";
+		const bool ENCRTYP_ENABLE = true;
+
         public PomeloClient getPomeloClient()
         {
             return this.m_initedPc;
@@ -77,7 +80,10 @@ namespace Pomelo.DotNetClient
             if (this.state == ProtocolState.closed) return;
 			Log.d<Transporter>("e buffer1: " + BitConverter.ToString(body));
 			if (null != body && body.Length > 0) {
-				//body = CryptUtils.Encrypt3DesBytes("0123456789abcd0123456789", body);
+				if(ENCRTYP_ENABLE)
+				{
+					body = CryptUtils.Encrypt3DesBytes(ENCRYPT_KEY, body);
+				}
 				Log.d<Transporter>("e buffer2: " + BitConverter.ToString(body));
 			}
 
@@ -93,7 +99,10 @@ namespace Pomelo.DotNetClient
 
 			Log.d<Transporter>("d buffer1: " + BitConverter.ToString(pkg.body));
 			if (null != pkg.body && pkg.body.Length > 0) {
-				//pkg.body = CryptUtils.Decrypt3DesBytes("0123456789abcd0123456789", pkg.body);
+				if(ENCRTYP_ENABLE)
+				{
+					pkg.body = CryptUtils.Decrypt3DesBytes(ENCRYPT_KEY , pkg.body);
+				}
 				Log.d<Transporter>("d buffer2: " + BitConverter.ToString(pkg.body));
 			}
 			Log.d<Protocol>("pkgType: "+pkg.type);

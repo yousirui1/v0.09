@@ -227,9 +227,8 @@ public class SkillManage : MonoBehaviour {
 						newbullet.transform.parent = portTra;
 						newbullet.transform.localPosition = portTra.localPosition;
 						newbullet.transform.localScale = 100 * Vector3.one;
-						//newbullet.AddComponent<SkillBuffer>().init(0, 3.0f, type,uid, eventController);
-						Destroy (newbullet, 3.0f);
 						playerObj.GetComponent<ATKAndDamage> ().TakeBuffer (3, 3.0f);
+						Destroy (newbullet, 3.0f);
 					}
 					break;
 				}

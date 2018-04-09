@@ -72,11 +72,13 @@ public class SkillBuffer : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D collider)
 	{
-		Debug.Log ("Buffer"+collider.name);
-		//单人buffer 执行一次
-		if (collider.name == uid && skillCount == 0) {
-			collider.GetComponent<ATKAndDamage> ().TakeBuffer (2, durationTime);
-			skillCount++;
+		if(collider.tag == Tags.player)
+		{
+			//单人buffer 执行一次
+			if (collider.name == uid && skillCount == 0) {
+				collider.GetComponent<ATKAndDamage> ().TakeBuffer (2, durationTime);
+				skillCount++;
+			}
 		}
 	}
 

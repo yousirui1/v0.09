@@ -20,7 +20,7 @@ public class ATKAndDamage : MonoBehaviour{
 	//上线值
 	public float hp_Max  = 100;
 	public float sp_Max = 100;
-	public float speed_Max = 10;
+	public float speed_Max = 50;
 
     public float exp = 1;
 	public float exp_Max = 100;
@@ -30,6 +30,12 @@ public class ATKAndDamage : MonoBehaviour{
     public float score = 0;
 
 	public int at_sp = 0;   //每秒钟回复的体力
+	public int at_hp = 0;   //每秒钟回复的血量
+
+
+	private int save_at_sp = 0;   //保存buff前每秒钟回复的体力
+	private int save_at_hp = 0;   //保存buff前每秒钟回复的血量
+	private float save_speed = 0; //保存buff前速度
 
 	//方向
 	public int d = 0;
@@ -51,9 +57,20 @@ public class ATKAndDamage : MonoBehaviour{
 
 	private int assit_time = 0;
 
-	public int state = 0;  //buffer状态
-	public float buffer_time = 0;
+	public bool isSpeed = false;  //加速buffer
+	public float speed_buffer_time = 3; //加速buffer时间
 
+	public bool isInvincible = false;  //无敌buffer
+	public float invincible_buffer_time = 3; //加速buffer时间
+
+	public bool isNoMove = false;  //无法移动buffer
+	public float nomove_buffer_time = 3; //加速buffer时间
+
+	public bool isReHp = false;  //回血buffer
+	public float reHp_buffer_time = 3; //加速buffer时间
+
+	public bool isReSp = false;  //回蓝buffer
+	public float reSp_buffer_time = 3; //加速buffer时间
 
     //申请为受保护的方便子类调用
     protected void Awake()
@@ -68,7 +85,7 @@ public class ATKAndDamage : MonoBehaviour{
 
 		valDict2 = valCache.getValDictInPageScopeOrThrow<ValNum>(m_gameID, ConstsVal.val_num);
 		ValNum valspeed = ValUtils.getValByKeyOrThrow (valDict2, 28);
-		this.speed_Max = 50;//valspeed.num; //设置速度上限
+		this.speed_Max = valspeed.num; //设置速度上限
 
 		//每秒钟回复体力
 		ValNum valat_sp = ValUtils.getValByKeyOrThrow (valDict2, 3);
@@ -80,29 +97,87 @@ public class ATKAndDamage : MonoBehaviour{
 	//没秒钟回复体力
 	void AtTime()
 	{
-		if(this.sp + at_sp > sp_Max)
-		{
-			this.sp = sp_Max;
-		}
-		else
-		{
-			this.sp += at_sp;
-		}
-		if (state != 0) {
-			buffer_time--;
+		//持续回复
+		if (at_sp > 0) {
+			if (this.sp + at_sp > sp_Max) {
+				this.sp = sp_Max;
+			} else {
+				this.sp += at_sp;
+			}
+		} else {
+			if (this.sp + at_sp < 0) {
+				this.sp = 0;
+			}
+			else {
+				this.sp += at_sp;
+			}
 		}
 
-		if (buffer_time <= 0) {
-			state = 0;
+		if (at_hp > 0) {
+			if (this.hp + at_hp > hp_Max) {
+				this.hp = hp_Max;
+			}
+		} else {
+			if (this.hp + at_hp < 0) {
+				this.hp = 0;
+				Death ();
+			}
+		}
+
+
+	
+		//计算buffer时间
+		//加速状态
+		if (isSpeed) {
+			speed_buffer_time--;
+		}
+		if (speed_buffer_time <= 0) {
+			isSpeed = false;
+			ReState ();
+		}
+		//无敌状态
+		if (isInvincible) {
+			invincible_buffer_time--;
+		}
+		if (invincible_buffer_time <= 0) {
+			isInvincible = false;
+		}
+
+		//不能移动状态
+		if (isNoMove) {
+			nomove_buffer_time--;
+		}
+		if (nomove_buffer_time <= 0) {
+			isNoMove = false;
+		}
+
+		//回血状态 (不是默认回血速度)
+		if (isReHp) {
+			reHp_buffer_time--;
+		}
+		if (reHp_buffer_time <= 0) {
+			isReHp = false;
+			ReState ();
+		}
+
+		//回蓝状态 (不是默认回蓝速度)
+		if (isReSp) {
+			reSp_buffer_time--;
+		} 
+		if (reSp_buffer_time <= 0) {
+			isReSp = false;
+			ReState ();
 		}
 
 		//助攻数据
 		assit_time++;
 		if (assit_time == 6) {
-			if(queue_assit.Count >0)
+			if(queue_assit.Count > 0)
 			queue_assit.Dequeue();	//出队列
 			assit_time = 0;
 		}
+
+
 
 		Invoke ("AtTime", 1.0f);
 	}
@@ -111,6 +186,23 @@ public class ATKAndDamage : MonoBehaviour{
 	{
 		
 
+	}
+
+
+	//保存当前状态
+	private void SaveState()
+	{
+		this.save_at_hp = this.at_hp;
+		this.save_at_hp = this.at_sp;
+		this.save_speed = this.speed;
+	}
+
+	//状态结束回到保存的状态
+	private void ReState()
+	{
+		this.at_hp = this.save_at_hp;
+		this.at_sp = this.save_at_hp;
+		this.speed = this.save_speed;
 	}
 
 
@@ -144,22 +236,33 @@ public class ATKAndDamage : MonoBehaviour{
      
 			if(this.sp + sp > sp_Max)
 			{
+
 				this.sp = sp_Max;
 			}
 			else
 			{
 				this.sp += sp;
 			}
+
+			if (speed != 0) {
 				
-			if(this.speed + speed > speed_Max)
-			{
-				this.speed = speed_Max;
-				//Invoke ();
+				TakeBuffer (4,3.0f);
+				if (speed > 0) {
+					if (this.speed + speed > speed_Max) {
+						this.speed = speed_Max;
+					} else {
+						this.speed += speed;
+					}
+				} else {
+					if (this.speed + speed < 0) {
+						this.speed = 10;
+					}
+					else {
+						this.speed += speed;
+					}
+				}
 			}
-			else
-			{
-				this.speed += speed;
-			}
+
 			//升级
 			if (this.exp + exp > exp_Max) {
 				level++;
@@ -176,7 +279,7 @@ public class ATKAndDamage : MonoBehaviour{
 	public virtual void TakeDamage(float hp,string user, EventController eventController)
     {
 		//不是在土遁术状态
-		if (this.state != 3) {
+		if (this.isInvincible) {
 			//造成伤害前判断人物是否死亡
 			if (this.hp > 0) {
 				if (this.hp + hp > hp_Max) {
@@ -206,19 +309,23 @@ public class ATKAndDamage : MonoBehaviour{
 			else {
 				if (this.name == SavedData.s_instance.m_user.m_uid) {
 					eventController.PlayerDead (queue_assit, user);
-					animator.SetInteger ("state",-1);
 				}
-				//死亡后掉落的资源比例
-				ValNum val = ValUtils.getValByKeyOrThrow (valDict2, 5);
-				//死亡后爆装备
-				SpawnAwardItem (val.num);
-
-				Invoke ("OnDeathEnd", 1.5f);
-				//Remove移除角色
-
+				Death ();
 			}
 		}
     }
+
+	public virtual void Death()
+	{
+		animator.SetInteger ("state",-1);
+		//死亡后掉落的资源比例
+		ValNum val = ValUtils.getValByKeyOrThrow (valDict2, 5);
+		//死亡后爆装备
+		SpawnAwardItem (val.num);
+
+		Invoke ("OnDeathEnd", 1.5f);
+		//Remove移除角色
+	}
 
 
 	//
@@ -228,6 +335,9 @@ public class ATKAndDamage : MonoBehaviour{
 		case 1:
 			{
 				//雪人
+				this.isNoMove = true;
+				this.nomove_buffer_time = time;
+
 				GameObject stateObj = ResourceMgr.Instance().CreateGameObject("prefabs/heros/state/state_snowman",true);
 				stateObj.transform.parent = this.transform;
 				stateObj.transform.localPosition = this.transform.localPosition;
@@ -241,43 +351,53 @@ public class ATKAndDamage : MonoBehaviour{
 		case 2:
 			{
 				//眩晕
-				this.state = 2;
-				this.buffer_time = time;
+				this.isNoMove = true;
+				this.nomove_buffer_time = time;
 			}
 			break;
 
 		case 3:
 			{
-				Debug.Log ("土遁术");
-				//土遁术
-				this.state = 3;
-				this.buffer_time = time;
+				//无敌 (土遁术)
+				this.isInvincible = true;
+				this.invincible_buffer_time = time;
 			}
 			break;
 
 		case 4:
 			{
-				Debug.Log ("禁止移动");
+				//速度 (改变速度)
+				this.isSpeed = true;
+				this.speed_buffer_time = time;
+				//保存buff前状态
 				SaveState ();
-	
 			}
 			break;
+
+		case 5:
+			{
+				//回血 (改变回血、负值持续扣血)
+				this.isReHp = true;
+				this.reSp_buffer_time = time;
+				//保存buff前状态
+				SaveState ();
+			}
+			break;
+
+		case 6:
+			{
+				//回蓝 (改变回血、负值持续扣蓝)
+				this.isReSp = true;
+				this.reSp_buffer_time = time;
+
+				//保存buff前状态
+				SaveState ();
+			}
+			break;
+	
 		}
 	}
 
-	//保存当前状态
-	private void SaveState()
-	{
-
-
-	}
-
-	//状态结束回到保存的状态
-	private void ReState()
-	{
-
-
-	}
 
 
 	public bool useFlash(int sp)

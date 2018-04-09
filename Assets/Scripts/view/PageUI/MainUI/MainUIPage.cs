@@ -55,12 +55,10 @@ public class MainUIPage : UIPage
 		}
 	}
 
+	//侧边按钮
 	private bool isActive;
-	private GameObject btn_set = null;
-	private GameObject btn_email = null;
-	private GameObject btn_activity = null;
-	private GameObject btn_check =  null;
-	private GameObject btn_rank = null;
+	private GameObject btn_sidebar = null;
+
 
 	//小红点
 	private GameObject himt_friends = null;
@@ -73,14 +71,13 @@ public class MainUIPage : UIPage
     {
 		m_controller = new Controller(this);
 
-		//初始化
-		Init();
-		toast.InitToast (this.gameObject);
+	
+		//toast.InitToast (this.gameObject);
 
 		this.gameObject.transform.Find("bg_username/btn_head").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				// 个人信息
-				//UIPage.ShowPage<InfoUIPage>();
+				SoundPlay.btnClick();
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUINotice>("未完成");
 			});
@@ -88,6 +85,7 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_bigpack").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				UIRoot.Instance.StopCoroutine(coroutine);
 				// 大礼包
 				UIPage.ShowPage<PublicUINotice>("大礼包未完成，敬请期待");
@@ -95,6 +93,7 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_firstpay").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				UIRoot.Instance.StopCoroutine(coroutine);
 				// 首充
 				UIPage.ShowPage<PublicUINotice>("首充包未完成，敬请期待");
@@ -103,6 +102,7 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_enchanter").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 法师界面
 				UIRoot.Instance.StopCoroutine(coroutine);
 
@@ -112,6 +112,7 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_task").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 任务
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUITaskPage>();
@@ -120,6 +121,7 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_achievement").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 成就
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<AchievementUIPage>();
@@ -127,6 +129,7 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_astrology").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 占星
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<AstrologyUIPage>();
@@ -135,6 +138,7 @@ public class MainUIPage : UIPage
 		
 		this.gameObject.transform.Find("btn_friends").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 好友
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<ChatUIPage>();
@@ -143,6 +147,7 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_store").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 商城
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<StoreUIPage>();
@@ -152,60 +157,79 @@ public class MainUIPage : UIPage
 		this.gameObject.transform.Find("btn_hid").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				isActive = !isActive;
-				Active_btn(isActive);
+
+				if(isActive)
+				{
+					SoundPlay.btnActive();
+				}
+				else
+				{
+					SoundPlay.btnHide();
+				}
+
+				btn_sidebar.SetActive (isActive);
+
 				int iActive = isActive == false ? 0 : 1;
-				PlayerPrefs.SetInt("hid", iActive);
+				PrefValSet.saveButtonHid(iActive);
 			});
 		
-		this.gameObject.transform.Find("btn_set").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/btn_set").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 设置界面
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUISetPage>();
 			});
 
-		this.gameObject.transform.Find("btn_email").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/btn_email").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 邮件
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUIEmailPage>();
 			});
 
-		this.gameObject.transform.Find("btn_activity").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/btn_activity").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 今日活动
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUIActivityPage>();
 			});
 
-		this.gameObject.transform.Find("btn_check").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/btn_check").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				// 签到
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<PublicUISignInPage>();
 			});
 				
 		
-		this.gameObject.transform.Find("btn_rank").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/btn_rank").GetComponent<Button>().onClick.AddListener(() =>
 		{
+				SoundPlay.btnClick();
 				//排行榜
 				UIRoot.Instance.StopCoroutine(coroutine);
 		});
 				
 		this.gameObject.transform.Find("btn_copperbox").GetComponent<Button>().onClick.AddListener(() =>
 		{
+				SoundPlay.btnClick();
 				//免费宝箱
 				UIRoot.Instance.StopCoroutine(coroutine);
 		});
 
 		this.gameObject.transform.Find("btn_goldbox").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				//星星宝箱
 				UIRoot.Instance.StopCoroutine(coroutine);
 			});
 				
 		this.gameObject.transform.Find("btn_card/bar/btn_card0").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				//荣耀对决
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
@@ -213,24 +237,28 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_card/bar/btn_card1").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				//荣耀对决
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
 		this.gameObject.transform.Find("btn_card/bar/btn_card2").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				//荣耀对决
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
 		this.gameObject.transform.Find("btn_card/bar/btn_card3").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				//荣耀对决
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 			});
 		this.gameObject.transform.Find("btn_card/bar/btn_card4").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				//荣耀对决
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
@@ -239,11 +267,14 @@ public class MainUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_modequick").GetComponent<Button>().onClick.AddListener(() =>
 		{
+				SoundPlay.btnClick();
 				//荣耀对决
 				UIRoot.Instance.StopCoroutine(coroutine);
 				UIPage.ShowPage<RoomUIPrepare>();
 		});
-
+		
+		//初始化
+		Init();
     }
 
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
@@ -277,38 +308,24 @@ public class MainUIPage : UIPage
 
 	private void Init()
 	{
-		#if false
-		//初始化GameObject
-		btn_set = GameObject.Find("btn_set") as GameObject;
-		btn_email = GameObject.Find("btn_email") as GameObject;
-		btn_activity = GameObject.Find("btn_activity") as GameObject;
-		btn_check = GameObject.Find("btn_check") as GameObject;
-		btn_rank = GameObject.Find("btn_rank") as GameObject;
+		//侧边按钮
+		btn_sidebar = this.gameObject.transform.Find ("btn_sidebar").gameObject;
+		 
+		//小红点
+		himt_friends = this.gameObject.transform.Find ("btn_friends/img_hint").gameObject;
+		himt_store = this.gameObject.transform.Find ("btn_store/img_hint").gameObject;
+		himt_hid = this.gameObject.transform.Find ("btn_hid/img_hint").gameObject;
 
-		//himt_friends = GameObject.Find("btn_friends/img_hint") as GameObject;
-		himt_store = GameObject.Find("btn_store/img_hint") as GameObject;
-		himt_hid = GameObject.Find("btn_hid/img_hint") as GameObject;
-
-		//himt_friends.SetActive (false);
+		himt_friends.SetActive (false);
 		himt_store.SetActive (false);
 		himt_hid.SetActive (false);
 	
-		int iActive = PlayerPrefs.GetInt("hid");
-		//Debug.Log (iActive);
+		int iActive = PrefValSet.getButtonHid ();
+
 		isActive = iActive == 0 ? false : true;
-		Active_btn(isActive);
-		#endif
+		btn_sidebar.SetActive (isActive);
 	}
-
-	private void Active_btn(bool isActive)
-	{
-		btn_set.SetActive(isActive);
-		btn_email.SetActive(isActive);
-		btn_activity.SetActive(isActive);
-		btn_check.SetActive(isActive);
-		btn_rank.SetActive(isActive);
-	}
-
+		
 	public const int MSG_HIMT_FRIENDS = 1;
 	public const int MSG_HIMT_STORE = 2;
 	public const int MSG_HIMT_HID = 3;
@@ -412,6 +429,9 @@ public class MainUIPage : UIPage
 			m_netHttp.postParamsValAsync(url, paramsValObj, REQ_THIRD_GETDATA,checkID);
 
 		}
+
+
+
 
 		//获取用户数据
 		private const int REQ_THIRD_BOXREWARD = 4;
@@ -530,8 +550,11 @@ public class MainUIPage : UIPage
 					}
 				}
 				break;
+
 			
 			}
+
+			 
 
 
 		}

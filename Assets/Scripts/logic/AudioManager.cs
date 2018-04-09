@@ -142,7 +142,7 @@ namespace tpgm
             SavedContext.s_audio2D.pauseMusic();
         }
 
-        //摘要
+        //恢复播放
         public static void resume()
         {
             SavedContext.s_audio2D.resumeMusic();
@@ -151,14 +151,28 @@ namespace tpgm
         //#登录音乐;
         public static void login()
         {
-            SavedContext.s_audio2D.playMusic("game_res/Audio/");
+			SavedContext.s_audio2D.playMusic("audio/yy_main_zhuJieMian");
         }
        
-        //游戏音乐	
-        public static void game()
+        //游戏音乐1	
+		public static void game_mode0()
         {
-            SavedContext.s_audio2D.playMusic("game_res/Audio/");
+			SavedContext.s_audio2D.playMusic("audio/game/yy_fight_zhanDou1");
         }
+
+		//游戏音乐2	
+		public static void game_mode1()
+		{
+			SavedContext.s_audio2D.playMusic("audio/game/yy_fight_zhanDou2");
+		}
+
+		//游戏音乐3	
+		public static void game_mode2()
+		{
+			SavedContext.s_audio2D.playMusic("audio/game/yy_fight_zhanDou3");
+		}
+
+
 
         private MusicPlay()
         {
@@ -171,8 +185,28 @@ namespace tpgm
         // 点击按钮
         public static void btnClick()
         {
-            SavedContext.s_audio2D.playSoundGlobal("game_res/Audio/");
+			SavedContext.s_audio2D.playSoundGlobal("audio/yx_share_dianJiAnNiu");
         }
+
+		// 卡牌旋转按钮
+		public static void cardClick()
+		{
+			SavedContext.s_audio2D.playSoundGlobal("audio/yx_main_kaiPai");
+		}
+
+		// 侧边按钮隐藏
+		public static void btnHide()
+		{
+			SavedContext.s_audio2D.playSoundGlobal("audio/yx_main_shouQi");
+		}
+
+
+		// 侧边按钮激活
+		public static void btnActive()
+		{
+			SavedContext.s_audio2D.playSoundGlobal("audio/yx_main_zhanKai");
+		}
+			
 
         // 界面弹开
         public static void layerShow()

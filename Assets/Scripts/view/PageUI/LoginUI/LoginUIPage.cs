@@ -15,8 +15,7 @@ public class LoginUIPage : UIPage
 
 	//http控制
 	Controller m_controller;
-	//登录方式 1 mac 2账号
-	private int m_login_type = 0;
+
 
 	private string m_uid = "";
 	private string m_passwd = "";
@@ -25,7 +24,9 @@ public class LoginUIPage : UIPage
 
 	GameObject toastObj;
 
-	public LoginUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
+	private int state = 0;
+
+	public LoginUIPage() : base(UIType.PopUp, UIMode.DoNothing, UICollider.WithBg)
 	{
 		//布局预制体
 		uiPath = "Prefabs/UI/LoginUI/LoginUIPage";
@@ -34,88 +35,35 @@ public class LoginUIPage : UIPage
 
 	public override void Awake(GameObject go)
 	{
-		
 		//定时器
 		coroutine = UIRoot.Instance.StartCoroutine(Timer());
-		toast.InitToast (this.gameObject);
 
 		m_controller = new Controller(this);
-
-		this.gameObject.transform.Find("btn_register").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				//UIRoot.Instance.StopCoroutine(coroutine);
-				// 注册
-				UIPage.ShowPage<RegisterUIPage>();
-			});
-
-		this.gameObject.transform.Find("btn_login").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				m_uid = this.transform.Find("input_user").GetComponent<InputField>().text;
-				m_passwd = this.transform.Find ("input_passwd").GetComponent<InputField> ().text;
-				m_login_type = 2;
-				m_controller.reqThirdLogin (false);
-			});
-
-		this.gameObject.transform.Find("btn_maclogin").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				m_login_type = 1;
-				m_controller.reqThirdLogin (false);
-
-			});
-
-		//创建局域网服务器
-		this.gameObject.transform.Find("btn_wlanserver").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				SavedData.s_instance.m_mode = 2;
-				Application.LoadLevel("Game");
-			});
-
-		//局域网客户端
-		this.gameObject.transform.Find("btn_wlanclient").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				SavedData.s_instance.m_mode = 3;
-				Application.LoadLevel("Game");
-			});
-		#if false
-		string  path = SavedContext.getExternalPath("data/");
-
-		Debug.Log(TAG +""+path);
-
-		//获取指定路径下面的所有资源文件  
-		if (Directory.Exists (path)) {
-			Debug.Log (TAG + ":" + "有文件");
-			DirectoryInfo direction = new DirectoryInfo (path);
-			FileInfo[] files = direction.GetFiles ("*", SearchOption.AllDirectories);
-
-			Debug.Log (files.Length);
-
-			for (int i = 0; i < files.Length; i++) {
-				if (files [i].Name.EndsWith (".meta")) {
-					continue;
-				}
-				Debug.Log ("Name:" + files [i].Name);
-				//Debug.Log ("FullName:" + files [i].FullName);
-				//Debug.Log ("DirectoryName:" + files [i].DirectoryName);
-			}
-		} else {
-			Debug.Log (TAG + ":" + path + "不存在文件");
-		}
-		path += "val_code.json";
-		string text = File.ReadAllText(path, Encoding.UTF8);
-		//Log.d<ValUpdateLayer>("json: " + text);
-
-		Debug.Log (TAG+":"+text);
-
-
-		#endif
 	
 
-		//List<ValCode> lb = JsonUtility.FromJson<List<ValCode>> (text);
-		//sDebug.Log("ysr");
+		this.gameObject.transform.Find("content/btn_login").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				m_uid = this.transform.Find("content/input_uid").GetComponent<InputField>().text;
+				m_passwd = this.transform.Find ("content/input_passwd").GetComponent<InputField> ().text;
+				m_controller.reqThirdLogin (false);
+		});
+
+		this.gameObject.transform.Find("content/btn_register").GetComponent<Button>().onClick.AddListener(() =>
+		{
+			// 注册
+			UIPage.ShowPage<RegisterUIPage>();
+			Hide();
+		});
+
+		this.gameObject.transform.Find("content/btn_close").GetComponent<Button>().onClick.AddListener(() =>
+		{
+			UIPage.ShowPage<StartUIPage>();
+			Hide();
+
+		});
+				
+	
 	}
-
-
-
 
 
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
@@ -136,8 +84,8 @@ public class LoginUIPage : UIPage
 		//定时器
 		//coroutine = UIRoot.Instance.StartCoroutine(Timer());
 	}
+		
 
-	int count = 0;
 	//秒定时器
 	IEnumerator Timer() {
 		while (true) {
@@ -197,7 +145,7 @@ public class LoginUIPage : UIPage
 				//重连
 				paramsValObj.m_checkID = checkID;
 				paramsValObj.m_isRetry = 0;
-				paramsValObj.m_type = m_page.m_login_type;
+				paramsValObj.m_type = 2;
 				paramsValObj.m_mac = InfoUtil.GetMac();
 				paramsValObj.m_account = m_page.m_uid;
 				paramsValObj.m_password = m_page.m_passwd;
@@ -205,9 +153,13 @@ public class LoginUIPage : UIPage
 				paramsValObj.m_password = Md5Util.GetMd5FromStr(paramsValObj.m_password);
 
 
+				Debug.Log (paramsValObj.m_account);
+				Debug.Log (paramsValObj.m_password);
 				//保存数据
-				PlayerPrefs.SetString("account", paramsValObj.m_account);
-				PlayerPrefs.SetString("password", paramsValObj.m_password);
+				PrefValSet.saveUid (paramsValObj.m_account);
+				PrefValSet.savePasswd (paramsValObj.m_password);
+			
+			
 			}
 
 			string url = SavedContext.getApiUrl(api);
@@ -215,9 +167,7 @@ public class LoginUIPage : UIPage
 			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_LOGIN, checkID);
 
 		}
-
-
-
+			
 
 
 		public virtual void onHttpOk(DataNeedOnResponse data, ResponseData respData)
@@ -229,19 +179,16 @@ public class LoginUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-							//m_page.toast.showToast ("登录成功");
-							if (null == SavedData.s_instance) {
-								SavedData.s_instance = new SavedData ();
-							}
 							User user = SavedData.s_instance.m_user;
 							user.m_uid = resp.m_uid; 
 							user.m_token = resp.m_token; 
-							Debug.Log (resp.m_token);
 							if (resp.m_isFirst == 1) {
+								m_page.Hide ();
 								UIPage.ShowPage<CreateNameUIPage> ();
+							} else {
+								m_page.Hide ();
+								UIPage.ShowPage<LinkServerUIPage> ();
 							}
-							UIPage.ShowPage<LinkServerUIPage> ();
-
 
 						}
 						break;
@@ -250,7 +197,8 @@ public class LoginUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							m_page.toast.showToast (val.text);
+							Debug.Log (val.text);
+							//m_page.toast.showToast (val.text);
 						}
 						break;
 

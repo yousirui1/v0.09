@@ -63,7 +63,7 @@ public class RoomUIPrepare : UIPage
 		listObj.transform.localScale = Vector3.zero;
 		listObj.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
 
-		controller.reqThirdFriend (false);	
+		//controller.reqThirdFriend (false);	
 		dic_user.Clear ();
 		this.transform.Find ("bg_message/tx_message").GetComponent<Text> ().text = "";
 	}
@@ -89,27 +89,32 @@ public class RoomUIPrepare : UIPage
 
 		this.transform.Find("user0").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				Active_btn(userObj0);
 			});
 
 		this.transform.Find("user1").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				Active_btn(userObj1);
 			});
 
 		this.transform.Find("user2").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				Active_btn(userObj2);
 			});
 		
 
 		this.transform.Find("btn_start").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				UIPage.ShowPage<RoomUIMatch>();
 			});
 
 		this.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
 			{
+				SoundPlay.btnClick();
 				controller.onPomeloEvent_LeaveRoom();
 				ClosePage();
 			});

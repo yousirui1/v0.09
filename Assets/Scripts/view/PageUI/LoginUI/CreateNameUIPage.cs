@@ -21,11 +21,13 @@ public class CreateNameUIPage : UIPage
 
 	private string nickname ="";
 
-	private bool isMan = true;
+	private bool isBoy = true;
 
 	public static string[] keyWords;
 
 	Coroutine coroutine;
+
+
 
 	public CreateNameUIPage() : base(UIType.PopUp, UIMode.DoNothing, UICollider.WithBg)
 	{
@@ -41,23 +43,36 @@ public class CreateNameUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		toast.InitToast (this.gameObject);
+		//toast.InitToast (this.gameObject);
 
 		InitJsonFile ();
 		this.gameObject.transform.Find("content/btn_random").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				//随机姓名
-				isMan = (this.gameObject.transform.Find ("content/Dropdown").GetComponent<Dropdown> ().value != 0 ? false : true); 
-
-				if(isMan)
+				if(isBoy)
 				nickname = list[new System.Random().Next(list.Count)].boy + list[new System.Random().Next(list.Count)].familyName;
 				else
 					nickname = list[new System.Random().Next(list.Count)].girl + list[new System.Random().Next(list.Count)].familyName;
 				this.transform.Find("content/input_nickname").GetComponent<InputField>().text = nickname;
 			});
-		
 
-	
+
+		this.gameObject.transform.Find("content/btn_boy").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				//男生
+				isBoy = true;
+				CheckBoyImg();
+			});
+
+
+
+		this.gameObject.transform.Find("content/btn_girl").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				//女生
+				isBoy = false;
+				CheckBoyImg();
+		
+			});
+		
 		this.gameObject.transform.Find("content/btn_confim").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				
@@ -78,13 +93,29 @@ public class CreateNameUIPage : UIPage
 				}
 				else
 				{
-					toast.showToast("名字不合法");
+					Debug.Log("名字不合法");
+					//toast.showToast("名字不合法");
 				}
 			
 
 			});
 
 	}
+
+	void CheckBoyImg()
+	{
+		if(isBoy)
+		{
+			//this.gameObject.transform.Find ("content/btn_boy").GetComponent<Image> ().sprite = "";
+			//this.gameObject.transform.Find ("content/btn_boy").GetComponent<Image> ().sprite = "";
+		}
+		else
+		{
+			//this.gameObject.transform.Find ("content/btn_boy").GetComponent<Image> ().sprite = "";
+			//this.gameObject.transform.Find ("content/btn_boy").GetComponent<Image> ().sprite = "";
+		}
+	}
+
 	//秒定时器
 	IEnumerator Timer() {
 		while (true) {
@@ -221,7 +252,7 @@ public class CreateNameUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							m_page.toast.showToast (val.text);
+							Debug.Log (val.text);
 						}
 						break;
 					}

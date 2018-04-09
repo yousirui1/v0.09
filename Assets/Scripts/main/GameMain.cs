@@ -31,6 +31,8 @@ public class GameMain : MonoBehaviour {
 
 		//主线程检查并启动
 		MainLooper.checkSetup ();
+
+		MusicPlay.game_mode0 ();
 	
 		switch(SavedData.s_instance.m_mode)
 		{

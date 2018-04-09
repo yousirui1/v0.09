@@ -10,6 +10,7 @@ TagManager:
   - magictable
   - UILabel
   - seed
+  - Bullet
   layers:
   - Default
   - TransparentFX

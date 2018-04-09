@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using tpgm;
 public class UI_Control_ScrollFlow : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     RectTransform Rect;
@@ -59,7 +60,10 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IDragHandler, IEndDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        mainUI.SetActive(false);
+       	
+
+		mainUI.SetActive(false);
+
         add_vect = eventData.position - start_point;
         v = eventData.delta.x * 1.00f / Width;
         for (int i = 0; i < Items.Count; i++)
@@ -73,7 +77,8 @@ public class UI_Control_ScrollFlow : MonoBehaviour, IDragHandler, IEndDragHandle
 
     public void Check(float _v)
     {
-        if (_v < 0)
+		SoundPlay.cardClick ();
+		if (_v < 0)
         {//向左运动
             for (int i = 0; i < Items.Count; i++)
             {

@@ -79,6 +79,47 @@ namespace tpgm
 		public string m_astrologyData = "";
 	}
 
+
+	[ProtoBuf.ProtoContract]
+	public class ReqThirdGetData2
+	{
+		public ReqThirdGetData2()
+		{
+		}
+
+		[ProtoBuf.ProtoMember(1, IsRequired=true)]
+		public int m_isRetry;
+
+		[ProtoBuf.ProtoMember(2, IsRequired=true)]
+		public string m_checkID = "";
+
+		[ProtoBuf.ProtoMember(3, IsRequired=true)]
+		public string m_token = "";
+
+		[ProtoBuf.ProtoMember(4, IsRequired=true)]
+		public int m_gsid;
+	}
+
+
+	[ProtoBuf.ProtoContract]
+	public class RespThirdGetData2
+	{
+		public RespThirdGetData2()
+		{
+		}
+
+		[ProtoBuf.ProtoMember(1, IsRequired = true)]
+		public int m_code;
+
+		[ProtoBuf.ProtoMember(2, IsRequired = true)]
+		public string m_utcMs = "";
+
+		[ProtoBuf.ProtoMember(3, IsRequired = false)]
+		public int achieve;
+
+
+	}
+
 	public class JsonThirdUserData
 	{
 		public int head;             //图像

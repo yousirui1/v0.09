@@ -297,14 +297,14 @@ public class SplashUIPage : UIPage
 	{
 		stateObj.GetComponent<Text>().text = "valEnd";
 		//进入下一流程
-		UIPage.ShowPage<LoginUIPage>();
+		UIPage.ShowPage<StartUIPage>();
 		
 	}
 
 	public void valNotModified()
 	{
 		stateObj.GetComponent<Text>().text = "valNotModified";
-		UIPage.ShowPage<LoginUIPage>();
+		UIPage.ShowPage<StartUIPage>();
 		//进入下一流程
 	}
 
