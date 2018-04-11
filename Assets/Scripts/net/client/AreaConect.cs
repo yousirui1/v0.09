@@ -17,6 +17,8 @@ public class AreaConect : MonoBehaviour {
 	EventController eventController;
 
 	private MainLooper m_initedLooper;
+
+	private bool isGameOver = false;
 	
 	public static AreaConect Instance
 	{
@@ -48,7 +50,11 @@ public class AreaConect : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		onPomeloEvent_Move (eventController.ev_Input ());
+		if(!isGameOver)
+		{
+			onPomeloEvent_Move (eventController.ev_Input ());
+		}
+
 	}	
 
 	//发送匹配请求
@@ -171,6 +177,12 @@ public class AreaConect : MonoBehaviour {
 				m_initedLooper.sendMessage(msg);
 			});
 
+			pClient.on("gameOver", (data) =>{
+				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_GAMEOVER);
+				msg.m_dataObj = data;
+				m_initedLooper.sendMessage(msg);
+			});
+
 		
 		}
 
@@ -180,7 +192,7 @@ public class AreaConect : MonoBehaviour {
 	private const int MSG_POMELO_PLAYERINFO = 1;
 	private const int MSG_POMELO_MOVEINFO = 2;
 	private const int MSG_POMELO_PLAYDATA = 3;
-
+	private const int MSG_POMELO_GAMEOVER = 4;
 
 	public void handleMessage(HandlerMessage msg)
 	{   
@@ -201,7 +213,7 @@ public class AreaConect : MonoBehaviour {
 				
 				JsonObject data = (JsonObject)msg.m_dataObj;
 
-				//Debug.Log (data);
+				Debug.Log (data);
 				FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
 				eventController.ev_Output (buf);
 			}   
@@ -214,6 +226,16 @@ public class AreaConect : MonoBehaviour {
 				//Debug.Log (data);
 				RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
 				eventController.ev_OutTip (buf);
+			}   
+			break;
+
+		case MSG_POMELO_GAMEOVER:
+			{   
+
+				JsonObject data = (JsonObject)msg.m_dataObj;
+				//RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
+				eventController.ev_GameOver();
+				isGameOver = true;
 			}   
 			break;
 

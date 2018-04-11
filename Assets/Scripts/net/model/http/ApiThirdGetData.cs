@@ -123,10 +123,10 @@ namespace tpgm
 	public class JsonThirdUserData
 	{
 		public int head;             //图像
-		public string nickname;         //昵称
+		public string nickname = "";         //昵称
 		public int level;               //等级    
 		public int section;             //段位    
-		public string mac;              //mac地址
+		public string mac = "";              //mac地址
 		public int gold;                //金钱
 		public int diamond;             //钻石
 		public int prestige;            //声望
@@ -134,7 +134,8 @@ namespace tpgm
 		public int fans;				//粉丝
 		public int follow;   			//关注
 		public int like;   				//被赞数
-		public string signature;   		//签名
+		public string signature ="";   		//签名
+		public int talent;   		//天赋点
 	}
 
 

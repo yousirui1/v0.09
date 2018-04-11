@@ -51,9 +51,7 @@ public class PublicUIHeadEdit : UIPage
 		Desc = this.transform.Find ("content/desc").gameObject;
 		//Desc.SetActive (false);
 
-		Desc.transform.Find("img_desc").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("RawImages/Public/Atlases/Icon/General_icon","General_icon_"+SavedData.s_instance.m_user.m_head);
-		Desc.transform.Find("tx_desc").GetComponent<Text>().text = "头像名";
-
+		Desc.transform.Find("img_desc").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+SavedData.s_instance.m_user.m_head);
 
 		this.gameObject.transform.Find ("content/btn_cancel").GetComponent<Button> ().onClick.AddListener (() => {
 			//取消保存
@@ -78,8 +76,8 @@ public class PublicUIHeadEdit : UIPage
 	private void init()
 	{
 
-		Item = this.transform.Find("content/panel/Viewport/Content/item").gameObject;
-		List = this.transform.Find("content/panel").gameObject;
+		Item = this.transform.Find("content/bg_panel/panel/Viewport/Content/item").gameObject;
+		List = this.transform.Find("content/bg_panel/panel").gameObject;
 		Item.SetActive (false);
 
 		for (int i = 0; i < 100; i++) {
@@ -119,19 +117,16 @@ public class PublicUIHeadEdit : UIPage
 	private void ShowDesc(UIHeadImgItem item)
 	{
 		currentItem = item;
-		Desc.SetActive(true);
-		Desc.transform.localPosition = new Vector3(300f, Desc.transform.localPosition.y,Desc.transform.localPosition.z);
+		Desc.SetActive(true);  //-520 72
+		Desc.transform.localPosition = new Vector3(-350f, Desc.transform.localPosition.y,Desc.transform.localPosition.z);
 
-
-		Desc.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0f, 0f), 0.25f, true);
+		Desc.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-240f,38f), 0.25f, true);
 		RefreshDesc(item);
 	}
 
 	private void RefreshDesc(UIHeadImgItem item)
 	{
-		Desc.transform.Find("img_desc").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("RawImages/Public/Atlases/Icon/General_icon","General_icon_"+item.data);
-		Desc.transform.Find("tx_desc").GetComponent<Text>().text = "头像名";
-
+		Desc.transform.Find("img_desc").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+item.data);
 	}
 
 

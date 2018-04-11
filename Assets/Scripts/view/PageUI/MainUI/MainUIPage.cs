@@ -79,7 +79,7 @@ public class MainUIPage : UIPage
 				// 个人信息
 				SoundPlay.btnClick();
 				UIRoot.Instance.StopCoroutine(coroutine);
-				UIPage.ShowPage<PublicUINotice>("未完成");
+				UIPage.ShowPage<InfoUIPage>();
 			});
 		
 
@@ -419,7 +419,7 @@ public class MainUIPage : UIPage
 				paramsValObj.m_Lng = gps.longitude;
 				paramsValObj.m_Lat = gps.latitude;
 
-				if(gps.longitude == 0 || gps.latitude == 0)
+				if(gps.longitude == 0 || gps.latitude == 0 || gps.latitude == null || gps.longitude == null)
 				{
 					paramsValObj.m_Lng = 31.0f;
 					paramsValObj.m_Lat = 120.0f; //默认经纬度太湖
@@ -516,7 +516,7 @@ public class MainUIPage : UIPage
 								SavedData.s_instance.m_user.m_follow = js_userdata.follow;
 								SavedData.s_instance.m_user.m_like = js_userdata.like;
 								SavedData.s_instance.m_user.m_signature = js_userdata.signature;
-
+								SavedData.s_instance.m_user.m_talent = js_userdata.talent;
 							}
 							if (resp.m_boxData != 0) {
 								SavedData.s_instance.m_box.reloadOk ();

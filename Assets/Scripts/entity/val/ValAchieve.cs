@@ -16,11 +16,13 @@ namespace tpgm
 	public class ValAchieve : BaseVal
 	{
 		public string name ="";
+		public string icon = "";
 		public int type;
 		public string condition = "";
 		public int count;
 		public string text = "";
-		public int point;
+		public string reward = "";
+		public int dif;
 
 	}
 }

@@ -18,7 +18,7 @@ public class UIHeadImgItem : MonoBehaviour
 	public void Refresh(int  id)
 	{
 		this.data = id;
-		this.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("RawImages/Public/Atlases/Icon/General_icon","General_icon_"+id);
+		this.transform.Find("img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+id);
 
 	}
 

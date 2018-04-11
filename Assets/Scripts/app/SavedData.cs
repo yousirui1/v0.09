@@ -269,7 +269,7 @@ namespace tpgm
 
 		public string m_signature =  "";  //签名
 	
-
+		public int m_talent; 			//天赋点
     }
 
     //**************************************************

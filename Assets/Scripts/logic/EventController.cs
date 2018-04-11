@@ -604,6 +604,11 @@ public class EventController : MonoBehaviour {
 	}
 
 
+	public void ev_GameOver()
+	{
+		gameMenu.ActiveResultPanel ();
+	}
+
 	public void ev_OutTip(RespThirdPlayData data)
 	{
 

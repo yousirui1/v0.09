@@ -34,7 +34,7 @@ public class InfoUIPage : UIPage
 	public InfoUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
 	{
 		//布局预制体
-		uiPath = "Prefabs/UI/InfoUI/InfoUIPage";
+		uiPath = "Prefabs/UI/InfoUI/InfoUIPage2";
 
 	}
 
@@ -61,7 +61,9 @@ public class InfoUIPage : UIPage
 				UIPage.ShowPage<PublicUIHeadEdit>();
 		});
 
-		this.transform.Find("tabcontrol/Panels/panel0/input_name/btn_nameedit").GetComponent<Button>().onClick.AddListener(() =>
+
+
+		this.transform.Find("tabcontrol/Panels/panel0/btn_nameedit").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				//修改昵称
 				user_name = this.transform.Find("tabcontrol/Panels/panel0/input_name").GetComponent<InputField>().text;
@@ -71,7 +73,7 @@ public class InfoUIPage : UIPage
 				}
 		});
 
-		this.transform.Find("tabcontrol/Panels/panel0/input_signature/btn_signature").GetComponent<Button>().onClick.AddListener(() =>
+		this.transform.Find("tabcontrol/Panels/panel0/btn_signature").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				//修改签名
 				user_signature = this.transform.Find("tabcontrol/Panels/panel0/input_signature").GetComponent<InputField>().text;
@@ -87,7 +89,7 @@ public class InfoUIPage : UIPage
 				ClosePage();
 		});
 
-		this.transform.Find("tabcontrol/Panels/panel0/btn_bingqq").GetComponent<Button>().onClick.AddListener(() =>
+		this.transform.Find("tabcontrol/Panels/panel0/btn_bindqq").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				ClosePage();
 			});
@@ -101,6 +103,7 @@ public class InfoUIPage : UIPage
 			{
 				Application.Quit();
 			});
+		
 		this.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				ClosePage();
@@ -113,13 +116,12 @@ public class InfoUIPage : UIPage
 
 	public override void Refresh()
 	{
-		this.transform.Find("tabcontrol/Panels/panel0/img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("RawImages/Public/Atlases/Icon/General_icon","General_icon_"+SavedData.s_instance.m_user.m_head);
+		this.transform.Find("tabcontrol/Panels/panel0/btn_checkhead").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+SavedData.s_instance.m_user.m_head);
 		this.transform.Find("tabcontrol/Panels/panel0/input_name").GetComponent<InputField>().text = SavedData.s_instance.m_user.m_nickname;
 		this.transform.Find("tabcontrol/Panels/panel0/input_signature").GetComponent<InputField>().text = SavedData.s_instance.m_user.m_signature;
-		this.transform.Find("tabcontrol/Panels/panel0/tx_follow/tx_count").GetComponent<Text>().text = ""+SavedData.s_instance.m_user.m_follow;
-		this.transform.Find("tabcontrol/Panels/panel0/tx_fans/tx_count").GetComponent<Text>().text = ""+SavedData.s_instance.m_user.m_fans;
-		this.transform.Find("tabcontrol/Panels/panel0/tx_like/tx_count").GetComponent<Text>().text = ""+SavedData.s_instance.m_user.m_like;
-
+		this.transform.Find("tabcontrol/Panels/panel0/tx_follow").GetComponent<Text>().text = ""+SavedData.s_instance.m_user.m_follow;
+		this.transform.Find("tabcontrol/Panels/panel0/tx_fans").GetComponent<Text>().text = ""+SavedData.s_instance.m_user.m_fans;
+		this.transform.Find("tabcontrol/Panels/panel0/tx_like").GetComponent<Text>().text = ""+SavedData.s_instance.m_user.m_like;
 	}
 
 

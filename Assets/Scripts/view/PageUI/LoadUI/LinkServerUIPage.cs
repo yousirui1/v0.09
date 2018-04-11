@@ -93,7 +93,6 @@ public class LinkServerUIPage : UIPage
 
 		public void onPomeloEvent_Login()
 		{
-			Debug.Log ("onPomeloEvent_Login");
 			if (null == SavedContext.s_client)
 			{
 				if (null == SavedContext.s_client)
