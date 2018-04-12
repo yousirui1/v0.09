@@ -52,7 +52,7 @@ public class AreaConect : MonoBehaviour {
 	{
 		if(!isGameOver)
 		{
-			onPomeloEvent_Move (eventController.ev_Input ());
+			//onPomeloEvent_Move (eventController.ev_Input ());
 		}
 
 	}	
@@ -80,7 +80,7 @@ public class AreaConect : MonoBehaviour {
 				jsMsg ["skill"] = entite.skill;
 				//Debug.Log (jsMsg);
 				SavedContext.s_client.request ("area.playHandler.move", jsMsg, (data) => {
-					//Debug.Log(data);
+					Debug.Log(data);
 				});
 				entite.skill = 0;
 			}
@@ -163,7 +163,7 @@ public class AreaConect : MonoBehaviour {
 		{
 
 			pClient.on("moveInfo", (data) =>{
-				//Debug.Log(data);
+				Debug.Log(data);
 				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MOVEINFO);
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);
@@ -176,13 +176,14 @@ public class AreaConect : MonoBehaviour {
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);
 			});
-
+				
 			pClient.on("gameOver", (data) =>{
+				//击杀等信息接收
+				Debug.Log(data);
 				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_GAMEOVER);
-				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);
 			});
-
+	
 		
 		}
 
@@ -201,7 +202,7 @@ public class AreaConect : MonoBehaviour {
 		case MSG_POMELO_PLAYERINFO:
 			{   
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				Debug.Log (data);
+				//Debug.Log (data);
 				RespThirdPlayerInfo buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayerInfo> (data.ToString());
 				//eventController.ev_InitPlayer (buf.playerInfo);
 			}   
@@ -210,10 +211,8 @@ public class AreaConect : MonoBehaviour {
 
 		case MSG_POMELO_MOVEINFO:
 			{   
-				
 				JsonObject data = (JsonObject)msg.m_dataObj;
-
-				Debug.Log (data);
+				//Debug.Log (data);
 				FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
 				eventController.ev_Output (buf);
 			}   
@@ -221,7 +220,6 @@ public class AreaConect : MonoBehaviour {
 
 		case MSG_POMELO_PLAYDATA:
 			{   
-				
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				//Debug.Log (data);
 				RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
@@ -231,8 +229,7 @@ public class AreaConect : MonoBehaviour {
 
 		case MSG_POMELO_GAMEOVER:
 			{   
-
-				JsonObject data = (JsonObject)msg.m_dataObj;
+				Debug.Log ("gameOver");
 				//RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
 				eventController.ev_GameOver();
 				isGameOver = true;

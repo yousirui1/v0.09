@@ -22,7 +22,7 @@ public class RoomUIMatch : UIPage
 	private int play_count = 0;
 
 
-	public RoomUIMatch() : base(UIType.PopUp, UIMode.DoNothing, UICollider.WithBg)
+	public RoomUIMatch() : base (UIType.Normal, UIMode.HideOther, UICollider.None )
 	{
 		//布局预制体
 		uiPath = "prefabs/ui/RoomUI/RoomUIMatch";
@@ -44,7 +44,7 @@ public class RoomUIMatch : UIPage
 		this.gameObject.transform.Find("content/btn_close").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				SoundPlay.btnClick();
-				Hide();
+				ClosePage();
 				UIRoot.Instance.StopCoroutine(coroutine);
 
 			});
@@ -104,16 +104,15 @@ public class RoomUIMatch : UIPage
 			{
 				
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				Debug.Log (data);
 				object match = null;
 				object roomNum = null;
 				if (data.TryGetValue ("match", out match) && data.TryGetValue ("roomNum", out roomNum)) {
 					if (Convert.ToInt32 (match) == 2) {
 						SavedData.s_instance.m_roomNum = roomNum.ToString ();
 						UIRoot.Instance.StopCoroutine (coroutine);
+
 						Application.LoadLevel ("Game");
-						//Hide ();
-						//UIPage.ClosePage<RoomUIPrepare> ();
+						ShowPage<LoadUIPage> ();
 					}
 				}
 
@@ -122,7 +121,9 @@ public class RoomUIMatch : UIPage
 
 		case MSG_POMELO_GLORYADD:
 			{
+
 				JsonObject data = (JsonObject)msg.m_dataObj;
+				Debug.Log (data);
 				RespThirdGloryAdd buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdGloryAdd> (data.ToString());
 				play_count = buf.newUser.Count;
 				foreach (NewUser player in buf.newUser) {
@@ -154,6 +155,7 @@ public class RoomUIMatch : UIPage
 						AddNewUserItem (player.uid, player.head, int.Parse (player.group.Substring (player.group.Length - 1)));
 					}
 				}
+
 			
 			}
 			break;
@@ -256,7 +258,6 @@ public class RoomUIMatch : UIPage
 				JsonObject jsMsg = new JsonObject ();
 				jsMsg ["roomNum"] = SavedData.s_instance.m_roomNum;
 				SavedContext.s_client.request ("area.gloryHandler.match", jsMsg, (data) => {
-					Debug.Log(data);
 				});
 			} else {
 				Debug.LogError ("pClient null");

@@ -40,7 +40,7 @@ public class LinkServerUIPage : UIPage
 
 	public const int MSG_POMELO_LINKOK = 1;
 	public const int MSG_POMELO_LINKERR = 2;
-
+	private const int MSG_POMELO_INVITE = 3;
 
 
 	protected override void onHandleMsg(HandlerMessage msg)
@@ -48,8 +48,6 @@ public class LinkServerUIPage : UIPage
 		switch (msg.m_what) {
 		case MSG_POMELO_LINKOK:
 			{
-				//全局监听服务端数据
-				new GameObject ("GlobalNet").AddComponent<GlobalConect> ();
 				UIPage.ShowPage<MainUIPage> ();
 			}
 			break;
@@ -59,6 +57,13 @@ public class LinkServerUIPage : UIPage
 			}
 			break;
 		
+		case MSG_POMELO_INVITE:
+			{
+				JsonObject data = (JsonObject) msg.m_dataObj;
+				Debug.Log (data);
+			}
+			break;
+
 		default :
 			{
 
@@ -66,6 +71,11 @@ public class LinkServerUIPage : UIPage
 			break;
 		}
 	}
+
+
+
+
+
 
 	class Controller : BaseController<LinkServerUIPage>
 	{
@@ -75,7 +85,6 @@ public class LinkServerUIPage : UIPage
 		public Controller(LinkServerUIPage iview):base(null)
 		{
 			m_initedLooper = MainLooper.instance();
-			InitNetEvent ();
 			m_page = iview;
 		}
 
@@ -93,28 +102,25 @@ public class LinkServerUIPage : UIPage
 
 		public void onPomeloEvent_Login()
 		{
-			if (null == SavedContext.s_client)
+			if (null == SavedContext.s_client) {
+				SavedContext.s_client = new PomeloClient ();
+			}
+			SavedContext.s_client.NetWorkStateChangedEvent += (state) =>
 			{
-				if (null == SavedContext.s_client)
-				{
-					SavedContext.s_client = new PomeloClient();
-				}
-				SavedContext.s_client.NetWorkStateChangedEvent += (state) =>
-				{
-					Debug.Log(state);
+				//Debug.Log(state);
 					//长连接状态改变，多是断连
 					//onPomeloEvent_State(state);
-				};
-				SavedContext.s_client.initClient(SavedData.s_instance.s_clientUrl, SavedData.s_instance.s_clientPort, () =>
-					{
-						SavedContext.s_client.connect(null, (data1) =>
-							{
-								JsonObject jsMsg = new JsonObject();
-								jsMsg["uid"] = SavedData.s_instance.m_user.m_uid;
-								SavedContext.s_client.request("gate.gateHandler.queryEntry", jsMsg, onPomeloEvent_Request);
-							});
-					});
-			}
+			};
+			SavedContext.s_client.initClient(SavedData.s_instance.s_clientUrl, SavedData.s_instance.s_clientPort, () =>
+			{
+				SavedContext.s_client.connect(null, (data1) =>
+				{
+					JsonObject jsMsg = new JsonObject();
+					jsMsg["uid"] = SavedData.s_instance.m_user.m_uid;
+					SavedContext.s_client.request("gate.gateHandler.queryEntry", jsMsg, onPomeloEvent_Request);
+				});
+			});
+		
 		}
 
 		//gata服务器返回的数据
@@ -149,11 +155,12 @@ public class LinkServerUIPage : UIPage
 		private void onPomeloEvent_Entry()
 		{
 			JsonObject jsMsg = new JsonObject ();
-			jsMsg["uid"] = SavedData.s_instance.m_user.m_uid;
+			jsMsg ["uid"] = SavedData.s_instance.m_user.m_uid;
 			SavedContext.s_client.request ("connector.entryHandler.entry", jsMsg, (data) => {
 				HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_LINKOK);
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);
+				InitNetEvent();
 			});
 		}
 
@@ -201,20 +208,28 @@ public class LinkServerUIPage : UIPage
 				break;
 			}
 		}
+			
 
-
+		//全局监听事件
 		//注册网络事件
 		void InitNetEvent()
 		{
-			if (SavedContext.s_client != null) {
-				#if false
-				SavedContext.s_client.on("invite", (data) =>{
-					//HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_ROOMADD);
-					//msg.m_dataObj = data;
-					//m_initedLooper.sendMessage(msg);
+			PomeloClient pClient = SavedContext.s_client;
+			if (pClient != null) {
+				pClient.on("invite", (data) =>{
+					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_INVITE);
+					msg.m_dataObj = data;
+					m_initedLooper.sendMessage(msg);
 					Debug.Log(data);
 				});
-				#endif
+
+				pClient.on("start", (data) =>{
+					Debug.Log(data);
+
+				});
+
+		
+
 
 			}
 		}

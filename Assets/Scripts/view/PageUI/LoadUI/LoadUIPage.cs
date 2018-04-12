@@ -20,7 +20,7 @@ public class LoadUIPage : UIPage
 
     public override void Awake(GameObject go)
     {
-        UIPage.ShowPage<MainUIPage>();
+        //UIPage.ShowPage<MainUIPage>();
         /* nowTime = (System.DateTime.Now.Ticks - System.DateTime.Parse("1970-01-01").Ticks) / 10000000;
          while(((System.DateTime.Now.Ticks - System.DateTime.Parse("1970-01-01").Ticks) / 10000000 - nowTime) >3)
          {
@@ -132,8 +132,6 @@ public class LoadUIPage : UIPage
 							User user = SavedData.s_instance.m_user;
 							//user.m_uid = resp.m_uid; 
 							//user.m_token = resp.m_token; 
-
-
 						
 						}
 						break;

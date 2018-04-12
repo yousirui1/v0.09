@@ -173,7 +173,7 @@ public class MainUIPage : UIPage
 				PrefValSet.saveButtonHid(iActive);
 			});
 		
-		this.gameObject.transform.Find("btn_sidebar/btn_set").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/bg_set/btn_set").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				SoundPlay.btnClick();
 				// 设置界面
@@ -181,7 +181,7 @@ public class MainUIPage : UIPage
 				UIPage.ShowPage<PublicUISetPage>();
 			});
 
-		this.gameObject.transform.Find("btn_sidebar/btn_email").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/bg_email/btn_email").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				SoundPlay.btnClick();
 				// 邮件
@@ -189,7 +189,7 @@ public class MainUIPage : UIPage
 				UIPage.ShowPage<PublicUIEmailPage>();
 			});
 
-		this.gameObject.transform.Find("btn_sidebar/btn_activity").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/bg_activity/btn_activity").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				SoundPlay.btnClick();
 				// 今日活动
@@ -197,7 +197,7 @@ public class MainUIPage : UIPage
 				UIPage.ShowPage<PublicUIActivityPage>();
 			});
 
-		this.gameObject.transform.Find("btn_sidebar/btn_check").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/bg_check/btn_check").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				SoundPlay.btnClick();
 				// 签到
@@ -206,7 +206,7 @@ public class MainUIPage : UIPage
 			});
 				
 		
-		this.gameObject.transform.Find("btn_sidebar/btn_rank").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_sidebar/bg_rank/btn_rank").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				SoundPlay.btnClick();
 				//排行榜

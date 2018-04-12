@@ -64,7 +64,7 @@ public class NetLog : MonoBehaviour
 
 		//Application.persistentDataPath 只有这个路径是既可以读又可以写
 		mPath = Application.persistentDataPath + "/outLog.txt";
-		Debug.Log("path:" +mPath);
+		//Debug.Log("path:" +mPath);
 
 		//每次启动客户端删除之前保存的Log
 		if(System.IO.File.Exists(mPath))

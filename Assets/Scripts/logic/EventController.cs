@@ -429,7 +429,6 @@ public class EventController : MonoBehaviour {
 							shadow.trace (1, players [i], 1);
 						}
 
-
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().hp = buf.data [i].hp;
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().sp = buf.data [i].sp;
 						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().level = buf.data [i].lev;

@@ -75,24 +75,30 @@ public class ATKAndDamage : MonoBehaviour{
     //申请为受保护的方便子类调用
     protected void Awake()
     {
-
 		animator = this.transform.Find("role").GetComponent<Animator>();
 		valCache = SavedContext.s_valTableCache;
 
-		valDict1 = valCache.getValDictInPageScopeOrThrow<ValRoleBattle>(m_gameID, ConstsVal.val_role_battle);
-		ValRoleBattle val = ValUtils.getValByKeyOrThrow (valDict1, level);
-		SetMaxValue (val.hp, val.spirit, val.speed, val.res);
+		//有问题偶然会报错
 
-		valDict2 = valCache.getValDictInPageScopeOrThrow<ValNum>(m_gameID, ConstsVal.val_num);
-		ValNum valspeed = ValUtils.getValByKeyOrThrow (valDict2, 28);
-		this.speed_Max = valspeed.num; //设置速度上限
+		if(this.level > 0)
+		{
+			valDict1 = valCache.getValDictInPageScopeOrThrow<ValRoleBattle>(m_gameID, ConstsVal.val_role_battle);
+			ValRoleBattle val = ValUtils.getValByKeyOrThrow (valDict1, this.level);
+			SetMaxValue (val.hp, val.spirit, val.speed, val.res);
 
-		//每秒钟回复体力
-		ValNum valat_sp = ValUtils.getValByKeyOrThrow (valDict2, 3);
-		at_sp = valat_sp.num;
+			valDict2 = valCache.getValDictInPageScopeOrThrow<ValNum>(m_gameID, ConstsVal.val_num);
+			ValNum valspeed = ValUtils.getValByKeyOrThrow (valDict2, 28);
+			this.speed_Max = valspeed.num; //设置速度上限
+
+			//每秒钟回复体力
+			ValNum valat_sp = ValUtils.getValByKeyOrThrow (valDict2, 3);
+			at_sp = valat_sp.num;
+		}
 
 		AtTime ();
     }
+
+
 
 	//没秒钟回复体力
 	void AtTime()
@@ -123,7 +129,6 @@ public class ATKAndDamage : MonoBehaviour{
 				Death ();
 			}
 		}
-
 
 	
 		//计算buffer时间
@@ -176,8 +181,6 @@ public class ATKAndDamage : MonoBehaviour{
 			queue_assit.Dequeue();	//出队列
 			assit_time = 0;
 		}
-
-
 
 		Invoke ("AtTime", 1.0f);
 	}

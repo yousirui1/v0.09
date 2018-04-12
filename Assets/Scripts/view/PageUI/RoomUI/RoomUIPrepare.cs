@@ -56,7 +56,6 @@ public class RoomUIPrepare : UIPage
 	//刷新
 	public override void Refresh()
 	{
-		Debug.Log ("Refresh");
 		controller = new Controller (this);
 		controller.onPomeloEvent_EnterRoom ();
 
@@ -70,7 +69,6 @@ public class RoomUIPrepare : UIPage
 
 	public override void Awake(GameObject go)
 	{
-		Debug.Log ("Awake");
 		Init ();
 		//InitToast ();
 		tabControl = this.transform.Find ("tabcontrol").GetComponent<TabControl> () as TabControl;
@@ -503,50 +501,6 @@ public class RoomUIPrepare : UIPage
 					m_initedLooper.sendMessage(msg);
 				});
 					
-				#if false
-				pClient.on("match", (data) =>{
-					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MATCH);
-					Debug.Log(data);
-					msg.m_dataObj = data;
-					m_initedLooper.sendMessage(msg);
-				});
-
-				pClient.on("gloryAdd", (data) =>{
-					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_GLORYADD);
-					Debug.Log(data);
-					msg.m_dataObj = data;
-					m_initedLooper.sendMessage(msg);
-				});
-
-				pClient.on("load", (data) =>{
-					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_LOAD);
-					Debug.Log(data);
-					msg.m_dataObj = data;
-					m_initedLooper.sendMessage(msg);
-				});
-
-				pClient.on("playerInfo", (data) =>{
-					//HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_PLAYERINFO);
-					//msg.m_dataObj = data;
-					//m_initedLooper.sendMessage(msg);
-				});
-
-
-				pClient.on("moveInfo", (data) =>{
-					//Debug.Log(data);
-					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MOVEINFO);
-					msg.m_dataObj = data;
-					m_initedLooper.sendMessage(msg);
-				});
-
-				pClient.on("playData", (data) =>{
-					//击杀等信息接收
-					//Debug.Log("playData"+data);
-					HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_PLAYDATA);
-					msg.m_dataObj = data;
-					m_initedLooper.sendMessage(msg);
-				});
-				#endif
 
 			}
 

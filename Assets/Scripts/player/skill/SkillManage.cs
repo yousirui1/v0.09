@@ -263,7 +263,7 @@ public class SkillManage : MonoBehaviour {
 			//idle
 			animator.SetInteger ("state",0);
 		}
-
+		#if false
 		//除开闪现都需要播放攻击动画
 		if (skill != 500 && skill != 0) {
 			animator.SetBool ("isfire", true);
@@ -272,6 +272,7 @@ public class SkillManage : MonoBehaviour {
 			msg.m_dataObj =(object) animator;
 			m_initedLooper.postMessageDelay (msg, ms);
 		}
+		#endif
 
 	}
 

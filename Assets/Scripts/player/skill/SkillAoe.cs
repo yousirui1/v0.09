@@ -98,14 +98,19 @@ public class SkillAoe : MonoBehaviour {
 			{
 			case 8:
 				{
+					//if(eventController.IsSameCamp(other.name, uid))
+					{
 					if (Time.time - instantiateTime >0.2) {
 						instantiateTime = Time.time;
 						collider.GetComponent<ATKAndDamage> ().TakeDamage (2, uid ,eventController);
+					}
 					}
 				}
 				break;
 			case 14: 
 				{
+					//if(eventController.IsSameCamp(other.name, uid))
+					{
 					//变雪人
 					if (this.durationTime == Time.time - instantiateTime) {
 						collider.GetComponent<ATKAndDamage> ().TakeBuffer (1, this.durationTime);
@@ -113,7 +118,7 @@ public class SkillAoe : MonoBehaviour {
 						//没变雪人之前减速
 						//collider.GetComponent<ATKAndDamage> ().TakeBuffer (1, this.durationTime);
 					}
-
+					}
 
 				}
 				break;

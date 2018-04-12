@@ -34,6 +34,7 @@ namespace Pomelo.DotNetClient
             if (timeout > interval * 2)
             {
                 protocol.getPomeloClient().disconnect();
+
                 //stop();
                 return;
             }
