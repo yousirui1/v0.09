@@ -6,6 +6,7 @@ using SimpleJson;
 using System.Threading;
 using UnityEngine.SceneManagement;
 using System;
+using System.Runtime.Serialization;
 using tpgm;
 
 public class AreaConect : MonoBehaviour {
@@ -52,10 +53,11 @@ public class AreaConect : MonoBehaviour {
 	{
 		if(!isGameOver)
 		{
-			//onPomeloEvent_Move (eventController.ev_Input ());
+			onPomeloEvent_Move (eventController.ev_Input ());
 		}
 
 	}	
+
 
 	//发送匹配请求
 	public void onPomeloEvent_Move(PlayerVal entite)
@@ -163,7 +165,7 @@ public class AreaConect : MonoBehaviour {
 		{
 
 			pClient.on("moveInfo", (data) =>{
-				Debug.Log(data);
+				//Debug.Log(data);
 				HandlerMessage msg = MainLooper.obtainMessage(handleMessage, MSG_POMELO_MOVEINFO);
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);
@@ -184,7 +186,6 @@ public class AreaConect : MonoBehaviour {
 				m_initedLooper.sendMessage(msg);
 			});
 	
-		
 		}
 
 	}
@@ -204,6 +205,8 @@ public class AreaConect : MonoBehaviour {
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				//Debug.Log (data);
 				RespThirdPlayerInfo buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayerInfo> (data.ToString());
+
+
 				//eventController.ev_InitPlayer (buf.playerInfo);
 			}   
 			break;
@@ -212,9 +215,24 @@ public class AreaConect : MonoBehaviour {
 		case MSG_POMELO_MOVEINFO:
 			{   
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				//Debug.Log (data);
-				FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
-				eventController.ev_Output (buf);
+				Debug.Log (data);
+				try{
+					FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
+					eventController.ev_Output (buf);
+				}
+				catch (SerializationException ex)
+				{
+					//直接显示: 游戏数据损坏, 请重新启动游戏;
+					//Log.w<ValUtils>(ex.Message);
+					Debug.Log("SerializationException ysr"+ex.Message);
+					SavedContext.s_client.disconnect ();
+				}
+				catch (Exception ex)
+				{
+					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+					SavedContext.s_client.disconnect ();
+				}
+
 			}   
 			break;
 

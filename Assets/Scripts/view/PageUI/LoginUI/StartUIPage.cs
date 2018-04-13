@@ -43,6 +43,7 @@ public class StartUIPage : UIPage
 				Debug.Log(m_uid);
 				Debug.Log(m_passwd);
 				m_controller.reqThirdLogin(false);
+				
 			}
 			else
 			{

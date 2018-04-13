@@ -86,7 +86,8 @@ namespace tpgm
 		//保存当前这一局游戏的玩家列表排行榜用于显示
 		public List<UserRank> m_userrank = new List<UserRank>();
 
-		public string m_map = "";
+
+		public Game_Map m_map = new Game_Map();
 
 		//可移动状态标识符
 		public bool m_isMove = true;
@@ -240,6 +241,13 @@ namespace tpgm
       
 
     }
+
+	//玩家信息;
+	public class Game_Map
+	{
+		public string file = "";
+		public  List<int> skill_list;
+	}
 
 
     //**************************************************

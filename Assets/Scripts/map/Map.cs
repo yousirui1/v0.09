@@ -38,18 +38,10 @@ public class Map : MonoBehaviour
 		valCache.markPageUseOrThrow<ValGlobal> (m_gameID, ConstsVal.val_global);
 		valCache.markPageUseOrThrow<ValRoleBattle> (m_gameID, ConstsVal.val_role_battle);
 		valCache.markPageUseOrThrow<ValNum> (m_gameID, ConstsVal.val_num);
-
-		RespThirdLoad data = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (SavedData.s_instance.m_map);
-		InitMap (data.map, data.magicStage);
+	
+		InitMap (SavedData.s_instance.m_map.file, SavedData.s_instance.m_map.skill_list);
 	}
 
-
-	void Destroy()
-	{
-		valCache.unmarkPageUse(m_gameID, ConstsVal.val_global);
-		valCache.unmarkPageUse(m_gameID, ConstsVal.val_role_battle);
-		valCache.unmarkPageUse(m_gameID, ConstsVal.val_num);
-	}
 
 	//初始化资源,动态资源,技能水晶
 	public void InitMap(string valFileName, List<int> skill_list)
@@ -64,9 +56,17 @@ public class Map : MonoBehaviour
 		backgroupObj.transform.localPosition = Vector3.zero;
 		backgroupObj.transform.localScale =  Vector3.one;
 		backgroupObj.name = "map";
-
-		string path = SavedContext.getExternalPath("data/" + valFileName + ".json");
-		string text = File.ReadAllText(path, Encoding.UTF8);
+		string path = "";
+		string text = "";
+		try
+		{
+			path = SavedContext.getExternalPath("data/" + valFileName + ".json");
+			text = File.ReadAllText(path, Encoding.UTF8);
+		}
+		catch (IOException ex)
+		{
+			Debug.Log (ex);
+		}
 
 		List<ItemJs> items = SimpleJson.SimpleJson.DeserializeObject<List<ItemJs>>(text);
 
@@ -82,7 +82,7 @@ public class Map : MonoBehaviour
 			//设置水晶的数值
 			newObj.AddComponent<Item>().init(item.score, item.rehp, 0,0,item.exp, 0);
 		}
-			
+
 		Dictionary<int, ValGlobal> valDict = valCache.getValDictInPageScopeOrThrow<ValGlobal>(m_gameID, ConstsVal.val_global);
 		skillMgrObj = this.gameObject.transform.Find ("SkillManage").gameObject;
 		skillPosObj = this.gameObject.transform.Find ("map/skillPos").gameObject;
@@ -101,26 +101,26 @@ public class Map : MonoBehaviour
 					string[] sArray=val.add.Split(',');
 					switch(val.id)
 					{
-						//面包
-						case 100041:
+					//面包
+					case 100041:
 						{
 							newObj.AddComponent<Item>().init(0,Convert.ToInt32(sArray[0]),0,0,0,0);
 						}
 						break;
 						//加速鞋
-						case 100111:
+					case 100111:
 						{
 							newObj.AddComponent<Item>().init(0,0,0,Convert.ToInt32(sArray[0]),0,0);
 						}
 						break;
 						//啤酒
-						case 100112:
+					case 100112:
 						{
 							newObj.AddComponent<Item>().init(0,0,Convert.ToInt32(sArray[0]),0,0,0);
 						}
 						break;
 					}
-						
+
 				}
 				//技能
 				else if (val.type == 6)
@@ -133,6 +133,15 @@ public class Map : MonoBehaviour
 		playerMgrObj = this.gameObject.transform.Find ("PlayerManage").gameObject;
 
 	}
+
+
+	void Destroy()
+	{
+		valCache.unmarkPageUse(m_gameID, ConstsVal.val_global);
+		valCache.unmarkPageUse(m_gameID, ConstsVal.val_role_battle);
+		valCache.unmarkPageUse(m_gameID, ConstsVal.val_num);
+	}
+
 
 
 		

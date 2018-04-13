@@ -1413,7 +1413,7 @@ GameObject:
   - component: {fileID: 222234141000535390}
   - component: {fileID: 114260174004118812}
   m_Layer: 5
-  m_Name: tx_score
+  m_Name: tx_name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

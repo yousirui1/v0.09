@@ -24,5 +24,9 @@ public class Paths
 
 	public const string chat_panel = "Prefabs/UI/TabUI/chat/panel/Panel";
 
+	public const string package_panel = "Prefabs/UI/TabUI/package/panel";
+
+	public const string package_skilltree_panel = "Prefabs/UI/TabUI/package/skilltree/panel";
+
 	#endregion
 }

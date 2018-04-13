@@ -19,13 +19,18 @@ public class LinkServerUIPage : UIPage
 	{
 		//布局预制体
 		uiPath = "Prefabs/UI/LoadUI/LinkServerUIPage";
+	}
 
+	//页面重载入
+	public override void Refresh()
+	{
+		controller.onPomeloEvent_Login ();
 	}
 
 	public override void Awake(GameObject go)
 	{
 		controller = new Controller (this);
-		controller.onPomeloEvent_Login ();
+
 	}
 
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
@@ -40,7 +45,8 @@ public class LinkServerUIPage : UIPage
 
 	public const int MSG_POMELO_LINKOK = 1;
 	public const int MSG_POMELO_LINKERR = 2;
-	private const int MSG_POMELO_INVITE = 3;
+	public const int MSG_POMELO_INVITE = 3;
+	public const int MSG_POMELO_RELINK = 4;
 
 
 	protected override void onHandleMsg(HandlerMessage msg)
@@ -64,6 +70,23 @@ public class LinkServerUIPage : UIPage
 			}
 			break;
 
+			//重连
+		case MSG_POMELO_RELINK:
+			{
+				JsonObject data = (JsonObject) msg.m_dataObj;
+
+				Debug.Log (data);
+				JsonReLink reLink = SimpleJson.SimpleJson.DeserializeObject<JsonReLink> (data.ToString());
+				if (reLink.code == 200) {
+					SavedData.s_instance.m_map.file = reLink.map;
+					SavedData.s_instance.m_map.skill_list = reLink.magicStage;
+					Application.LoadLevel ("Game");
+				} else {
+				
+				}
+			
+			}
+			break;
 		default :
 			{
 
@@ -73,7 +96,41 @@ public class LinkServerUIPage : UIPage
 	}
 
 
+	public class JsonReLink
+	{
 
+		public int code;
+		public string utcMs = "";
+		public int type;
+
+		public List<int> magicStage;
+
+		public string createTime = "";
+
+		public List<Uids> uids;
+
+		public string map = "";
+	}
+
+	public class Uids
+	{
+		public string uid = "";
+		public string nickname = "";
+		public int head ;
+		public string group = "";
+		public int skin;
+		public int magicBook;
+		public int attackSkin;
+		public string genius = "";
+		public int pet ;
+
+		public int footprint;
+		public int signBox;
+		//public 
+
+
+
+	}
 
 
 
@@ -107,7 +164,7 @@ public class LinkServerUIPage : UIPage
 			}
 			SavedContext.s_client.NetWorkStateChangedEvent += (state) =>
 			{
-				//Debug.Log(state);
+				Debug.Log(state);
 					//长连接状态改变，多是断连
 					//onPomeloEvent_State(state);
 			};
@@ -151,16 +208,32 @@ public class LinkServerUIPage : UIPage
 			}
 		}
 
+
 		//获取connector服务器数据
 		private void onPomeloEvent_Entry()
 		{
 			JsonObject jsMsg = new JsonObject ();
 			jsMsg ["uid"] = SavedData.s_instance.m_user.m_uid;
 			SavedContext.s_client.request ("connector.entryHandler.entry", jsMsg, (data) => {
+				Debug.Log(data);
 				HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_LINKOK);
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);
 				InitNetEvent();
+
+				onPomeloEvent_ReLink();
+			});
+		}
+
+		//重连
+		private void onPomeloEvent_ReLink()
+		{
+			SavedContext.s_client.request ("area.reloadHandler.reload", (data) => {
+				Debug.Log(data);
+				HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_RELINK);
+				msg.m_dataObj = data;
+				m_initedLooper.sendMessage(msg);
+
 			});
 		}
 

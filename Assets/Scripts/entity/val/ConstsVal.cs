@@ -47,5 +47,9 @@ namespace tpgm
 
 		public const string val_num = "val_num.json";
 
+		public const string val_talent = "val_talent.json";
+
+		public const string val_enchanter = "val_enchanter.json";
+
     }
 }

@@ -91,6 +91,12 @@ public class EventController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		InitObj ();
+		Invoke ("InitJoyControl", 0.5f);
+	}
+
+	public void InitObj()
+	{
 		shadow = new Shadow();
 		canvasObj = GameObject.Find ("GameRoot").gameObject;
 
@@ -140,8 +146,11 @@ public class EventController : MonoBehaviour {
 		areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
 
 		m_msgHandlerProxy = new MessageHandlerProxy(handleMsg);
+	}
 
-		Invoke ("InitJoyControl", 0.5f);
+	public void InitMap(string valFileName, List<int> skill_list)
+	{
+		map.InitMap (valFileName,skill_list);
 
 	}
 		
@@ -349,6 +358,7 @@ public class EventController : MonoBehaviour {
 
 			//发射射线判断障碍物
 			RaycastHit2D hit = Physics2D.Raycast(gameObj.transform.position, vec, (players [id].v * 0.03f + 1.0f), 1<<LayerMask.NameToLayer("barrier"));
+			Debug.DrawLine (gameObj.transform.position, hit.point);
 
 			if (hit.collider == null && SavedData.s_instance.m_isMove) {
 				shadow.craft_move (players [id], 1);

@@ -34,7 +34,7 @@ public class InfoUIPage : UIPage
 	public InfoUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
 	{
 		//布局预制体
-		uiPath = "Prefabs/UI/InfoUI/InfoUIPage2";
+		uiPath = "Prefabs/UI/InfoUI/InfoUIPage";
 
 	}
 
@@ -54,6 +54,9 @@ public class InfoUIPage : UIPage
 			tabControl.CreateTab (tablist[i].id, tablist[i].tabname, tablist[i].panelPath);
 		}
 
+
+	
+		
 
 		this.transform.Find("tabcontrol/Panels/panel0/btn_checkhead").GetComponent<Button>().onClick.AddListener(() =>
 		{
@@ -86,23 +89,37 @@ public class InfoUIPage : UIPage
 		this.transform.Find("tabcontrol/Panels/panel0/btn_binduser").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				//
-				ClosePage();
+				//ClosePage();
 		});
 
 		this.transform.Find("tabcontrol/Panels/panel0/btn_bindqq").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				ClosePage();
-			});
+		{
+				//ClosePage();
+		});
 		
 		this.transform.Find("tabcontrol/Panels/panel0/btn_bindweichat").GetComponent<Button>().onClick.AddListener(() =>
 		{
-				ClosePage();
+				//ClosePage();
 		});
 		
 		this.transform.Find("tabcontrol/Panels/panel0/btn_quit").GetComponent<Button>().onClick.AddListener(() =>
 			{
-				Application.Quit();
+				SavedContext.s_client.disconnect();
+				ShowPage<StartUIPage>();
 			});
+
+		this.transform.Find("tabcontrol/Panels/panel1/btn_quit").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				SavedContext.s_client.disconnect();
+				ShowPage<StartUIPage>();
+			});
+
+		this.transform.Find("tabcontrol/Panels/panel2/btn_quit").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				SavedContext.s_client.disconnect();
+				ShowPage<StartUIPage>();
+			});
+		
 		
 		this.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
 			{

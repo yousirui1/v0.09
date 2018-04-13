@@ -129,4 +129,19 @@ namespace tpgm
 
 	}
 
+
+	public class UDPackage
+	{
+		public int sid;
+		public string icon = "";
+		public int type;
+
+		public UDPackage(int sid, string icon, int type)
+		{
+			this.sid = sid;
+			this.icon = icon;
+			this.type = type;
+		}
+	}
+
 }

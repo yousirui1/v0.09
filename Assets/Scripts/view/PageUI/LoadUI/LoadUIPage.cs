@@ -10,26 +10,82 @@ public class LoadUIPage : UIPage
 {
 
 	private const string TAG = "LoadUIPage";
-    private long nowTime;
+
+	Coroutine coroutine;
+
+	private EventController eventController;
+
+	AsyncOperation async;
+
+	private MainLooper m_initedLooper;
+
     public LoadUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
     {
         //布局预制体
 		uiPath = "Prefabs/UI/LoadUI/LoadUIPage";
-
     }
+
 
     public override void Awake(GameObject go)
     {
-        //UIPage.ShowPage<MainUIPage>();
-        /* nowTime = (System.DateTime.Now.Ticks - System.DateTime.Parse("1970-01-01").Ticks) / 10000000;
-         while(((System.DateTime.Now.Ticks - System.DateTime.Parse("1970-01-01").Ticks) / 10000000 - nowTime) >3)
-         {
-             UIPage.ShowPage<MainUIPage>();
-             break;
-         }*/
+		m_initedLooper = getMainLooper ();
 
+		coroutine = UIRoot.Instance.StartCoroutine(loadScene());
     }
 
+
+	IEnumerator loaditem()
+	{
+		//初始化Canvas
+		if (GameRoot.Instance == null)
+
+		eventController = new GameObject ("EventController").AddComponent<EventController> ();
+		eventController.InitObj ();
+
+		HandlerMessage msg = MainLooper.obtainMessage(handleMsgDispatch, MSG_Load_OVER);
+		msg.m_dataObj = data;
+		m_initedLooper.sendMessage(msg);
+
+		//eventController.InitMap (data.map, data.magicStage);
+		//结束
+	
+		yield return 0;
+	}
+
+	IEnumerator loadScene()
+	{
+		//异步读取场景。
+		//Globe.loadName 就是A场景中需要读取的C场景名称。
+		async = Application.LoadLevelAsync("Game");
+
+		//读取完毕后返回， 系统会自动进入C场景
+		yield return async;
+
+	}
+
+
+
+	public const int MSG_Load_OVER = 1;
+
+	protected override void onHandleMsg(HandlerMessage msg)
+	{
+		switch (msg.m_what) {
+
+		case MSG_Load_OVER:
+			{
+				Debug.Log ("LoadOver");
+
+			}
+			break;
+
+	
+		default :
+			{
+
+			}
+			break;
+		}
+	}
 
 
 
@@ -68,85 +124,11 @@ public class LoadUIPage : UIPage
 
 		}
 
-		//用于标识是那个接口用于处理接受函数
-		private const int REQ_THIRD_LOGIN = 1;
-
-		public void reqThirdLogin(bool isRetry,int type)
-		{
-
-			ReqThirdLogin paramsValObj;
-			string checkID;
-
-			string api = "/login";
-
-			AppUtils.apiCheckID (api);
-
-			if (isRetry) {
-				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdLogin> ();
-				paramsValObj.m_isRetry = 1;
-
-				checkID = paramsValObj.m_checkID;
-
-			} else {
-				checkID = AppUtils.apiCheckID(api);
-				paramsValObj = new ReqThirdLogin();
-				//重连
-				paramsValObj.m_checkID = checkID;
-				paramsValObj.m_isRetry = 0;
-				paramsValObj.m_type = type;
-				paramsValObj.m_mac = InfoUtil.GetMac();
-				paramsValObj.m_account = GameObject.Find("input_user").GetComponent<InputField>().text;
-				paramsValObj.m_password = GameObject.Find ("input_passwd").GetComponent<InputField> ().text;
-
-				paramsValObj.m_password = Md5Util.GetMd5FromStr(paramsValObj.m_password);
-
-				//保存数据
-				PlayerPrefs.SetString("account", paramsValObj.m_account);
-				PlayerPrefs.SetString("password", paramsValObj.m_password);
-			}
-
-			string url = SavedContext.getApiUrl(api);
-			Debug.Log (url);
-			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_LOGIN, checkID);
-
-		}
-
-
-
-
-
 		public virtual void onHttpOk(DataNeedOnResponse data, ResponseData respData)
 		{
 			Debug.Log ("onHttpOk");
 			switch (data.m_reqTag) {
-			case REQ_THIRD_LOGIN:
-				{
-					RespThirdLogin resp = Utils.bytesToObject<RespThirdLogin> (respData.m_protobufBytes);
-					switch (resp.m_code) {
-					case 200:
-						{
-							if (null == SavedData.s_instance) {
-								SavedData.s_instance = new SavedData ();
 
-							}
-							User user = SavedData.s_instance.m_user;
-							//user.m_uid = resp.m_uid; 
-							//user.m_token = resp.m_token; 
-						
-						}
-						break;
-
-					default:
-						{
-							Debug.Log (resp.m_code);
-						}
-						break;
-
-
-
-					}
-				}
-				break;
 			}
 
 		}

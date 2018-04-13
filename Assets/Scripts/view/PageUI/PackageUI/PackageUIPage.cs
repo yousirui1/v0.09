@@ -22,6 +22,8 @@ public class PackageUIPage : UIPage
 	private List<TabIndex> tablist = new List<TabIndex>();
 
 		
+	Controller m_controller;
+
 
 
 	public PackageUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
@@ -32,6 +34,24 @@ public class PackageUIPage : UIPage
 	public override void Refresh()
 	{
 		
+		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				// 返回
+				ClosePage();
+			});
+
+		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				// 返回
+				ClosePage();
+			});
+
+		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				// 返回
+				ClosePage();
+			});
+				
 	}
 
 
@@ -40,7 +60,6 @@ public class PackageUIPage : UIPage
 	IEnumerator Timer() {
 		while (true) {
 			yield return new WaitForSeconds(1.0f);
-			Refresh ();
 		}
 	}
 
@@ -48,16 +67,19 @@ public class PackageUIPage : UIPage
 
 	public override void Awake(GameObject go)
 	{
+
+		m_controller = new Controller (this);
 		
 		tabControl = this.transform.Find("tabcontrol").GetComponent<TabControl>() as TabControl;
 
-		tablist.Add(new TabIndex(0, "魔法师", null));
-		tablist.Add(new TabIndex(1, "魔宠", null));
-		tablist.Add(new TabIndex(2, "技能", null));
-		tablist.Add(new TabIndex(3, "喷漆", null));
-		tablist.Add(new TabIndex(4, "魔法书", null));
-		tablist.Add(new TabIndex(5, "天赋书", null));
-		tablist.Add(new TabIndex(6, "魔法师", null));
+		tablist.Add(new TabIndex(0, "魔法师", Paths.package_panel));
+		tablist.Add(new TabIndex(1, "魔宠", Paths.package_panel));
+		tablist.Add(new TabIndex(2, "技能", Paths.package_panel));
+		tablist.Add(new TabIndex(3, "喷漆", Paths.package_panel));
+		tablist.Add(new TabIndex(4, "签名", Paths.package_panel));
+		tablist.Add(new TabIndex(5, "魔法书", Paths.package_panel));
+		tablist.Add(new TabIndex(6, "天赋树", Paths.package_panel));
+
 
 		for(int i = 0; i<tablist.Count; i++)
 		{
@@ -65,75 +87,202 @@ public class PackageUIPage : UIPage
 			initTab(i);
 		}
 
-		this.gameObject.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
+		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
 		{
 			// 返回
 			ClosePage();
+		});
+
+		this.gameObject.transform.Find("btn_help").GetComponent<Button>().onClick.AddListener(() =>
+		{
+			// 帮助
+			//ClosePage();
 		});
 	}
 
 
 	protected override void loadRes(TexCache texCache, ValTableCache valCache)
 	{
+		//code
+		valCache.markPageUseOrThrow<ValCode>(m_pageID, ConstsVal.val_code);
+
+		valCache.markPageUseOrThrow<ValEnchanter>(m_pageID, ConstsVal.val_enchanter);
+
+		//valCache.markPageUseOrThrow<ValCode>(m_pageID, ConstsVal.val_talent);
+
+		valCache.markPageUseOrThrow<ValGlobal>(m_pageID, ConstsVal.val_global);
 	}
 
 	protected override void unloadRes(TexCache texCache, ValTableCache valCache)
 	{
+		//code
+		valCache.unmarkPageUse(m_pageID, ConstsVal.val_code);
 
+		valCache.unmarkPageUse(m_pageID, ConstsVal.val_enchanter);
+
+		//valCache.unmarkPageUse(m_pageID, ConstsVal.val_talent);
+
+		valCache.unmarkPageUse(m_pageID, ConstsVal.val_global);
 	}
 
 
+	//chushi
 	private void initTab(int tab)
 	{
-		List = this.transform.Find("tabcontrol").gameObject;
-		Item = this.transform.Find("tabcontrol/Panels/panel"+tab+"/Viewport/Content/item").gameObject;
-		Item.SetActive(false);
+		int type = 0;
 
-		ValTableCache valCache = getValTableCache();
-		Dictionary<int, ValStore> valDict = valCache.getValDictInPageScopeOrThrow<ValStore>(m_pageID, ConstsVal.val_store);
-
-		for(int i = 0; i<valDict.Count; i++)
+		switch(tab)
 		{
-			ValStore val = ValUtils.getValByKeyOrThrow(valDict, i);
-			if(val.classify == tab)
+		case 0:
+			{
+				//法师
+				type = 3;
+			}
+			break;
+
+		case 1:
+			{
+				//魔宠
+				type = 27;
+			}
+			break;
+
+		case 2:
+			{
+				//技能
+				type = 7;
+			}
+			break;
+		case 3:
+			{
+				//喷漆
+				type = 22;
+			}
+			break;
+		case 4:
+			{
+				//签名板
+				type = 17;
+			}
+			break;
+		case 5:
+			{
+				//魔法书
+				type = 4;
+			}
+			break;
+
+		case 6:
+			{
+				List<TabIndex> skilltree_tablist = new List<TabIndex>();
+				//天赋树特别
+				TabControl skilltree_tabControl =  this.transform.Find("tabcontrol/Panels/panel6/tabcontrol").GetComponent<TabControl>() as TabControl;
+				skilltree_tablist.Add(new TabIndex(0, "攻击天赋", Paths.package_skilltree_panel));
+				skilltree_tablist.Add(new TabIndex(1, "防御天赋", Paths.package_skilltree_panel));
+				skilltree_tablist.Add(new TabIndex(2, "敏捷天赋", Paths.package_skilltree_panel));
+				skilltree_tablist.Add(new TabIndex(3, "道具天赋", Paths.package_skilltree_panel));
+
+				for(int i = 0; i<skilltree_tablist.Count; i++)
+				{
+					skilltree_tabControl.CreateTab(skilltree_tablist[i].id, skilltree_tablist[i].tabname, skilltree_tablist[i].panelPath);
+					initSkillTab(i);
+				}
+			}
+			break;
+
+		}
+
+		if (tab != 6) {
+			List = this.transform.Find("tabcontrol").gameObject;
+			Item = this.transform.Find("tabcontrol/Panels/panel"+tab+"/Viewport/Content/item").gameObject;
+			Item.SetActive(false);
+
+			//UDPackage data = new UDPackage (1,"icon_100191" ,tab);
+
+			ValTableCache valCache = getValTableCache();
+			//Dictionary<int, ValEnchanter> valDict = valCache.getValDictInPageScopeOrThrow<ValEnchanter>(m_pageID, ConstsVal.val_enchanter);
+			Dictionary<int, ValEnchanter> valDict = valCache.getValDictInPageScopeOrThrow<ValEnchanter> (m_pageID, ConstsVal.val_enchanter);
+
+			for(int i = 1; i<valDict.Count; i++)
+			{
+				ValEnchanter val = ValUtils.getValByKeyOrThrow(valDict, i);
+				if(type == val.type)
 				CreateItem(val);
+			}
+		
+
+			Debug.Log (valDict.Count);
 		}
 
 	}
 
 
-	private void CreateItem(ValStore val)
+
+
+	void initSkillTab(int tab)
 	{
+		GameObject btn_groupObj = this.transform.Find ("tabcontrol/Panels/panel6/tabcontrol/Panels/panel" + tab + "/btn_group").gameObject;
+		for (int i = 0; i < btn_groupObj.transform.childCount; i++) {
+			btn_groupObj.transform.GetChild(i).GetComponent<Button>().onClick.AddListener (delegate {
+				//OnClickSkillTree(btn_groupObj.transform.GetChild(i).gameObject,btn_groupObj);
+			});
+		}
+
+	}
+
+	private void OnClickSkillTree(GameObject obj,GameObject panelObj)
+	{
+		//panelObj.
+	}
+
+	private void CreateItem(ValEnchanter val)
+	{
+
 		GameObject go = GameObject.Instantiate(Item) as GameObject;
 		go.transform.SetParent(Item.transform.parent);
 		go.transform.localScale = Vector3.one;
 		go.SetActive(true);
-		
+
 		//添加事件处理脚本
-		UIPackageItem item = go.AddComponent<UIPackageItem>();
+		UIPackageItem item = go.AddComponent<UIPackageItem> ();
 		item.Refresh(val);
 		Items.Add(item);
-		
+
 		//添加按钮点击事件监听
-		go.AddComponent<Button>().onClick.AddListener(OnClickItem);
+		go.GetComponent<Button>().onClick.AddListener (delegate {
+			OnClickItem (go);
+		});
+
 	}
 
-	private void OnClickItem()
+	private void OnClickItem(GameObject go)
 	{
-		UIPackageItem item = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<UIPackageItem>();
-		UIPage.ShowPage<PublicUINotice>(item.data);
+		#if false
+		go.GetComponent<UIPackageItem>("").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				// 合成按钮
+			m_controller.reqThirdLogin (false, go.GetComponent<UIPackageItem>().data.sid);
+		});
+		#endif
+		//修改右边显示的点击状态
+
+		//Show()
+
 	}
 
-	class Controller : NetHttp.INetCallback
+	class Controller : BaseController<PackageUIPage>,NetHttp.INetCallback
 	{
 		NetHttp m_netHttp;
 
+		private MainLooper m_initedLooper;
 
-		public Controller()
+		PackageUIPage m_main;
+		public Controller(PackageUIPage iview):base(null)
 		{
 			m_netHttp = new NetHttp();
 			m_netHttp.setPageNetCallback(this);
-
+			m_initedLooper = MainLooper.instance();
+			m_main = iview;
 		}
 
 		public void onDestroy()
@@ -149,10 +298,11 @@ public class PackageUIPage : UIPage
 
 		}
 
+
 		//用于标识是那个接口用于处理接受函数
 		private const int REQ_THIRD_LOGIN = 1;
 
-		public void reqThirdLogin(bool isRetry,int type)
+		public void reqThirdLogin(bool isRetry,string sid)
 		{
 
 			ReqThirdLogin paramsValObj;
@@ -174,16 +324,7 @@ public class PackageUIPage : UIPage
 				//重连
 				paramsValObj.m_checkID = checkID;
 				paramsValObj.m_isRetry = 0;
-				paramsValObj.m_type = type;
-				paramsValObj.m_mac = InfoUtil.GetMac();
-				paramsValObj.m_account = GameObject.Find("input_user").GetComponent<InputField>().text;
-				paramsValObj.m_password = GameObject.Find ("input_passwd").GetComponent<InputField> ().text;
-
-				paramsValObj.m_password = Md5Util.GetMd5FromStr(paramsValObj.m_password);
-
-				//保存数据
-				PlayerPrefs.SetString("account", paramsValObj.m_account);
-				PlayerPrefs.SetString("password", paramsValObj.m_password);
+			
 			}
 
 			string url = SavedContext.getApiUrl(api);

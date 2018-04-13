@@ -79,18 +79,6 @@ public class RoomUIMatch : UIPage
 	{
 
 	}
-		
-	//提前把地图资源载入缓存
-	IEnumerator  LoadMap2Cache(string valFileName)
-	{
-		if (valFileName.Contains ("map1")) {
-			ResourceMgr.Instance ().CreateGameObject ("prefabs/maps/map1", true);
-		} else {
-			ResourceMgr.Instance ().CreateGameObject ("prefabs/maps/map2", true);
-		}
-		Debug.Log ("Load Map Over");
-		yield return 0;  
-	}
 
 	public const int MSG_POMELO_MATCH = 1;
 	public const int MSG_POMELO_GLORYADD = 2;
@@ -111,7 +99,7 @@ public class RoomUIMatch : UIPage
 						SavedData.s_instance.m_roomNum = roomNum.ToString ();
 						UIRoot.Instance.StopCoroutine (coroutine);
 
-						Application.LoadLevel ("Game");
+						//Application.LoadLevel ("Game");
 						ShowPage<LoadUIPage> ();
 					}
 				}
@@ -164,9 +152,9 @@ public class RoomUIMatch : UIPage
 			{
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				RespThirdLoad buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (data.ToString());
-				SavedData.s_instance.m_map =  data.ToString ();
+				SavedData.s_instance.m_map.file = buf.map;
+				SavedData.s_instance.m_map.skill_list = buf.magicStage;
 
-				LoadMap2Cache (buf.map);
 			}
 			break;
 
