@@ -215,7 +215,6 @@ public class LinkServerUIPage : UIPage
 			JsonObject jsMsg = new JsonObject ();
 			jsMsg ["uid"] = SavedData.s_instance.m_user.m_uid;
 			SavedContext.s_client.request ("connector.entryHandler.entry", jsMsg, (data) => {
-				Debug.Log(data);
 				HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_LINKOK);
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);

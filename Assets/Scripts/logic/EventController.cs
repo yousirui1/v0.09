@@ -80,7 +80,7 @@ public class EventController : MonoBehaviour {
 	private List<PlayerVal> players = new List<PlayerVal>();
 
 	//数值表缓存
-	ValTableCache valCache;
+	ValTableCache valCache = SavedContext.s_valTableCache;
 
 	//缓存标识
 	public const string m_gameID = "1";
@@ -89,18 +89,21 @@ public class EventController : MonoBehaviour {
 	float lastRecvInfoTime = float.MinValue;
 
 
+
+
 	// Use this for initialization
 	void Start () {
-		InitObj ();
-		Invoke ("InitJoyControl", 0.5f);
+
 	}
 
-	public void InitObj()
+	public void InitObj(GameObject canvasObj)
 	{
+		//InitObj ();
 		shadow = new Shadow();
-		canvasObj = GameObject.Find ("GameRoot").gameObject;
+		this.canvasObj = canvasObj;
+		this.canvasObj.SetActive (false);
 
-		valCache = SavedContext.s_valTableCache;
+	
 		valCache.markPageUseOrThrow<ValMagicUp> (m_gameID, ConstsVal.val_magicup);
 
 		//地图
@@ -143,15 +146,16 @@ public class EventController : MonoBehaviour {
 		cameraObj.transform.localPosition = new Vector3(0,0,-100);
 		cameraObj.transform.localScale = Vector3.one;
 
-		areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
+		//areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
 
 		m_msgHandlerProxy = new MessageHandlerProxy(handleMsg);
+
+		//Invoke ("InitJoyControl", 0.5f);
 	}
 
-	public void InitMap(string valFileName, List<int> skill_list)
+	public void  InitMap(string valFileName, List<int> skill_list, StartUIPage ivew)
 	{
-		map.InitMap (valFileName,skill_list);
-
+		StartCoroutine(map.InitMap (valFileName, skill_list,canvasObj,ivew));
 	}
 		
 	void OnDestroy()

@@ -19,6 +19,23 @@ public class StartUIPage : UIPage
 
 	//http控制
 	Controller m_controller;
+	 
+	EventController eventController;
+
+	AsyncOperation async;
+
+	Coroutine coroutine;
+
+	private string js_map = "{\"map\":\"map2_4\",\"" +
+		"magicStage\":[0,0,0,100111,0,100054,100111,100111,100049," +
+		"100051,0,0,0,100049,0,100051,100041,100112,100052,100041," +
+		"100049,100112,0,100052,100051,100111,100054,100050,100054," +
+		"100050,0,0,100112,100041,100052,100041,0,0,100111,0,100111," +
+		"0,100041,0,100054,100049,100041,0,0,100050,0,100052,100111," +
+		"100112,0,100054,100051,100052,0,100049,100052,100112,100054," +
+		"100041,100054,100049,100041,0,0,100112,100054,100041,0,0,100041,100111]}";
+
+
 
 	public StartUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
 	{
@@ -40,8 +57,6 @@ public class StartUIPage : UIPage
 			{
 				m_uid = PrefValSet.getUid();
 				m_passwd = PrefValSet.getPasswd();
-				Debug.Log(m_uid);
-				Debug.Log(m_passwd);
 				m_controller.reqThirdLogin(false);
 				
 			}
@@ -51,7 +66,127 @@ public class StartUIPage : UIPage
 				startPanelObj.SetActive(false);
 			}
 		});
+
+		this.gameObject.transform.Find("btn_server").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				new GameObject("server").AddComponent<WlanServer>();
+
+			});
+
+		this.gameObject.transform.Find("btn_client").GetComponent<Button>().onClick.AddListener(() =>
+		{
+				loaditem(this);
+
+		});
+		
 	}
+
+
+
+	void loaditem(StartUIPage iview)
+	{
+		//初始化Canvas
+		GameRoot root = GameRoot.Instance;
+
+		eventController = new GameObject ("EventController").AddComponent<EventController> () as EventController;
+		eventController.InitObj (root.gameObject);
+
+		RespThirdLoad buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (js_map);
+		SavedData.s_instance.m_map.file = buf.map;
+		SavedData.s_instance.m_map.skill_list = buf.magicStage;
+	
+		eventController.InitMap (SavedData.s_instance.m_map.file, SavedData.s_instance.m_map.skill_list, iview);
+
+	
+
+		//eventController.InitMap (data.map, data.magicStage);
+		//结束
+		//new GameObject("client").AddComponent<WlanClient>();
+	
+		//root.gameObject.SetActive (true);
+
+	
+		//每一帧返回一次结果
+		//	yield return 1;
+	}
+
+	public const int MSG_LOAD_PART_1 = 1;
+	public const int MSG_LOAD_PART_2 = 2;
+	public const int MSG_LOAD_PART_3 = 3;
+	public const int MSG_LOAD_PART_4 = 4;
+	public const int MSG_LOAD_PART_5 = 5;
+	public const int MSG_LOAD_PART_6 = 6;
+	public const int MSG_LOAD_PART_7 = 7;
+	public const int MSG_LOAD_PART_8 = 8;
+
+	public void handleMessage(HandlerMessage msg)
+	{
+		switch (msg.m_what) {
+
+		case MSG_LOAD_PART_1:
+			{
+				Debug.Log ("load part1");
+			}
+			break;
+
+		case MSG_LOAD_PART_2:
+			{
+
+				Debug.Log ("load part2");
+			}
+			break;
+
+		case MSG_LOAD_PART_3:
+			{
+
+				Debug.Log ("load part3");
+			}
+			break;
+		case MSG_LOAD_PART_4:
+			{
+
+				Debug.Log ("load part4");
+			}
+			break;
+		case MSG_LOAD_PART_5:
+			{
+
+				Debug.Log ("load part5");
+			}
+			break;
+		case MSG_LOAD_PART_6:
+			{
+
+				Debug.Log ("load part6");
+			}
+			break;
+
+		case MSG_LOAD_PART_7:
+			{
+
+				Debug.Log ("load part7");
+			}
+			break;
+
+		case MSG_LOAD_PART_8:
+			{
+
+				Debug.Log ("load part8");
+			}
+			break;
+
+
+
+		default :
+			{
+
+			}
+			break;
+		}
+
+	}
+
+
 
 	void Effect(GameObject obj)
 	{

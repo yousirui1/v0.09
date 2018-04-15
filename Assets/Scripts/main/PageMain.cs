@@ -20,7 +20,7 @@ public class PageMain : MonoBehaviour {
 		//设置数据存储目录
 		SavedContext.setup ("tpgm");
 	
-		MusicPlay.login ();
+		//MusicPlay.login ();
 
 		//远程打印
 		NetLog.Instance();

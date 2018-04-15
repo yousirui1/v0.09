@@ -41,7 +41,7 @@ public class WlanClient : MonoBehaviour {
 	void Start() {
 		networkView = this.gameObject.AddComponent<NetworkView>();
 	
-		eventController = GameObject.Find("EventController").GetComponent<EventController>() as EventController;
+		//eventController = GameObject.Find("EventController").GetComponent<EventController>() as EventController;
 
 		SavedData.s_instance.m_userlist = UserNameList;
 
@@ -209,7 +209,7 @@ public class WlanClient : MonoBehaviour {
 	{
 		FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (message);
 		//Debug.Log (buf.data.Count);
-		eventController.ev_Output (buf);
+		//eventController.ev_Output (buf);
 	}
 
 

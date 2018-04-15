@@ -29,7 +29,7 @@ public class NetLog : MonoBehaviour
 	public Color color = Color.red;
 
 
-	public string ip = "192.168.16.45";
+	public string ip = "192.168.3.23";
 	public int point = 60000;
 
 	private UdpClient udpClient;

@@ -40,6 +40,8 @@ public class WlanServer : MonoBehaviour
 
     private string moveInfoLog = "";
 
+	private bool isInitServer = false;
+
     //ip uid
 	private Dictionary<string ,string> user_list = new Dictionary<string, string>();
 
@@ -49,7 +51,7 @@ public class WlanServer : MonoBehaviour
 	void Start()
 	{
 		networkView = this.gameObject.AddComponent<NetworkView>();
-        St2Json();
+
 
     }
 
@@ -64,7 +66,7 @@ public class WlanServer : MonoBehaviour
 			break;
 			//成功连接至服务器
 		case NetworkPeerType.Server:
-			OnServer();
+			OnServer ();
 			break;
 			//成功连接至客户端
 		case NetworkPeerType.Client:
@@ -90,6 +92,9 @@ public class WlanServer : MonoBehaviour
 
 	void OnServer()
 	{
+
+		isInitServer = true;
+
 		GUILayout.Label("服务器创建完毕,等待客户端连接");
 
 		//打印客户端的信息
@@ -158,9 +163,12 @@ public class WlanServer : MonoBehaviour
             user_list.Clear();
 			
 		}
-		networkView.RPC("Request2ClientMove", RPCMode.All, moveInfo);
-        St2Json();
-        Debug.Log(moveInfo);
+		if(isInitServer)
+		{
+			networkView.RPC("Request2ClientMove", RPCMode.All, moveInfo);
+        	St2Json();
+        	Debug.Log(moveInfo);
+		}
 	}
 
 	[RPC]

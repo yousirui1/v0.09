@@ -30,7 +30,7 @@ public class LoadUIPage : UIPage
     {
 		m_initedLooper = getMainLooper ();
 
-		coroutine = UIRoot.Instance.StartCoroutine(loadScene());
+		coroutine = UIRoot.Instance.StartCoroutine(loaditem());
     }
 
 
@@ -40,7 +40,7 @@ public class LoadUIPage : UIPage
 		if (GameRoot.Instance == null)
 
 		eventController = new GameObject ("EventController").AddComponent<EventController> ();
-		eventController.InitObj ();
+		//eventController.InitObj ();
 
 		HandlerMessage msg = MainLooper.obtainMessage(handleMsgDispatch, MSG_Load_OVER);
 		msg.m_dataObj = data;
