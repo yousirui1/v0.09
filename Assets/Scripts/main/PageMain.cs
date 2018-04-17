@@ -9,7 +9,7 @@ public class PageMain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		
 		//主线程检查并启动
 		MainLooper.checkSetup ();
 
@@ -20,17 +20,16 @@ public class PageMain : MonoBehaviour {
 		//设置数据存储目录
 		SavedContext.setup ("tpgm");
 	
-		//MusicPlay.login ();
+		MusicPlay.login ();
 
 		//远程打印
 		NetLog.Instance();
 
-
-		//PrefValUpdate.clear ();
-
-		UIPage.ShowPage<SplashUIPage> ();
+		UIPage.ShowPage<LoadNoticeUIPage> ();
 	
+
 	}
-	
+
+
 
 }

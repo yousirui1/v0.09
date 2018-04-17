@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pomelo.DotNetClient;
+using LitJson;
 using SimpleJson;
 using System.Threading;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ public class AreaConect : MonoBehaviour {
 
 	private static AreaConect instance = null;
 
-	private List<string> UserNameList = new List<string>();
+//	private List<string> UserNameList = new List<string>();
 
 	EventController eventController;
 
@@ -46,8 +47,15 @@ public class AreaConect : MonoBehaviour {
 		//注册网络事件监听
 		InitNetEvent();
 	
-		SavedData.s_instance.m_userlist = UserNameList;
+		//SavedData.s_instance.m_userlist = UserNameList;
 	}	
+
+	void OnDestroy()
+	{
+		Debug.Log (".........");
+		SavedContext.s_client.disconnect ();
+	}
+
 
 	void FixedUpdate()
 	{
@@ -57,6 +65,8 @@ public class AreaConect : MonoBehaviour {
 		}
 
 	}	
+
+
 
 
 	//发送匹配请求
@@ -82,7 +92,7 @@ public class AreaConect : MonoBehaviour {
 				jsMsg ["skill"] = entite.skill;
 				//Debug.Log (jsMsg);
 				SavedContext.s_client.request ("area.playHandler.move", jsMsg, (data) => {
-					Debug.Log(data);
+				//	Debug.Log(data);
 				});
 				entite.skill = 0;
 			}
@@ -96,10 +106,29 @@ public class AreaConect : MonoBehaviour {
 	public void onPomeloEvent_Dead(string stObj)
 	{
 		if (SavedContext.s_client != null ) {
-			JsonObject jsMsg = (JsonObject)SimpleJson.SimpleJson.DeserializeObject (stObj);
+			try
+			{
+				//JsonObject jsMsg = (JsonObject)SimpleJson.SimpleJson.DeserializeObject (stObj);
+				JsonObject jsMsg =JsonMapper.ToObject<JsonObject>(stObj);
 				SavedContext.s_client.request ("area.playHandler.dead", jsMsg, (data) => {
 					Debug.Log(data);
 				});
+	
+			}
+			catch (SerializationException ex) 
+            {   
+                //直接显示: 游戏数据损坏, 请重新启动游戏;
+                Log.w<ValUtils>(ex.Message);
+                Debug.Log("SerializationException ysr"+ex.Message);
+                //tellOnTableLoadErr();
+            }   
+            catch (Exception ex) 
+            {   
+                Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+                Log.w<ValUtils>(ex.Message + ", " + ex.GetType().FullName);
+                //tellOnTableLoadErr();
+            }   
+		
 			}
 		else {
 			Debug.LogError ("pClient null");
@@ -125,37 +154,6 @@ public class AreaConect : MonoBehaviour {
 
 
 
-#if false
-	//发送匹配请求
-	public void onPomeloEvent_Dead()
-	{
-		if (SavedContext.s_client != null ) {
-			SavedContext.s_client.request ("area.playHandler.dead", jsMsg, (data) => {
-					
-			});
-
-		} 
-		else {
-			Debug.LogError ("pClient null");
-		}
-	}
-
-
-	//发送匹配请求
-	public void onPomeloEvent_Dead()
-	{
-		if (SavedContext.s_client != null ) {
-			SavedContext.s_client.request ("area.playHandler.dead", jsMsg, (data) => {
-
-			});
-
-		} 
-		else {
-			Debug.LogError ("pClient null");
-		}
-	}
-
-#endif
 
 	//注册网络事件
 	void InitNetEvent()
@@ -204,10 +202,25 @@ public class AreaConect : MonoBehaviour {
 			{   
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				//Debug.Log (data);
-				RespThirdPlayerInfo buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayerInfo> (data.ToString());
 
+				try{
+					//RespThirdPlayerInfo buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayerInfo> (data.ToString());
+					RespThirdPlayerInfo buf = JsonMapper.ToObject<RespThirdPlayerInfo> (data.ToString());
+					//eventController.ev_InitPlayer (buf.playerInfo);
+				}
+				catch (SerializationException ex)
+				{
+					//直接显示: 游戏数据损坏, 请重新启动游戏;
+					//Log.w<ValUtils>(ex.Message);
+					Debug.Log("SerializationException ysr"+ex.Message);
+					SavedContext.s_client.disconnect ();
+				}
+				catch (Exception ex)
+				{
+					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+					SavedContext.s_client.disconnect ();
+				}
 
-				//eventController.ev_InitPlayer (buf.playerInfo);
 			}   
 			break;
 
@@ -215,10 +228,12 @@ public class AreaConect : MonoBehaviour {
 		case MSG_POMELO_MOVEINFO:
 			{   
 				JsonObject data = (JsonObject)msg.m_dataObj;
+
 				Debug.Log (data);
 
 				try{
-					FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
+				//	FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
+					FrameBuf buf = JsonMapper.ToObject<FrameBuf> (data.ToString());
 					eventController.ev_Output (buf);
 				}
 				catch (SerializationException ex)
@@ -241,15 +256,32 @@ public class AreaConect : MonoBehaviour {
 			{   
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				//Debug.Log (data);
-				RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
-				eventController.ev_OutTip (buf);
+
+				try{
+					//RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
+					RespThirdPlayData buf = JsonMapper.ToObject<RespThirdPlayData> (data.ToString());
+					eventController.ev_OutTip (buf);
+				}
+				catch (SerializationException ex)
+				{
+					//直接显示: 游戏数据损坏, 请重新启动游戏;
+					//Log.w<ValUtils>(ex.Message);
+					Debug.Log("SerializationException ysr"+ex.Message);
+					SavedContext.s_client.disconnect ();
+				}
+				catch (Exception ex)
+				{
+					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+					SavedContext.s_client.disconnect ();
+				}
+
 			}   
 			break;
 
 		case MSG_POMELO_GAMEOVER:
 			{   
 				Debug.Log ("gameOver");
-				//RespThirdPlayData buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdPlayData> (data.ToString());
+
 				eventController.ev_GameOver();
 				isGameOver = true;
 			}   

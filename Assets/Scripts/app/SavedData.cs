@@ -21,6 +21,7 @@ namespace tpgm
 
 		//#以数量衡量的物品;
 		public Dictionary<int, int> m_gsidNum = new Dictionary<int, int>();
+
 		List<int> m_sortedGsidList = new List<int>();
 
 		//#玩家的金币;
@@ -81,7 +82,7 @@ namespace tpgm
 		public  Dictionary<string, RespThirdUserData> m_userCache = new Dictionary<string, RespThirdUserData>();
 
 		//保存当前这一局游戏的玩家列表uid
-		public List<string> m_userlist ;
+		public List<string> m_userlist  = new List<string>();
 
 		//保存当前这一局游戏的玩家列表排行榜用于显示
 		public List<UserRank> m_userrank = new List<UserRank>();
@@ -278,6 +279,12 @@ namespace tpgm
 		public string m_signature =  "";  //签名
 	
 		public int m_talent; 			//天赋点
+
+		public int m_stone; 			//魔法石
+
+		public int m_gold; 			//魔法币
+
+		public int m_grail; 			//魔法圣杯
     }
 
     //**************************************************

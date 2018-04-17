@@ -39,6 +39,9 @@ public class LoginUIPage : UIPage
 		coroutine = UIRoot.Instance.StartCoroutine(Timer());
 
 		m_controller = new Controller(this);
+
+		//初始化Toash
+		toast.InitToast (this.gameObject);
 	
 
 		this.gameObject.transform.Find("content/btn_login").GetComponent<Button>().onClick.AddListener(() =>
@@ -151,16 +154,17 @@ public class LoginUIPage : UIPage
 				paramsValObj.m_account = m_page.m_uid;
 				paramsValObj.m_password = m_page.m_passwd;
 
-				paramsValObj.m_password = Md5Util.GetMd5FromStr(paramsValObj.m_password);
+				if (paramsValObj.m_password.Length < 6 || paramsValObj.m_password.Length > 12 ) {
+					m_page.toast.showToast ("密码不符合规则");
+				}else {
+					//md5加密
+					paramsValObj.m_password = Md5Util.GetMd5FromStr(paramsValObj.m_password);
 
+					//保存数据
+					PrefValSet.saveUid (paramsValObj.m_account);
+					PrefValSet.savePasswd (paramsValObj.m_password);
+				}
 
-				Debug.Log (paramsValObj.m_account);
-				Debug.Log (paramsValObj.m_password);
-				//保存数据
-				PrefValSet.saveUid (paramsValObj.m_account);
-				PrefValSet.savePasswd (paramsValObj.m_password);
-			
-			
 			}
 
 			string url = SavedContext.getApiUrl(api);
@@ -199,7 +203,7 @@ public class LoginUIPage : UIPage
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
 							Debug.Log (val.text);
-							//m_page.toast.showToast (val.text);
+							m_page.toast.showToast (val.text);
 						}
 						break;
 

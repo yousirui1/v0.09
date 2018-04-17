@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using LitJson;
 
 public class UI_Control_ScrollFlow_Item : MonoBehaviour
 {

@@ -8,14 +8,14 @@ using System.Text;
 using SimpleJson;
 using tpgm.UI;
 using tpgm;
+using LitJson;
+using System.Runtime.Serialization;
 
 public class CreateNameUIPage : UIPage
 {
 	private const string TAG = "CreateNameUIPage";
 
 	Controller m_controller;
-
-
 
 	private List<ValName> list;
 
@@ -43,7 +43,7 @@ public class CreateNameUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		//toast.InitToast (this.gameObject);
+		toast.InitToast (this.gameObject);
 
 		InitJsonFile ();
 		this.gameObject.transform.Find("content/btn_random").GetComponent<Button>().onClick.AddListener(() =>
@@ -93,8 +93,7 @@ public class CreateNameUIPage : UIPage
 				}
 				else
 				{
-					Debug.Log("名字不合法");
-					//toast.showToast("名字不合法");
+					toast.showToast("名字不合法");
 				}
 			
 
@@ -145,7 +144,24 @@ public class CreateNameUIPage : UIPage
 	{
 		string path_name = SavedContext.getExternalPath("data/" + "val_name.json");
 		string text_name = File.ReadAllText(path_name, Encoding.UTF8);
-		list = SimpleJson.SimpleJson.DeserializeObject<List<ValName>>(text_name);
+		try
+		{
+			//list = SimpleJson.SimpleJson.DeserializeObject<List<ValName>>(text_name);
+			list = JsonMapper.ToObject<List<ValName>>(text_name);
+		}
+		catch (SerializationException ex) 
+        {   
+                //直接显示: 游戏数据损坏, 请重新启动游戏;
+            //Log.w<ValUtils>(ex.Message);
+            Debug.Log("SerializationException ysr"+ex.Message);
+                //tellOnTableLoadErr();
+        }   
+        catch (Exception ex) 
+        {   
+           Debug.Log("Exception"+ ex.Message + ", " + ex.GetType().FullName);
+           //Log.w<ValUtils>(ex.Messasoge + ", " + ex.GetType().FullName);
+            // tellOnTableLoadErr();
+        } 
 
 		string path_hide = SavedContext.getExternalPath("data/" + "hide.json");
 		string text_hide = File.ReadAllText(path_hide, Encoding.UTF8);
@@ -252,7 +268,7 @@ public class CreateNameUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							Debug.Log (val.text);
+							m_page.toast.showToast(val.text);
 						}
 						break;
 					}

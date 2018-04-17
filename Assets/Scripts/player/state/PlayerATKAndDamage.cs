@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using tpgm;
+using UnityEngine.UI;
 
 /**************************************
 *FileName: PlayerATKAndDamage.cs
@@ -12,7 +13,7 @@ using tpgm;
 
 public class PlayerATKAndDamage : ATKAndDamage{
 
-
+	//public string uid = "";
 
 
 }

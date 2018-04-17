@@ -1,20 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SimpleJson;
+//using SimpleJson;
 using System;
 using UnityEngine.UI;
 using System.IO;
 using System.Text;
 using tpgm.UI;
 using tpgm;
+using LitJson;
 
 
 public class Map : MonoBehaviour
 {
-	
-	//private GameObject[] playerObjs = new GameObject[SavedData.s_instance.m_playerMax];
-
 	private List<GameObject> playerObjs = new List<GameObject> ();
 	
 	private GameObject playerObj;	
@@ -51,15 +49,13 @@ public class Map : MonoBehaviour
 	public const int MSG_LOAD_PART_7 = 7;
 	public const int MSG_LOAD_PART_8 = 8;
 	public const int MSG_LOAD_PART_9 = 9;
+	public const int MSG_LOAD_PART_10 = 10;
+
+
 
 	//初始化资源,动态资源,技能水晶
-	public IEnumerator InitMap(string valFileName, List<int> skill_list,GameObject canvasObj,StartUIPage ivew)
+	public IEnumerator InitMap(string valFileName, List<int> skill_list,GameObject canvasObj,LoadingUIPage ivew)
 	{
-
-		//HandlerMessage msg = MainLooper.obtainMessage(handleMsgDispatch, MSG_Load_OVER);
-		//msg.m_dataObj = data;
-		//m_initedLooper.sendMessage(msg);
-		Debug.Log ("InitMap");
 		List<ItemJs> items = null;
 		string path = "";
 		string text = "";
@@ -74,27 +70,28 @@ public class Map : MonoBehaviour
 			backgroupObj = ResourceMgr.Instance ().CreateGameObject ("prefabs/maps/map2", false);
 
 			GameObject map_part0 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/icon_100020", false);
-			map_part0.name = "icon_100020";
+			map_part0.name = "map_part0";
 			msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_1);
 			m_initedLooper.sendMessage(msg);
 			yield return 0;
 
 			GameObject map_part1 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/icon_100033", false);
-			map_part1.name = "icon_100033";
+			map_part1.name = "map_part1";
 			msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_2);
 			m_initedLooper.sendMessage(msg);
 			yield return 0;
 
 			GameObject map_part2 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/icon_100034", false);
-			map_part2.name = "icon_100034";
+			map_part2.name = "map_part2";
 			msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_3);
 			m_initedLooper.sendMessage(msg);
 			yield return 0;
-			GameObject map_part3 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/icon_100035", false);
-			map_part3.name = "icon_100035";
-			yield return 0;
+
+			//GameObject map_part3 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/icon_100035", false);
+			//map_part3.name = "map_part3";
+			//yield return 0;
 			GameObject map_part4 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/icon_100036", false);
-			map_part4.name = "icon_100037";
+			map_part4.name = "map_part4";
 			yield return 0;
 
 			GameObject map_part5 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/part_5", false);
@@ -109,23 +106,22 @@ public class Map : MonoBehaviour
 			m_initedLooper.sendMessage(msg);
 			map_part5.transform.parent = backgroupObj.transform;
 
-
 			GameObject map_part6 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/icon_100038", false);
-			map_part6.name = "icon_100038100020";
+			map_part6.name = "map_part6";
 			msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_5);
 			m_initedLooper.sendMessage(msg);
 			yield return 0;
 
 			GameObject map_part7 = ResourceMgr.Instance ().CreateGameObject ("prefabs/map/map2/other/skillPos", false);
 			map_part7.name = "skillPos";
-			msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_6);
+			msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_9);
 			m_initedLooper.sendMessage(msg);
 			yield return 0;
 
 			map_part0.transform.parent = backgroupObj.transform;
 			map_part1.transform.parent = backgroupObj.transform;
 			map_part2.transform.parent = backgroupObj.transform;
-			map_part3.transform.parent = backgroupObj.transform;
+			//map_part3.transform.parent = backgroupObj.transform;
 			map_part4.transform.parent = backgroupObj.transform;
 
 			map_part6.transform.parent = backgroupObj.transform;
@@ -141,7 +137,8 @@ public class Map : MonoBehaviour
 		{
 			path = SavedContext.getExternalPath("data/" + valFileName + ".json");
 			text = File.ReadAllText(path, Encoding.UTF8);
-			items = SimpleJson.SimpleJson.DeserializeObject<List<ItemJs>>(text);
+			//items = SimpleJson.SimpleJson.DeserializeObject<List<ItemJs>>(text);
+			items = JsonMapper.ToObject<List<ItemJs>>(text);
 
 		}
 		catch (IOException ex)
@@ -152,7 +149,6 @@ public class Map : MonoBehaviour
 		itemMgrObj = this.gameObject.transform.Find ("ItemManage").gameObject;
 
 		ItemVal item = new ItemVal(5, 10, 1);
-		Debug.Log (items.Count);
 		for(int i = 0; i<items.Count; i++)	
 		{
 			GameObject newObj = ResourceMgr.Instance().CreateGameObject("prefabs/rewards/icon_100002",true);
@@ -161,21 +157,20 @@ public class Map : MonoBehaviour
 			newObj.transform.localScale = 100 * Vector3.one;
 			//设置水晶的数值
 			newObj.AddComponent<Item>().init(item.score, item.rehp, 0,0,item.exp, 0);
-			if(items.Count % 100==0)
+			#if false
+			if(items.Count % 100 == 0)
 			{
 				yield return 0;
 			}
+			#endif
 
 		}
-		s
-		msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_7);
-		m_initedLooper.sendMessage(msg);
+		yield return 0;
 
 		Dictionary<int, ValGlobal> valDict = valCache.getValDictInPageScopeOrThrow<ValGlobal>(m_gameID, ConstsVal.val_global);
 
 		skillMgrObj = this.gameObject.transform.Find ("SkillManage").gameObject;
 		skillPosObj = this.gameObject.transform.Find ("map/skillPos").gameObject;
-		Debug.Log (skillPosObj.transform.childCount);
 
 		for(int i = 0; i<skillPosObj.transform.childCount; i++)	
 		{
@@ -211,7 +206,6 @@ public class Map : MonoBehaviour
 						}
 						break;
 					}
-
 				}
 				//技能
 				else if (val.type == 6)
@@ -220,27 +214,24 @@ public class Map : MonoBehaviour
 				}
 			
 			}
+			#if false
 			if(skillPosObj.transform.childCount% 10 == 0)
 			{
 				yield return 0;
 			}
+			#endif
+		
 		}
 
-		msg = MainLooper.obtainMessage(ivew.handleMessage, MSG_LOAD_PART_8);
-		m_initedLooper.sendMessage(msg);
 
-		Debug.Log ("Init End");
+
 		playerMgrObj = this.gameObject.transform.Find ("PlayerManage").gameObject;
 
 		UIRoot.Instance.gameObject.SetActive (false);
 		canvasObj.SetActive (true);
-
 		yield return 0;
 
 	}
-
-
-
 
 
 	void Destroy()
@@ -286,6 +277,12 @@ public class Map : MonoBehaviour
 		newObj.transform.localPosition = new Vector3 (x, y, 0);
 		playerObjs.Insert (i, newObj);
 
+		RespThirdUserData data = null;
+		if (SavedData.s_instance.m_userCache.TryGetValue (name, out data)) {
+			newObj.transform.Find ("tx_nickname").GetComponent<Text> ().text = data.nickname;
+		} else {
+			Debug.Log ("m_userCache is null");
+		}
 	}
 
 	

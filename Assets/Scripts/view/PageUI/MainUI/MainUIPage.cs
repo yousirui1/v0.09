@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using tpgm.UI;
 using tpgm;
+using LitJson;
+using System.Runtime.Serialization;
+using System;
 
 public class MainUIPage : UIPage
 {
@@ -72,7 +75,7 @@ public class MainUIPage : UIPage
 		m_controller = new Controller(this);
 
 	
-		//toast.InitToast (this.gameObject);
+		toast.InitToast (this.gameObject);
 
 		this.gameObject.transform.Find("bg_username/btn_head").GetComponent<Button>().onClick.AddListener(() =>
 			{
@@ -508,15 +511,39 @@ public class MainUIPage : UIPage
 					case 200:
 						{
 							if (!resp.m_userData.Equals (string.Empty)) {
-								JsonThirdUserData js_userdata = SimpleJson.SimpleJson.DeserializeObject<JsonThirdUserData> (resp.m_userData);
-								SavedData.s_instance.m_user.m_head = js_userdata.head;
-								SavedData.s_instance.m_user.m_nickname = js_userdata.nickname;
-								SavedData.s_instance.m_user.m_level = js_userdata.level;
-								SavedData.s_instance.m_user.m_fans = js_userdata.fans;
-								SavedData.s_instance.m_user.m_follow = js_userdata.follow;
-								SavedData.s_instance.m_user.m_like = js_userdata.like;
-								SavedData.s_instance.m_user.m_signature = js_userdata.signature;
-								SavedData.s_instance.m_user.m_talent = js_userdata.talent;
+								try
+								{
+								//	JsonThirdUserData js_userdata = SimpleJson.SimpleJson.DeserializeObject<JsonThirdUserData> (resp.m_userData);
+									JsonThirdUserData js_userdata = JsonMapper.ToObject<JsonThirdUserData> (resp.m_userData);
+
+									SavedData.s_instance.m_user.m_head = js_userdata.head;
+									SavedData.s_instance.m_user.m_nickname = js_userdata.nickname;
+									SavedData.s_instance.m_user.m_level = js_userdata.level;
+									SavedData.s_instance.m_user.m_fans = js_userdata.fans;
+									SavedData.s_instance.m_user.m_follow = js_userdata.follow;
+									SavedData.s_instance.m_user.m_like = js_userdata.like;
+									SavedData.s_instance.m_user.m_signature = js_userdata.signature;
+									SavedData.s_instance.m_user.m_talent = js_userdata.talent;
+									SavedData.s_instance.m_user.m_stone = js_userdata.stone;
+									SavedData.s_instance.m_user.m_gold = js_userdata.gold;
+									SavedData.s_instance.m_user.m_grail = js_userdata.grail;
+
+								}
+								catch (SerializationException ex) 
+            					{   
+                					//直接显示: 游戏数据损坏, 请重新启动游戏;
+                					Log.w<ValUtils>(ex.Message);
+                					Debug.Log("SerializationException ysr"+ex.Message);
+                					//tellOnTableLoadErr();
+            					}   
+            					catch (Exception ex) 
+            					{   
+                					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+                					//Log.w<ValUtils>(ex.Messasoge + ", " + ex.GetType().FullName);
+                					//tellOnTableLoadErr();
+            					}  	
+
+
 							}
 							if (resp.m_boxData != 0) {
 								SavedData.s_instance.m_box.reloadOk ();

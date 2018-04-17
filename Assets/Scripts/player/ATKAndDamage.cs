@@ -12,6 +12,8 @@ using tpgm;
 **************************************/
 
 public class ATKAndDamage : MonoBehaviour{
+	
+
 	//当前值
     public float hp  = 100;
     public float sp = 100;
@@ -42,7 +44,6 @@ public class ATKAndDamage : MonoBehaviour{
 
     //动画控制器    
     private Animator animator;
-
 
 	//数值表缓存
 	ValTableCache valCache;
@@ -82,19 +83,25 @@ public class ATKAndDamage : MonoBehaviour{
 
 		if(this.level > 0)
 		{
+			#if false
 			valDict1 = valCache.getValDictInPageScopeOrThrow<ValRoleBattle>(m_gameID, ConstsVal.val_role_battle);
 			ValRoleBattle val = ValUtils.getValByKeyOrThrow (valDict1, this.level);
 			SetMaxValue (val.hp, val.spirit, val.speed, val.res);
 
 			valDict2 = valCache.getValDictInPageScopeOrThrow<ValNum>(m_gameID, ConstsVal.val_num);
 			ValNum valspeed = ValUtils.getValByKeyOrThrow (valDict2, 28);
+
 			this.speed_Max = valspeed.num; //设置速度上限
 
 			//每秒钟回复体力
 			ValNum valat_sp = ValUtils.getValByKeyOrThrow (valDict2, 3);
 			at_sp = valat_sp.num;
+			#endif
 		}
 
+
+		this.speed_Max = 40;
+		at_sp = 3;
 		AtTime ();
     }
 

@@ -12,6 +12,8 @@ using System;
 *Data: 2018/1/30
 *Describe: 签到页面
 **************************************/
+using LitJson;
+using System.Runtime.Serialization;
 
 public class PublicUISignInPage : UIPage
 {
@@ -327,7 +329,25 @@ public class PublicUISignInPage : UIPage
 					case 200:
 						{
 							Debug.Log (resp.m_signInData);
-							JsonThirdSignInData jsSignInData = SimpleJson.SimpleJson.DeserializeObject<JsonThirdSignInData> (resp.m_signInData);
+							try
+							{
+								//JsonThirdSignInData jsSignInData = SimpleJson.SimpleJson.DeserializeObject<JsonThirdSignInData> (resp.m_signInData);
+								JsonThirdSignInData jsSignInData = JsonMapper.ToObject<JsonThirdSignInData> (resp.m_signInData);
+
+							}
+							catch (SerializationException ex) 
+            				{   
+                				//直接显示: 游戏数据损坏, 请重新启动游戏;
+                				Log.w<ValUtils>(ex.Message);
+                				Debug.Log("SerializationException ysr"+ex.Message);
+                				//tellOnTableLoadErr();
+            				}   
+            				catch (Exception ex) 
+            				{   
+                				Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+                				//Log.w<ValUtils>(ex.Messasoge + ", " + ex.GetType().FullName);
+                				//tellOnTableLoadErr();
+            				}   
 							//Debug.Log (jsSignInData.signInAdd);
 							//m_signIn.onUpdate (jsSignInData);
 

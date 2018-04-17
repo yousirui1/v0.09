@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using DG.Tweening;
 using tpgm.UI;
 using tpgm;
+using LitJson;
+using System.Runtime.Serialization;
 
 /**************************************
 *FileName: AchievementUIPage.cs
@@ -350,10 +352,29 @@ public class AchievementUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-							List<JsonAchieve> list = SimpleJson.SimpleJson.DeserializeObject<List<JsonAchieve>>(resp.m_achieve.ToString());
+							try
+							{
+								//List<JsonAchieve> list = SimpleJson.SimpleJson.DeserializeObject<List<JsonAchieve>>(resp.m_achieve.ToString());
+								List<JsonAchieve> list = JsonMapper.ToObject<List<JsonAchieve>>(resp.m_achieve.ToString());
+								m_page.list_achieve = list;
+							}
+
+							catch (SerializationException ex) 
+            				{   
+                				//直接显示: 游戏数据损坏, 请重新启动游戏;
+                				Log.w<ValUtils>(ex.Message);
+                				Debug.Log("SerializationException"+ex.Message);
+                				//tellOnTableLoadErr();
+            				}   
+            				catch (Exception ex) 
+            				{   
+                				Debug.Log("Exception"+ ex.Message + ", " + ex.GetType().FullName);
+             
+                				//tellOnTableLoadErr();
+            				}   							
+
 							Debug.Log (resp.m_achieve);
-							m_page.list_achieve = list;
-							//m_page.Refresh ();
+						
 						}
 						break;
 
@@ -363,7 +384,7 @@ public class AchievementUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache ();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
-							Debug.Log (val.text);
+							m_page.toast.showToast (val.text);
 						}
 						break;
 
@@ -381,6 +402,7 @@ public class AchievementUIPage : UIPage
 						{
 							
 							//JsonAchieve js_Achieve = SimpleJson.SimpleJson.DeserializeObject<JsonAchieve>(resp.m_achieve.ToString());
+							m_page.toast.showToast ("领取成功");
 							Debug.Log("领取成功");
 							m_page.RefreshDesc(true);
 						}
@@ -392,7 +414,7 @@ public class AchievementUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache ();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
-							Debug.Log (val.text);
+							m_page.toast.showToast (val.text);
 						}
 						break;
 

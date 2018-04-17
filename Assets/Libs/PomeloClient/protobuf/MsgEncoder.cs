@@ -239,7 +239,8 @@ namespace Pomelo.Protobuf
         //Encode string.
         private void writeString(byte[] buffer, ref int offset, object value)
         {
-            int le = Encoding.UTF8.GetByteCount(value.ToString());
+			Log.d<MsgEncoder> (value.ToString());
+			int le = Encoding.UTF8.GetByteCount(value.ToString());
             offset = writeBytes(buffer, offset, Encoder.encodeUInt32((uint)le));
             byte[] bytes = Encoding.UTF8.GetBytes(value.ToString());
             this.writeBytes(buffer, offset, bytes);

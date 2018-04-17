@@ -17,9 +17,11 @@ namespace tpgm
 	{
 		public string name = "";
 		public int type;
-		public string sid = "";
+		public int sid;
 		public int sum;
 		public string text = "";
 		public int exp;
+
+
 	}
 }

@@ -49,6 +49,10 @@ public class StartUIPage : UIPage
 		startPanelObj = this.gameObject.transform.Find ("startPanel").gameObject;
 
 		m_controller = new Controller(this);
+
+		//初始化Toash
+		toast.InitToast (this.gameObject);
+
 	
 		Effect (this.transform.Find("startPanel/bg_logo").gameObject);
 		this.transform.Find("startPanel/btn_start").GetComponent<Button>().onClick.AddListener(() =>
@@ -75,117 +79,17 @@ public class StartUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_client").GetComponent<Button>().onClick.AddListener(() =>
 		{
-				loaditem(this);
-
+				//loaditem(this);
 		});
-		
+
+
+		this.gameObject.transform.Find ("btn_server").gameObject.SetActive (false);
+		this.gameObject.transform.Find ("btn_client").gameObject.SetActive (false);
 	}
 
 
 
-	void loaditem(StartUIPage iview)
-	{
-		//初始化Canvas
-		GameRoot root = GameRoot.Instance;
-
-		eventController = new GameObject ("EventController").AddComponent<EventController> () as EventController;
-		eventController.InitObj (root.gameObject);
-
-		RespThirdLoad buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (js_map);
-		SavedData.s_instance.m_map.file = buf.map;
-		SavedData.s_instance.m_map.skill_list = buf.magicStage;
 	
-		eventController.InitMap (SavedData.s_instance.m_map.file, SavedData.s_instance.m_map.skill_list, iview);
-
-	
-
-		//eventController.InitMap (data.map, data.magicStage);
-		//结束
-		//new GameObject("client").AddComponent<WlanClient>();
-	
-		//root.gameObject.SetActive (true);
-
-	
-		//每一帧返回一次结果
-		//	yield return 1;
-	}
-
-	public const int MSG_LOAD_PART_1 = 1;
-	public const int MSG_LOAD_PART_2 = 2;
-	public const int MSG_LOAD_PART_3 = 3;
-	public const int MSG_LOAD_PART_4 = 4;
-	public const int MSG_LOAD_PART_5 = 5;
-	public const int MSG_LOAD_PART_6 = 6;
-	public const int MSG_LOAD_PART_7 = 7;
-	public const int MSG_LOAD_PART_8 = 8;
-
-	public void handleMessage(HandlerMessage msg)
-	{
-		switch (msg.m_what) {
-
-		case MSG_LOAD_PART_1:
-			{
-				Debug.Log ("load part1");
-			}
-			break;
-
-		case MSG_LOAD_PART_2:
-			{
-
-				Debug.Log ("load part2");
-			}
-			break;
-
-		case MSG_LOAD_PART_3:
-			{
-
-				Debug.Log ("load part3");
-			}
-			break;
-		case MSG_LOAD_PART_4:
-			{
-
-				Debug.Log ("load part4");
-			}
-			break;
-		case MSG_LOAD_PART_5:
-			{
-
-				Debug.Log ("load part5");
-			}
-			break;
-		case MSG_LOAD_PART_6:
-			{
-
-				Debug.Log ("load part6");
-			}
-			break;
-
-		case MSG_LOAD_PART_7:
-			{
-
-				Debug.Log ("load part7");
-			}
-			break;
-
-		case MSG_LOAD_PART_8:
-			{
-
-				Debug.Log ("load part8");
-			}
-			break;
-
-
-
-		default :
-			{
-
-			}
-			break;
-		}
-
-	}
-
 
 
 	void Effect(GameObject obj)
@@ -318,7 +222,6 @@ public class StartUIPage : UIPage
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
 							m_page.startPanelObj.SetActive(false);
 							UIPage.ShowPage<LoginModeUIPage> ();
-							Debug.Log (val.text);
 						}
 						break;
 
@@ -335,11 +238,14 @@ public class StartUIPage : UIPage
 		public virtual void onHttpErr(DataNeedOnResponse data, int statusCode, string errMsg)
 		{
 			Debug.Log (TAG +":" +"onHttpErr");
+			m_page.toast.showToast ("onHttpErr");
+
 		}
 
 		public virtual void onOtherErr(DataNeedOnResponse data, int type)
 		{
 			Debug.Log (TAG +":" +"onOtherErr");
+			m_page.toast.showToast ("onOtherErr");
 		}
 	}
 }

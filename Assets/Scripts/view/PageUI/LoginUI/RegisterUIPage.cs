@@ -26,7 +26,7 @@ public class RegisterUIPage : UIPage
 
 		m_controller = new Controller(this);
 
-		//toast.InitToast (this.gameObject);
+		toast.InitToast (this.gameObject);
 
         this.gameObject.transform.Find("content/btn_register").GetComponent<Button>().onClick.AddListener(() =>
         {
@@ -123,11 +123,11 @@ public class RegisterUIPage : UIPage
 				string password2 = m_page.m_passwd2;
 
 				if (paramsValObj.m_password != password2) {
-					
-				
+					m_page.toast.showToast ("2次输入的密码不一致");
 				} 
 				else if (password2.Length < 6 || password2.Length > 12 ) {
-					
+					m_page.toast.showToast ("密码不符合规则");
+
 				}else {
 					//md5加密
 					paramsValObj.m_password = Md5Util.GetMd5FromStr (paramsValObj.m_password);
@@ -165,8 +165,7 @@ public class RegisterUIPage : UIPage
 							ValTableCache valCache = m_page.getValTableCache();
 							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
-							Debug.Log (val.text);
-							//m_page.toast.showToast (val.text);
+							m_page.toast.showToast (val.text);
 						}
 						break;
 					}
@@ -178,12 +177,14 @@ public class RegisterUIPage : UIPage
 
 		public virtual void onHttpErr(DataNeedOnResponse data, int statusCode, string errMsg)
 		{
-			Debug.Log (TAG +":" +"onHttpErr");
+			//Debug.Log (TAG +":" +"onHttpErr");
+			m_page.toast.showToast ("onHttpErr");
 		}
 
 		public virtual void onOtherErr(DataNeedOnResponse data, int type)
 		{
-			Debug.Log (TAG +":" +"onOtherErr");
+			//Debug.Log (TAG +":" +"onOtherErr");
+			m_page.toast.showToast ("onOtherErr");
 
 		}
 	}

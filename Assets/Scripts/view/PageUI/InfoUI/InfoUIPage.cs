@@ -6,6 +6,9 @@ using tpgm.UI;
 using DG.Tweening;
 using tpgm;
 
+using LitJson;
+using System.Runtime.Serialization;
+using System;
 
 public class InfoUIPage : UIPage
 {
@@ -107,7 +110,7 @@ public class InfoUIPage : UIPage
 				SavedContext.s_client.disconnect();
 				ShowPage<StartUIPage>();
 			});
-
+		#if false
 		this.transform.Find("tabcontrol/Panels/panel1/btn_quit").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				SavedContext.s_client.disconnect();
@@ -119,7 +122,7 @@ public class InfoUIPage : UIPage
 				SavedContext.s_client.disconnect();
 				ShowPage<StartUIPage>();
 			});
-		
+		#endif
 		
 		this.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
 			{
@@ -170,14 +173,33 @@ public class InfoUIPage : UIPage
 		switch (msg.m_what) {
 		case MSG_HTTP_GETDATA:
 			{
-				JsonThirdUserData js_user = SimpleJson.SimpleJson.DeserializeObject<JsonThirdUserData> ((string)msg.m_dataObj);
-				SavedData.s_instance.m_user.m_head = js_user.head;
-				SavedData.s_instance.m_user.m_nickname = js_user.nickname;
-				SavedData.s_instance.m_user.m_fans = js_user.fans;
-				SavedData.s_instance.m_user.m_follow = js_user.follow;
-				SavedData.s_instance.m_user.m_like = js_user.like;
-				SavedData.s_instance.m_user.m_signature = js_user.signature;
-				Refresh ();
+				try
+				{
+					//JsonThirdUserData js_user = SimpleJson.SimpleJson.DeserializeObject<JsonThirdUserData> ((string)msg.m_dataObj);
+					JsonThirdUserData js_user = JsonMapper.ToObject<JsonThirdUserData> ((string)msg.m_dataObj);
+					SavedData.s_instance.m_user.m_head = js_user.head;
+					SavedData.s_instance.m_user.m_nickname = js_user.nickname;
+					SavedData.s_instance.m_user.m_fans = js_user.fans;
+					SavedData.s_instance.m_user.m_follow = js_user.follow;
+					SavedData.s_instance.m_user.m_like = js_user.like;
+					SavedData.s_instance.m_user.m_signature = js_user.signature;
+					Refresh ();
+				}
+				  catch (SerializationException ex) 
+            	{   
+                //直接显示: 游戏数据损坏, 请重新启动游戏;
+               	 
+                	Debug.Log("SerializationException ysr"+ex.Message);
+                	//tellOnTableLoadErr();
+            	}   
+            	catch (Exception ex) 
+            	{   
+                	Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+           
+                	//tellOnTableLoadErr();
+            	}  
+
+
 			}
 			break;
 
@@ -195,13 +217,13 @@ public class InfoUIPage : UIPage
 
 		private MainLooper m_initedLooper;
 
-		InfoUIPage m_info;
+		InfoUIPage m_page;
 		public Controller(InfoUIPage iview):base(null)
 		{
 			m_netHttp = new NetHttp();
 			m_netHttp.setPageNetCallback(this);
 			m_initedLooper = MainLooper.instance();
-			m_info = iview;
+			m_page = iview;
 		}
 
 
@@ -237,8 +259,8 @@ public class InfoUIPage : UIPage
 				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
 				paramsValObj.m_type = type;   //1修改昵称，2修改签名,3 替换头像
 				paramsValObj.m_isRetry = 0;
-				paramsValObj.m_name = m_info.user_name;
-				paramsValObj.m_signature = m_info.user_signature;
+				paramsValObj.m_name = m_page.user_name;
+				paramsValObj.m_signature = m_page.user_signature;
 
 			}
 
@@ -295,7 +317,7 @@ public class InfoUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-
+							m_page.toast.showToast ("修改成功");
 						}
 						break;
 
@@ -316,7 +338,7 @@ public class InfoUIPage : UIPage
 					case 200:
 						{
 							Debug.Log (resp.m_userData);
-							HandlerMessage msg = MainLooper.obtainMessage(m_info.handleMsgDispatch, MSG_HTTP_GETDATA);
+							HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_HTTP_GETDATA);
 							msg.m_dataObj = resp.m_userData;
 							m_initedLooper.sendMessage(msg);
 
@@ -325,8 +347,8 @@ public class InfoUIPage : UIPage
 
 					default:
 						{
-							ValTableCache valCache = m_info.getValTableCache();
-							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_info.m_pageID, ConstsVal.val_code);
+							ValTableCache valCache = m_page.getValTableCache();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode>(m_page.m_pageID, ConstsVal.val_code);
 							ValCode val = ValUtils.getValByKeyOrThrow(valDict, resp.m_code);
 							UIPage.ShowPage<PublicUINotice> (val.text);
 						}

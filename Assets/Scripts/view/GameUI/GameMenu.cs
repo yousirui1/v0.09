@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using tpgm;
+using tpgm.UI;
 
 /**************************************
 *FileName: GameMenu.cs
@@ -101,6 +102,8 @@ public class GameMenu : MonoBehaviour
 
 	Map map;
 
+	float StartTime = float.MinValue;
+
 	void Start()
 	{
 		Init ();
@@ -108,11 +111,12 @@ public class GameMenu : MonoBehaviour
 		InitUserList();
 		onClickListener ();
 		SendPing();
-		map = eventController.GetMap ();
+
 	}
 
 	void Init()
 	{
+		StartTime = Time.time;
 
 		valCache = SavedContext.s_valTableCache;
 		valCache.markPageUseOrThrow<ValMagic> (m_gameID, ConstsVal.val_magic);
@@ -155,6 +159,7 @@ public class GameMenu : MonoBehaviour
 		}
 
 		eventController = GameObject.Find ("EventController").GetComponent<EventController> ();
+		map = eventController.GetMap ();
 
 		RankObj = gameUIObj.transform.Find ("bg_rank").gameObject;
 
@@ -178,6 +183,7 @@ public class GameMenu : MonoBehaviour
 		SetSkillData (0,0,0);
 		SetSystemInfoData ();
 
+		eventController.InitJoyControl ();
 
 	}
 
@@ -321,7 +327,12 @@ public class GameMenu : MonoBehaviour
 
 		string st_time = "";
 
-		float time = Time.timeSinceLevelLoad;
+		float time = Time.time - StartTime;
+
+
+		if (time > 0) {
+			ActiveResultPanel ();
+		}
 
 		if ((int)((300 - time) % 60)<10 && time<=300)
 		{
@@ -341,6 +352,7 @@ public class GameMenu : MonoBehaviour
 			}
 
 		}
+
 		tiemObj.GetComponent<Text> ().text = st_time;
 		Invoke ("SetSystemInfoData", 1.0f);
 	}
@@ -354,8 +366,6 @@ public class GameMenu : MonoBehaviour
 		int magic_id = 0;
 		Dictionary<int, ValMagic> valDict = valCache.getValDictInPageScopeOrThrow<ValMagic>(m_gameID, ConstsVal.val_magic);
 		ValMagic val = ValUtils.getValByKeyOrThrow(valDict, id);
-
-		Debug.Log (val.icon);
 		//icon
 		gameUIObj.transform.Find ("btn_skill/img_skill").GetComponent<Image> ().sprite = ResourceMgr.Instance().Load<Sprite>("images/icon/" + val.icon, true);
 
@@ -430,15 +440,25 @@ public class GameMenu : MonoBehaviour
 
 		resultUIObj.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
 		{
-				Application.LoadLevel("Home");
-				SavedData.s_instance.m_home = 2;
+				
+				Destroy(eventController.GetCanvas());
+				Destroy(eventController.gameObject);
+
+				UIRoot.Instance.gameObject.SetActive (true);
+				UIPage.ShowPage<RoomUIPrepare>();
 				//回到房间
 		});
 
 		resultUIObj.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
 		{
-				Application.LoadLevel("Home");
-				SavedData.s_instance.m_home = 1;
+				
+
+				Destroy(eventController.GetCanvas());
+				Destroy(eventController.gameObject);
+
+				UIRoot.Instance.gameObject.SetActive (true);
+
+				UIPage.ShowPage<MainUIPage>();
 				//回到大厅
 		});
 
@@ -472,7 +492,7 @@ public class GameMenu : MonoBehaviour
 			}
 		}
 
-
+		#if false
 		//头像
 		result_oneObj.transform.Find("panel/panel_self/img_head").GetComponent<Image>().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+self_data.head);
 		//KDA
@@ -491,6 +511,7 @@ public class GameMenu : MonoBehaviour
 			CheckResultPanel (true);
 		});
 
+		#endif
 		CheckResultPanel(true);
 
 	}
@@ -613,7 +634,7 @@ public class GameMenu : MonoBehaviour
 
 			case STATE_EXIT:
 			{
-				Application.LoadLevel("menu");
+				//Application.LoadLevel("menu");
 				//ChatUIManager.Instance.OnLeav();
 			}
 			break;

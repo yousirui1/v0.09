@@ -8,6 +8,8 @@ using tpgm;
 using Pomelo.DotNetClient;
 using SimpleJson;
 using System;
+using LitJson;
+using System.Runtime.Serialization;
 
 
 
@@ -372,8 +374,29 @@ public class RoomUIPrepare : UIPage
 					case 200:
 						{
 							if (!resp.m_friends.Equals (string.Empty)) {
-								List<JsonFriends> js_friends  = SimpleJson.SimpleJson.DeserializeObject<List<JsonFriends>> (resp.m_friends);
-								m_page.SetFriendData (4, js_friends);
+								try
+								{
+									//List<JsonFriends> js_friends  = SimpleJson.SimpleJson.DeserializeObject<List<JsonFriends>> (resp.m_friends);
+									List<JsonFriends> js_friends  = JsonMapper.ToObject<List<JsonFriends>> (resp.m_friends);
+
+									m_page.SetFriendData (4, js_friends);
+								}
+								
+  								catch (SerializationException ex) 
+            					{   
+                					//直接显示: 游戏数据损坏, 请重新启动游戏;
+                					Log.w<ValUtils>(ex.Message);
+                					Debug.Log("SerializationException ysr"+ex.Message);
+                					//tellOnTableLoadErr();
+            					}   
+            					catch (Exception ex) 
+            					{   
+                					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+                					//Log.w<ValUtils>(ex.Messasoge + ", " + ex.GetType().FullName);
+                					//tellOnTableLoadErr();
+            					}   
+
+							
 							}
 						}
 						break;
@@ -488,6 +511,7 @@ public class RoomUIPrepare : UIPage
 			{
 				//房间新玩家加入
 				pClient.on("roomAdd", (data) =>{
+					Debug.Log(data);
 					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_ROOMADD);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);

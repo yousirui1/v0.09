@@ -275,16 +275,15 @@ namespace tpgm.UI
 
 			public void onDestroy()
 			{
-				//m_queue.RemoveAt(0);
-
-				//checkToastQueue();
+				
 			}
 				
 			public void InitToast(GameObject parentObj)
 			{
-				toastObj = parentObj.transform.Find("toast").gameObject;
+				toastObj = ResourceMgr.Instance().CreateGameObject("prefabs/ui/Toast/toast" ,false);
+				toastObj.transform.parent = parentObj.transform;
 				toastObj.SetActive (false);
-				//init_pos = toastObj.GetComponent<RectTransform> ().position;
+				toastObj.transform.localScale = Vector3.one;
 			}
 
 			public void showToast(string text)
@@ -311,26 +310,27 @@ namespace tpgm.UI
 				MainLooper looper = m_page.getMainLooper();
 				//渐变
 
-				HandlerMessage msg1 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 2);
-				looper.postMessageDelay (msg1, 500);
+				HandlerMessage msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 2);
+				looper.postMessageDelay (msg, 500);
 
-				HandlerMessage msg2 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 3);
-				looper.postMessageDelay (msg2, 1000);
-
-				HandlerMessage msg3 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 4);
-				looper.postMessageDelay (msg3, 1500);
-
-				HandlerMessage msg4 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 5);
-				looper.postMessageDelay (msg4, 2000);
-
-				HandlerMessage msg5 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 6);
-				looper.postMessageDelay (msg5, 2500);
-
-				HandlerMessage msg6 = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 7);
-				looper.postMessageDelay (msg6, 3000);
+				msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 3);
+				looper.postMessageDelay (msg, 1000);
 
 
-				HandlerMessage msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 1);
+				msg= MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 4);
+				looper.postMessageDelay (msg, 1500);
+
+				msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 5);
+				looper.postMessageDelay (msg, 2000);
+
+				msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 6);
+				looper.postMessageDelay (msg, 2500);
+
+				msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 7);
+				looper.postMessageDelay (msg, 3000);
+
+
+				msg = MainLooper.obtainMessage (m_msgHandlerProxy.handleMessage, 1);
 				looper.postMessageDelay (msg, m_sec);
 
 
@@ -338,7 +338,6 @@ namespace tpgm.UI
 		
 			private void looper_ShowEndToast()
 			{
-				//Debug.Log ("looper_ShowEndToast");
 				toastObj.SetActive (false);
 			}
 
@@ -440,9 +439,7 @@ namespace tpgm.UI
 
 
 			loadRes(SavedContext.s_texCache, SavedContext.s_valTableCache);
-
-
-			//Interlocked.Increment(ref s_createCount);
+		
 
         }
 

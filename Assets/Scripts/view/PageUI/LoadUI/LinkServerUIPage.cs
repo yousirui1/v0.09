@@ -7,6 +7,8 @@ using Pomelo.DotNetClient;
 using SimpleJson;
 using System;
 using tpgm;
+using LitJson;
+using System.Runtime.Serialization;
 
 
 public class LinkServerUIPage : UIPage
@@ -74,17 +76,61 @@ public class LinkServerUIPage : UIPage
 		case MSG_POMELO_RELINK:
 			{
 				JsonObject data = (JsonObject) msg.m_dataObj;
+				//Debug.Log (data);
+				try
+				{
+				//	JsonReLink reLink = SimpleJson.SimpleJson.DeserializeObject<JsonReLink> (data.ToString());
+					JsonReLink reLink = JsonMapper.ToObject<JsonReLink> (data.ToString());
+					if (reLink.code == 200) {
+						SavedData.s_instance.m_map.file = reLink.map;
+						SavedData.s_instance.m_map.skill_list = reLink.magicStage;
+						SavedData.s_instance.m_roomNum = reLink.roomNum;
 
-				Debug.Log (data);
-				JsonReLink reLink = SimpleJson.SimpleJson.DeserializeObject<JsonReLink> (data.ToString());
-				if (reLink.code == 200) {
-					SavedData.s_instance.m_map.file = reLink.map;
-					SavedData.s_instance.m_map.skill_list = reLink.magicStage;
-					Application.LoadLevel ("Game");
-				} else {
-				
+
+						#if false
+						foreach (NewUser player in buf.newUser) {
+							//保存数据
+							RespThirdUserData userdata = new RespThirdUserData ();
+							userdata.nickname = player.nickname;
+							userdata.score = 0;
+							userdata.kill = 0;
+							userdata.death = 0;
+							userdata.assit = 0;
+							userdata.group = player.group;
+							userdata.head = player.head;
+
+							if (!SavedData.s_instance.m_userCache.ContainsKey (player.uid)) {
+								SavedData.s_instance.m_userCache.Add (player.uid, userdata);
+								UserRank rank = new UserRank (player.uid,player.nickname,0);
+								SavedData.s_instance.m_userrank.Add (rank);
+							}
+
+						}
+						#endif
+
+						UIPage.ShowPage<LoadingUIPage> ();
+					} else {
+
+					}
 				}
+				  catch (SerializationException ex) 
+            	{   
+                	//直接显示: 游戏数据损坏, 请重新启动游戏;
+                	Log.w<ValUtils>(ex.Message);
+                	Debug.Log("SerializationException" + ex.Message);
+                	//tellOnTableLoadErr();
+            	}   
+            	catch (Exception ex) 
+            	{   
+                	Debug.Log("Exception"+ ex.Message + ", " + ex.GetType().FullName);
+                	//Log.w<ValUtils>(ex.Messasoge + ", " + ex.GetType().FullName);
+                	//tellOnTableLoadErr();
+            	}   
+
 			
+
+
+
 			}
 			break;
 		default :
@@ -110,6 +156,8 @@ public class LinkServerUIPage : UIPage
 		public List<Uids> uids;
 
 		public string map = "";
+
+		public string roomNum = "";
 	}
 
 	public class Uids
@@ -164,7 +212,7 @@ public class LinkServerUIPage : UIPage
 			}
 			SavedContext.s_client.NetWorkStateChangedEvent += (state) =>
 			{
-				Debug.Log(state);
+				//Debug.Log(state);
 					//长连接状态改变，多是断连
 					//onPomeloEvent_State(state);
 			};
@@ -228,7 +276,6 @@ public class LinkServerUIPage : UIPage
 		private void onPomeloEvent_ReLink()
 		{
 			SavedContext.s_client.request ("area.reloadHandler.reload", (data) => {
-				Debug.Log(data);
 				HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_RELINK);
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);

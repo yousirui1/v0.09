@@ -9,6 +9,8 @@ using SimpleJson;
 using UnityEngine.SceneManagement;
 using Pomelo.DotNetClient;
 using System;
+using LitJson;
+using System.Runtime.Serialization;
 
 public class RoomUIMatch : UIPage
 {
@@ -98,9 +100,9 @@ public class RoomUIMatch : UIPage
 					if (Convert.ToInt32 (match) == 2) {
 						SavedData.s_instance.m_roomNum = roomNum.ToString ();
 						UIRoot.Instance.StopCoroutine (coroutine);
-
+						Debug.Log("Match ..........");
 						//Application.LoadLevel ("Game");
-						ShowPage<LoadUIPage> ();
+						ShowPage<LoadingUIPage> ();
 					}
 				}
 
@@ -112,48 +114,86 @@ public class RoomUIMatch : UIPage
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
 				Debug.Log (data);
-				RespThirdGloryAdd buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdGloryAdd> (data.ToString());
-				play_count = buf.newUser.Count;
-				foreach (NewUser player in buf.newUser) {
-					//保存数据
-					RespThirdUserData userdata = new RespThirdUserData ();
-					userdata.nickname = player.nickname;
-					userdata.score = 0;
-					userdata.kill = 0;
-					userdata.death = 0;
-					userdata.assit = 0;
-					userdata.group = player.group;
-					userdata.head = player.head;
+				try
+				{
+					//RespThirdGloryAdd buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdGloryAdd> (data.ToString());
+					RespThirdGloryAdd buf = JsonMapper.ToObject<RespThirdGloryAdd> (data.ToString());
+					//建立玩家字典数据
 
-					if (!SavedData.s_instance.m_userCache.ContainsKey (player.uid)) {
-						SavedData.s_instance.m_userCache.Add (player.uid, userdata);
-						UserRank rank = new UserRank (player.uid,player.nickname,0);
-						SavedData.s_instance.m_userrank.Add (rank);
-					}
 
-					bool isFind = false;
-					for (int i = 0; i < 9; i++) {
-						GameObject item = this.gameObject.transform.Find ("content/player_groups").transform.GetChild (i).gameObject;
-						if (item.name == player.uid) {
-							isFind = true;	
-							break;
+					play_count = buf.newUser.Count;
+					foreach (NewUser player in buf.newUser) {
+						//保存数据
+						RespThirdUserData userdata = new RespThirdUserData ();
+						userdata.nickname = player.nickname;
+						userdata.score = 0;
+						userdata.kill = 0;
+						userdata.death = 0;
+						userdata.assit = 0;
+						userdata.group = player.group;
+						userdata.head = player.head;
+
+						if (!SavedData.s_instance.m_userCache.ContainsKey (player.uid)) {
+							SavedData.s_instance.m_userCache.Add (player.uid, userdata);
+							UserRank rank = new UserRank (player.uid,player.nickname,0);
+							SavedData.s_instance.m_userrank.Add (rank);
+						}
+
+						bool isFind = false;
+						for (int i = 0; i < 9; i++) {
+							GameObject item = this.gameObject.transform.Find ("content/player_groups").transform.GetChild (i).gameObject;
+							if (item.name == player.uid) {
+								isFind = true;	
+								break;
+							}
+						}
+						if (!isFind) {
+							AddNewUserItem (player.uid, player.head, int.Parse (player.group.Substring (player.group.Length - 1)));
 						}
 					}
-					if (!isFind) {
-						AddNewUserItem (player.uid, player.head, int.Parse (player.group.Substring (player.group.Length - 1)));
-					}
-				}
 
-			
+				}
+				  catch (SerializationException ex) 
+            	{   
+                	//直接显示: 游戏数据损坏, 请重新启动游戏;
+                	Log.w<ValUtils>(ex.Message);
+                	Debug.Log("SerializationException ysr"+ex.Message);
+                	//tellOnTableLoadErr();
+            	}   
+            	catch (Exception ex) 
+            	{   
+                	Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+                	//Log.w<ValUtils>(ex.Messasoge + ", " + ex.GetType().FullName);
+                	//tellOnTableLoadErr();
+            	}  
+
 			}
 			break;
 
 		case MSG_POMELO_LOAD:
 			{
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				RespThirdLoad buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (data.ToString());
-				SavedData.s_instance.m_map.file = buf.map;
-				SavedData.s_instance.m_map.skill_list = buf.magicStage;
+				try
+				{
+					//RespThirdLoad buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (data.ToString());
+					RespThirdLoad buf = JsonMapper.ToObject<RespThirdLoad> (data.ToString());
+					SavedData.s_instance.m_map.file = buf.map;
+					SavedData.s_instance.m_map.skill_list = buf.magicStage;
+				}
+				catch (SerializationException ex) 
+            	{   
+                	//直接显示: 游戏数据损坏, 请重新启动游戏;
+                	Log.w<ValUtils>(ex.Message);
+                	Debug.Log("SerializationException ysr"+ex.Message);
+                	//tellOnTableLoadErr();
+            	}   
+            	catch (Exception ex) 
+            	{   
+               	 	Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+                	//Log.w<ValUtils>(ex.Messasoge + ", " + ex.GetType().FullName);
+                	//tellOnTableLoadErr();
+            	}   
+
 
 			}
 			break;
@@ -261,18 +301,21 @@ public class RoomUIMatch : UIPage
 			{
 				//服务器同一开始
 				pClient.on("match", (data) =>{
+					Debug.Log(data);
 					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_MATCH);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
 				//所以玩家信息用来显示
 				pClient.on("gloryAdd", (data) =>{
+					Debug.Log(data);
 					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_GLORYADD);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);
 				});
 				//地图数据
 				pClient.on("load", (data) =>{
+					Debug.Log(data);
 					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_LOAD);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);

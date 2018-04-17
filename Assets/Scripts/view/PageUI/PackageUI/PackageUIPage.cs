@@ -24,6 +24,17 @@ public class PackageUIPage : UIPage
 		
 	Controller m_controller;
 
+	private int itemId = 0;
+
+	GameObject DescObj0 = null;
+	GameObject DescObj1 = null;
+	GameObject DescObj2 = null;
+	GameObject DescObj3 = null;
+	GameObject DescObj4 = null;
+	GameObject DescObj5 = null;
+	GameObject DescObj6 = null;
+
+
 
 
 	public PackageUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
@@ -33,25 +44,15 @@ public class PackageUIPage : UIPage
 	}
 	public override void Refresh()
 	{
-		
-		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				// 返回
-				ClosePage();
-			});
+		m_controller.reqThirdMage (false);
 
-		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				// 返回
-				ClosePage();
-			});
-
-		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
-			{
-				// 返回
-				ClosePage();
-			});
-				
+		//魔法石
+		this.gameObject.transform.Find ("tx_stone").GetComponent<Text> ().text = "" + SavedData.s_instance.m_user.m_stone;
+		//魔法币
+		this.gameObject.transform.Find ("tx_gold").GetComponent<Text> ().text = "" +SavedData.s_instance.m_user.m_gold;
+		//魔法圣杯
+		this.gameObject.transform.Find ("tx_grail").GetComponent<Text> ().text = "" +SavedData.s_instance.m_user.m_grail;
+	
 	}
 
 
@@ -86,6 +87,16 @@ public class PackageUIPage : UIPage
 			tabControl.CreateTab(tablist[i].id, tablist[i].tabname, tablist[i].panelPath);
 			initTab(i);
 		}
+
+		DescObj0 = this.transform.Find ("tabcontrol/Panels/panel0/desc").gameObject;
+		DescObj1 = this.transform.Find ("tabcontrol/Panels/panel1/desc").gameObject;
+		DescObj2 = this.transform.Find ("tabcontrol/Panels/panel2/desc").gameObject;
+		DescObj3 = this.transform.Find ("tabcontrol/Panels/panel3/desc").gameObject;
+		DescObj4 = this.transform.Find ("tabcontrol/Panels/panel4/desc").gameObject;
+		DescObj5 = this.transform.Find ("tabcontrol/Panels/panel5/desc").gameObject;
+		//DescObj6 = this.transform.Find ("tabcontrol/Panels/panel6/desc").gameObject;  //天赋树没写
+
+
 
 		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
 		{
@@ -124,6 +135,8 @@ public class PackageUIPage : UIPage
 
 		valCache.unmarkPageUse(m_pageID, ConstsVal.val_global);
 	}
+
+
 
 
 	//chushi
@@ -197,17 +210,18 @@ public class PackageUIPage : UIPage
 			Item = this.transform.Find("tabcontrol/Panels/panel"+tab+"/Viewport/Content/item").gameObject;
 			Item.SetActive(false);
 
-			//UDPackage data = new UDPackage (1,"icon_100191" ,tab);
-
 			ValTableCache valCache = getValTableCache();
-			//Dictionary<int, ValEnchanter> valDict = valCache.getValDictInPageScopeOrThrow<ValEnchanter>(m_pageID, ConstsVal.val_enchanter);
 			Dictionary<int, ValEnchanter> valDict = valCache.getValDictInPageScopeOrThrow<ValEnchanter> (m_pageID, ConstsVal.val_enchanter);
 
 			for(int i = 1; i<valDict.Count; i++)
 			{
 				ValEnchanter val = ValUtils.getValByKeyOrThrow(valDict, i);
-				if(type == val.type)
-				CreateItem(val);
+				if (type == val.type) {
+					Debug.Log (type);
+					Debug.Log (i);
+					CreateItem(val);
+					//CreateItem(i);
+				}
 			}
 		
 
@@ -237,38 +251,145 @@ public class PackageUIPage : UIPage
 
 	private void CreateItem(ValEnchanter val)
 	{
-
+		Debug.Log (val.id);
+		Debug.Log (val.id);
 		GameObject go = GameObject.Instantiate(Item) as GameObject;
 		go.transform.SetParent(Item.transform.parent);
 		go.transform.localScale = Vector3.one;
 		go.SetActive(true);
 
+		ValTableCache valCache = getValTableCache();
+		//Debug.Log (val.sid);
+		Dictionary<int, ValGlobal> valDict = valCache.getValDictInPageScopeOrThrow<ValGlobal> (m_pageID, ConstsVal.val_global);
+		Debug.Log (val.sid);
+		ValGlobal gval = ValUtils.getValByKeyOrThrow(valDict, val.sid);
+
 		//添加事件处理脚本
 		UIPackageItem item = go.AddComponent<UIPackageItem> ();
-		item.Refresh(val);
+		item.Refresh(val, gval.icon);
 		Items.Add(item);
 
 		//添加按钮点击事件监听
-		go.GetComponent<Button>().onClick.AddListener (delegate {
-			OnClickItem (go);
-		});
-
+		go.AddComponent<Button>().onClick.AddListener(OnClickItem);
 	}
 
-	private void OnClickItem(GameObject go)
+	private void OnClickItem()
 	{
-		#if false
-		go.GetComponent<UIPackageItem>("").GetComponent<Button>().onClick.AddListener(() =>
-		{
-				// 合成按钮
-			m_controller.reqThirdLogin (false, go.GetComponent<UIPackageItem>().data.sid);
-		});
-		#endif
-		//修改右边显示的点击状态
+		Debug.Log ("OnClickItem");
+		UIPackageItem item = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<UIPackageItem>();
+		itemId = item.data.sid;
+		RefreshDesc (item);
+	}
 
-		//Show()
+	#if false
+	//显示详细信息 交互动画
+	private void ShowDesc(UIEmailItem item)
+	{   
+		currentItem = item;
+		Desc.SetActive(true);
+		Desc.transform.localPosition = new Vector3(300f, Desc.transform.localPosition.y,Desc.transform.localPosition.z);
+
+
+		Desc.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0f, 0f), 0.25f, true);
+		RefreshDesc(item);
+	}  
+	#endif
+
+	//更新详细信息
+	private void RefreshDesc(UIPackageItem item)
+	{   
+		Debug.Log ("RefreshDesc");
+		GameObject descObj = null;
+		switch(item.data.type)
+		{
+		case 3:
+			{
+				//法师
+				descObj = DescObj0;
+				descObj.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				descObj.transform.Find ("img_progress").GetComponent<Image> ().fillAmount = 0.1f;
+				descObj.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
+				descObj.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
+				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+				{
+					m_controller.reqThirdSynthetize(false);
+				});
+			}
+			break;
+
+		case 27:
+			{
+				//魔宠
+				descObj = DescObj1;
+				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+				{
+					m_controller.reqThirdSynthetize(false);
+				});
+			}
+			break;
+	
+		case 7:
+			{
+				//技能
+				descObj = DescObj2;
+				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+				{
+					m_controller.reqThirdSynthetize(false);
+				});
+			}
+			break;
+		case 22:
+			{
+				//喷漆
+				descObj = DescObj3;
+				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+					{
+						m_controller.reqThirdSynthetize(false);
+					});
+			}
+			break;
+		case 17:
+			{
+				//签名板
+				descObj = DescObj4;
+				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+					{
+						m_controller.reqThirdSynthetize(false);
+					});
+			}
+			break;
+		case 4:
+			{
+				//魔法书
+				descObj = DescObj5;
+				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+					{
+						m_controller.reqThirdSynthetize(false);
+					});
+			}
+			break;
+
+		default:
+			{
+				//魔法书
+				descObj = DescObj6;
+				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+				{
+					m_controller.reqThirdSynthetize(false);
+				});
+			}
+			break;
+		}
+	
+
+
+	
 
 	}
+
+
+
+
 
 	class Controller : BaseController<PackageUIPage>,NetHttp.INetCallback
 	{
@@ -276,13 +397,13 @@ public class PackageUIPage : UIPage
 
 		private MainLooper m_initedLooper;
 
-		PackageUIPage m_main;
+		PackageUIPage m_page;
 		public Controller(PackageUIPage iview):base(null)
 		{
 			m_netHttp = new NetHttp();
 			m_netHttp.setPageNetCallback(this);
 			m_initedLooper = MainLooper.instance();
-			m_main = iview;
+			m_page = iview;
 		}
 
 		public void onDestroy()
@@ -298,41 +419,179 @@ public class PackageUIPage : UIPage
 
 		}
 
+		//魔法师界面获取用户数据
+		private const int REQ_THIRD_MAGE = 20;
 
-		//用于标识是那个接口用于处理接受函数
-		private const int REQ_THIRD_LOGIN = 1;
-
-		public void reqThirdLogin(bool isRetry,string sid)
+		public void reqThirdMage(bool isRetry)
 		{
 
-			ReqThirdLogin paramsValObj;
+			ReqThirdMage paramsValObj;
 			string checkID;
 
-			string api = "/login";
+			string api = "/mage";
 
 			AppUtils.apiCheckID (api);
 
 			if (isRetry) {
-				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdLogin> ();
+				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdMage> ();
+				paramsValObj.m_isRetry = 1;
+				checkID = paramsValObj.m_checkID;
+
+			} else {
+				checkID = AppUtils.apiCheckID(api);
+				paramsValObj = new ReqThirdMage();
+				//重连
+				paramsValObj.m_checkID = checkID;
+				paramsValObj.m_isRetry = 0;
+				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
+			}
+
+			string url = SavedContext.getApiUrl(api);
+			Debug.Log (url);
+			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_MAGE, checkID);
+
+		}
+
+
+		//碎片合成
+		private const int REQ_THIRD_SYNTHETIZE = 21;
+
+		public void reqThirdSynthetize(bool isRetry)
+		{
+
+			ReqThirdSynthetize paramsValObj;
+			string checkID;
+
+			string api = "/synthetize";
+
+			AppUtils.apiCheckID (api);
+
+			if (isRetry) {
+				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdSynthetize> ();
 				paramsValObj.m_isRetry = 1;
 
 				checkID = paramsValObj.m_checkID;
 
 			} else {
 				checkID = AppUtils.apiCheckID(api);
-				paramsValObj = new ReqThirdLogin();
+				paramsValObj = new ReqThirdSynthetize();
 				//重连
 				paramsValObj.m_checkID = checkID;
 				paramsValObj.m_isRetry = 0;
-			
+				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
+				paramsValObj.m_gsid = m_page.itemId;
 			}
 
 			string url = SavedContext.getApiUrl(api);
 			Debug.Log (url);
-			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_LOGIN, checkID);
+			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_SYNTHETIZE, checkID);
 
 		}
 
+
+		//装备物品
+		private const int REQ_THIRD_EQUIPMENT = 22;
+
+		public void reqThirdEquipment(bool isRetry)
+		{
+
+			ReqThirdEquipment paramsValObj;
+			string checkID;
+
+			string api = "/equipment";
+
+			AppUtils.apiCheckID (api);
+
+			if (isRetry) {
+				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdEquipment> ();
+				paramsValObj.m_isRetry = 1;
+
+				checkID = paramsValObj.m_checkID;
+
+			} else {
+				checkID = AppUtils.apiCheckID(api);
+				paramsValObj = new ReqThirdEquipment();
+				//重连
+				paramsValObj.m_checkID = checkID;
+				paramsValObj.m_isRetry = 0;
+				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
+				paramsValObj.m_gsid = m_page.itemId;
+			}
+
+			string url = SavedContext.getApiUrl(api);
+			Debug.Log (url);
+			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_EQUIPMENT, checkID);
+		}
+
+
+		//天赋点
+		private const int REQ_THIRD_GENIUS = 23;
+
+		public void reqThirdGenius(bool isRetry)
+		{
+
+			ReqThirdGenius paramsValObj;
+			string checkID;
+
+			string api = "/genius";
+
+			AppUtils.apiCheckID (api);
+
+			if (isRetry) {
+				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdGenius> ();
+				paramsValObj.m_isRetry = 1;
+				checkID = paramsValObj.m_checkID;
+
+			} else {
+				checkID = AppUtils.apiCheckID(api);
+				paramsValObj = new ReqThirdGenius();
+				//重连
+				paramsValObj.m_checkID = checkID;
+				paramsValObj.m_isRetry = 0;
+				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
+				paramsValObj.m_gsid = m_page.itemId;
+			}
+
+			string url = SavedContext.getApiUrl(api);
+			Debug.Log (url);
+			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_GENIUS, checkID);
+		}
+
+
+
+
+		//洗点
+		private const int REQ_THIRD_WASH = 24;
+
+		public void reqThirdWash(bool isRetry)
+		{
+
+			ReqThirdWash paramsValObj;
+			string checkID;
+
+			string api = "/wash";
+
+			AppUtils.apiCheckID (api);
+
+			if (isRetry) {
+				paramsValObj = m_netHttp.peekTopReqParamsValObj<ReqThirdWash> ();
+				paramsValObj.m_isRetry = 1;
+
+				checkID = paramsValObj.m_checkID;
+
+			} else {
+				checkID = AppUtils.apiCheckID(api);
+				paramsValObj = new ReqThirdWash();
+				//重连
+				paramsValObj.m_checkID = checkID;
+				paramsValObj.m_isRetry = 0;
+				paramsValObj.m_token = SavedData.s_instance.m_user.m_token;
+			}
+
+			string url = SavedContext.getApiUrl(api);
+			Debug.Log (url);
+			m_netHttp.postParamsValAsync(url,paramsValObj, REQ_THIRD_WASH, checkID);
+		}
 
 
 
@@ -341,20 +600,16 @@ public class PackageUIPage : UIPage
 		{
 			Debug.Log ("onHttpOk");
 			switch (data.m_reqTag) {
-			case REQ_THIRD_LOGIN:
+			case REQ_THIRD_MAGE:
 				{
-					RespThirdLogin resp = Utils.bytesToObject<RespThirdLogin> (respData.m_protobufBytes);
+					//获取用户数据
+					RespThirdMage resp = Utils.bytesToObject<RespThirdMage> (respData.m_protobufBytes);
 					switch (resp.m_code) {
 					case 200:
 						{
-							if (null == SavedData.s_instance) {
-								SavedData.s_instance = new SavedData ();
-
-							}
-							User user = SavedData.s_instance.m_user;
-							//user.m_uid = resp.m_uid; 
-							//user.m_token = resp.m_token; 
-
+							Debug.Log (resp.m_skin);
+							Debug.Log (resp.m_pet);
+							Debug.Log (resp.m_attackSkin);
 
 						}
 						break;
@@ -362,10 +617,125 @@ public class PackageUIPage : UIPage
 					default:
 						{
 							Debug.Log (resp.m_code);
+							ValTableCache valCache = m_page.getValTableCache ();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
+							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
+							Debug.Log (val.text);
 						}
 						break;
 
 
+
+					}
+				}
+				break;
+
+
+			case REQ_THIRD_SYNTHETIZE:
+				{
+					//碎片合成
+					RespThirdSynthetize resp = Utils.bytesToObject<RespThirdSynthetize> (respData.m_protobufBytes);
+					switch (resp.m_code) {
+					case 200:
+						{
+							Debug.Log ("碎片合成成功");
+
+						}
+						break;
+
+					default:
+						{
+							Debug.Log (resp.m_code);
+							ValTableCache valCache = m_page.getValTableCache ();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
+							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
+							Debug.Log (val.text);
+						}
+						break;
+
+
+
+					}
+				}
+				break;
+
+
+
+			case REQ_THIRD_EQUIPMENT:
+				{
+					//装备
+					RespThirdEquipment resp = Utils.bytesToObject<RespThirdEquipment> (respData.m_protobufBytes);
+					switch (resp.m_code) {
+					case 200:
+						{
+							Debug.Log ("装备成功");
+						}
+						break;
+
+					default:
+						{
+							Debug.Log (resp.m_code);
+							ValTableCache valCache = m_page.getValTableCache ();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
+							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
+							Debug.Log (val.text);
+						}
+						break;
+
+					}
+				}
+				break;
+
+
+
+			case REQ_THIRD_GENIUS:
+				{
+					//天赋点
+					RespThirdGenius resp = Utils.bytesToObject<RespThirdGenius> (respData.m_protobufBytes);
+					switch (resp.m_code) {
+					case 200:
+						{
+							Debug.Log ("天赋点加点成功");
+						}
+						break;
+
+					default:
+						{
+							Debug.Log (resp.m_code);
+							ValTableCache valCache = m_page.getValTableCache ();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
+							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
+							Debug.Log (val.text);
+						}
+						break;
+
+					}
+				}
+				break;
+
+
+			case REQ_THIRD_WASH:
+				{
+					//洗点
+					RespThirdWash resp = Utils.bytesToObject<RespThirdWash> (respData.m_protobufBytes);
+					switch (resp.m_code) {
+					case 200:
+						{
+							Debug.Log ("洗点成功" +resp.m_talent);
+
+						}
+						break;
+
+					default:
+						{
+							Debug.Log (resp.m_code);
+							ValTableCache valCache = m_page.getValTableCache ();
+							Dictionary<int, ValCode> valDict = valCache.getValDictInPageScopeOrThrow<ValCode> (m_page.m_pageID, ConstsVal.val_code);
+							ValCode val = ValUtils.getValByKeyOrThrow (valDict, resp.m_code);
+							Debug.Log (val.text);
+							//m_page.toast.showToast (val.text);
+						}
+						break;
 
 					}
 				}

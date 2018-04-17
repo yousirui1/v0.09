@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using UnityEngine;
+using LitJson;
 
 /**************************************
 *FileName: ValLoader.cs
@@ -90,7 +91,8 @@ namespace tpgm
                 
 				string text = File.ReadAllText(path, Encoding.UTF8);
                 
-                List<T_Val> list = SimpleJson.SimpleJson.DeserializeObject<List<T_Val>>(text);
+                //List<T_Val> list = SimpleJson.SimpleJson.DeserializeObject<List<T_Val>>(text);
+                List<T_Val> list = JsonMapper.ToObject<List<T_Val>>(text);
 
                 outList = list;
                 m_dict.Add(valFileName, list);

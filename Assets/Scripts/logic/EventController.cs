@@ -93,12 +93,11 @@ public class EventController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		
 	}
 
 	public void InitObj(GameObject canvasObj)
 	{
-		//InitObj ();
 		shadow = new Shadow();
 		this.canvasObj = canvasObj;
 		this.canvasObj.SetActive (false);
@@ -146,16 +145,14 @@ public class EventController : MonoBehaviour {
 		cameraObj.transform.localPosition = new Vector3(0,0,-100);
 		cameraObj.transform.localScale = Vector3.one;
 
-		//areaConect = GameObject.Find ("NetController").GetComponent<AreaConect> ();
-
 		m_msgHandlerProxy = new MessageHandlerProxy(handleMsg);
-
-		//Invoke ("InitJoyControl", 0.5f);
+		//Invoke ("InitJoyControl", 5.0f);
 	}
 
-	public void  InitMap(string valFileName, List<int> skill_list, StartUIPage ivew)
+	public void  InitMap(string valFileName, List<int> skill_list, LoadingUIPage ivew)
 	{
 		StartCoroutine(map.InitMap (valFileName, skill_list,canvasObj,ivew));
+
 	}
 		
 	void OnDestroy()
@@ -164,9 +161,16 @@ public class EventController : MonoBehaviour {
 	}
 
 
-	void InitJoyControl()
+	public void InitJoyControl()
 	{
 		joyControl = gameMenu.transform.Find ("GameUI/JoyControl").gameObject.GetComponent<JoyControl> ();
+		areaConect = new GameObject("NetController").AddComponent<AreaConect> ();
+		areaConect.transform.parent = canvasObj.transform;
+	}
+
+	public GameObject GetCanvas()
+	{
+		return canvasObj;
 	}
 
 
@@ -362,7 +366,7 @@ public class EventController : MonoBehaviour {
 
 			//发射射线判断障碍物
 			RaycastHit2D hit = Physics2D.Raycast(gameObj.transform.position, vec, (players [id].v * 0.03f + 1.0f), 1<<LayerMask.NameToLayer("barrier"));
-			Debug.DrawLine (gameObj.transform.position, hit.point);
+			//Debug.DrawLine (gameObj.transform.position, hit.point);
 
 			if (hit.collider == null && SavedData.s_instance.m_isMove) {
 				shadow.craft_move (players [id], 1);
@@ -390,10 +394,6 @@ public class EventController : MonoBehaviour {
 	}
 
 
-
-
-
-
 	//处理服务端发送过来的数据
 	public void ev_Output(FrameBuf buf)
 	{
@@ -414,7 +414,6 @@ public class EventController : MonoBehaviour {
 				{
 					isFind = true;
                     //判断是否为主角用户
-                    //shadow.shadow_refresh(buf.data[i]);
 
 					if (buf.data [i].uid != SavedData.s_instance.m_user.m_uid)
 					{	
@@ -458,6 +457,8 @@ public class EventController : MonoBehaviour {
 				ev_AddPlayer (buf.data [i], i);
 				map.AddPlayerObj (i, buf.data [i].uid, buf.data[i].x, buf.data[i].y);
 
+
+
 				//判断是否是队友设置箭头指向队友
 				if (IsSameCamp (SavedData.s_instance.m_user.m_uid, buf.data [i].uid )) {
 					gameMenu.SetArrowGroup (map.GetPlayerObj (i).transform);
@@ -478,6 +479,7 @@ public class EventController : MonoBehaviour {
 		return map;
 	}
 
+	#if false
 	//建立玩家字典数据
 	public void ev_InitPlayer(List<NewUser> newUser)
 	{
@@ -495,13 +497,18 @@ public class EventController : MonoBehaviour {
 				SavedData.s_instance.m_userCache.Add (newUser [i].uid, data);
 				UserRank rank = new UserRank (newUser [i].uid, newUser [i].nickname,0);
 				SavedData.s_instance.m_userrank.Add (rank);
+
+				Debug.Log ("ev_InitPlayer");
+				map.GetPlayerObj (newUser [i].uid).GetComponent<PlayerATKAndDamage> ().SetNickName (newUser [i].nickname);
 			}
-
-
+				
 		}
 
-
 	}
+	#endif
+
+
+
 		
 	//更新玩家数据字典
 	private void UpdateUserData(string uid, int score,bool iskill, bool isdeath, bool isassit)
@@ -698,6 +705,7 @@ public class EventController : MonoBehaviour {
 	{
 		GameObject roleObj = (GameObject)obj;
 		Debug.Log (roleObj.name);
+
 		#if false
 		if (fream % 2 == 0) {
 			roleObj.GetComponent<SpriteRenderer> ().color = new Color (roleObj.GetComponent<SpriteRenderer> ().color.a,roleObj.GetComponent<SpriteRenderer> ().color.b,roleObj.GetComponent<SpriteRenderer> ().color.g,0);
@@ -711,7 +719,6 @@ public class EventController : MonoBehaviour {
 	void handleMsg(HandlerMessage msg)
 	{
 		looper_CheckAlpha (msg.m_what,msg.m_dataObj);
-
 	}
 
 
