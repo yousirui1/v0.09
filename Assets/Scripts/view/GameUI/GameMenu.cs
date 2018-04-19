@@ -328,11 +328,7 @@ public class GameMenu : MonoBehaviour
 		string st_time = "";
 
 		float time = Time.time - StartTime;
-
-
-		if (time > 0) {
-			ActiveResultPanel ();
-		}
+	
 
 		if ((int)((300 - time) % 60)<10 && time<=300)
 		{
@@ -444,7 +440,9 @@ public class GameMenu : MonoBehaviour
 				Destroy(eventController.GetCanvas());
 				Destroy(eventController.gameObject);
 
+
 				UIRoot.Instance.gameObject.SetActive (true);
+				UIRoot.Instance.CreateEventSystem();
 				UIPage.ShowPage<RoomUIPrepare>();
 				//回到房间
 		});
@@ -457,7 +455,7 @@ public class GameMenu : MonoBehaviour
 				Destroy(eventController.gameObject);
 
 				UIRoot.Instance.gameObject.SetActive (true);
-
+				UIRoot.Instance.CreateEventSystem();
 				UIPage.ShowPage<MainUIPage>();
 				//回到大厅
 		});

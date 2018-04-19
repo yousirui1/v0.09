@@ -8,18 +8,21 @@ using UnityEngine.EventSystems;
 public class UIRoot : MonoBehaviour
 {
     private static UIRoot m_Instance = null;
-    public static UIRoot Instance
+	public static UIRoot Instance
     {
         get
         {
             if (null == m_Instance)
             {
-                InitRoot();
+				m_Instance = new UIRoot ();
+				Debug.Log ("UIRoot m_Instance");
             }
 
             return m_Instance;
         }
     }
+
+
 
 
     public Transform root;
@@ -30,7 +33,7 @@ public class UIRoot : MonoBehaviour
 
 
 
-    static void InitRoot()
+    public void InitRoot()
     {
         GameObject go = new GameObject("UIRoot");
         go.layer = LayerMask.NameToLayer("UI");
@@ -129,6 +132,16 @@ public class UIRoot : MonoBehaviour
         return go;
 
     }
+
+
+	public  void CreateEventSystem()
+	{
+		GameObject eventObj = new GameObject("EventSystem");
+		eventObj.layer = LayerMask.NameToLayer("UI");
+		eventObj.transform.SetParent(root);
+		eventObj.AddComponent<EventSystem>();
+		eventObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+	}
 
     void OnDestroy()
     {

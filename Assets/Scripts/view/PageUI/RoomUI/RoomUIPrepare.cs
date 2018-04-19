@@ -58,7 +58,8 @@ public class RoomUIPrepare : UIPage
 	//刷新
 	public override void Refresh()
 	{
-		controller = new Controller (this);
+
+
 		controller.onPomeloEvent_EnterRoom ();
 
 		listObj.transform.localScale = Vector3.zero;
@@ -72,7 +73,8 @@ public class RoomUIPrepare : UIPage
 	public override void Awake(GameObject go)
 	{
 		Init ();
-		//InitToast ();
+		controller = new Controller (this);
+
 		tabControl = this.transform.Find ("tabcontrol").GetComponent<TabControl> () as TabControl;
 
 		tablist.Add (new TabIndex(0,"好友", null));

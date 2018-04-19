@@ -7,7 +7,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	GameObject obj = null;
 	// Use this for initialization
 	void Start () {
-		obj = ResourceMgr.Instance ().CreateGameObject ("GameObject", false);
+		//obj = ResourceMgr.Instance ().CreateGameObject ("GameObject", false);
 
 
 		UIPage.ShowPage<PublicUINotice> ();

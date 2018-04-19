@@ -20,7 +20,7 @@ public class LoadingUIPage : UIPage
 
 	private Image img_loadbar = null;
 
-	public LoadingUIPage() : base(UIType.Normal, UIMode.HideOther, UICollider.None)
+	public LoadingUIPage() : base(UIType.PopUp, UIMode.DoNothing, UICollider.WithBg)
     {
         //布局预制体
 		uiPath = "Prefabs/UI/LoadUI/LoadingUIPage";

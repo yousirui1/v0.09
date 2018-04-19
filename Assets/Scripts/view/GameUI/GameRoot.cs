@@ -80,6 +80,7 @@ public class GameRoot : MonoBehaviour
 		eventObj.transform.SetParent(obj.transform);
 		eventObj.AddComponent<EventSystem>();
 		eventObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+
 		
 	}
 

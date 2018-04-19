@@ -25,6 +25,8 @@ public class PageMain : MonoBehaviour {
 		//远程打印
 		NetLog.Instance();
 
+		UIRoot.Instance.InitRoot();
+
 		UIPage.ShowPage<LoadNoticeUIPage> ();
 	
 

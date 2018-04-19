@@ -101,7 +101,7 @@ namespace tpgm.UI
 		private Toast m_toast = null;
 		protected Toast toast { get { return m_toast;}}
 
-     
+
 
         #region virtual api
 
@@ -439,7 +439,7 @@ namespace tpgm.UI
 
 
 			loadRes(SavedContext.s_texCache, SavedContext.s_valTableCache);
-		
+			//UIRoot.Instance.
 
         }
 

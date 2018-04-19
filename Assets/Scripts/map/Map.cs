@@ -227,6 +227,7 @@ public class Map : MonoBehaviour
 
 		playerMgrObj = this.gameObject.transform.Find ("PlayerManage").gameObject;
 
+		ivew.Hide ();
 		UIRoot.Instance.gameObject.SetActive (false);
 		canvasObj.SetActive (true);
 		yield return 0;

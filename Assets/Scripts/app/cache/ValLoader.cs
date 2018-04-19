@@ -114,12 +114,12 @@ namespace tpgm
             {
                 //直接显示: 游戏数据损坏, 请重新启动游戏;
                 Log.w<ValUtils>(ex.Message);
-				Debug.Log("SerializationException ysr"+ex.Message);
+				Debug.Log("SerializationException "+ex.Message);
                 tellOnTableLoadErr();
             }
             catch (Exception ex)
             {
-				Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+				Debug.Log("Exception "+ ex.Message + ", " + ex.GetType().FullName);
                 Log.w<ValUtils>(ex.Message + ", " + ex.GetType().FullName);
                 tellOnTableLoadErr();
             }
