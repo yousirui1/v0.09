@@ -58,7 +58,7 @@ public class RoomUIPrepare : UIPage
 	//刷新
 	public override void Refresh()
 	{
-
+		ClearPlayerInfo ();
 
 		controller.onPomeloEvent_EnterRoom ();
 
@@ -244,6 +244,19 @@ public class RoomUIPrepare : UIPage
 			}
 			other_count++;
 		}
+
+	}
+
+	private void ClearPlayerInfo()
+	{
+		userObj0.transform.Find ("tx_username").GetComponent<Text> ().text = "??????";
+		userObj0.transform.Find ("img_user").GetComponent<Image> ().sprite = null;
+
+		userObj1.transform.Find ("tx_username").GetComponent<Text> ().text = "??????";
+		userObj1.transform.Find ("img_user").GetComponent<Image> ().sprite = null;
+
+		userObj2.transform.Find ("tx_username").GetComponent<Text> ().text = "??????";
+		userObj2.transform.Find ("img_user").GetComponent<Image> ().sprite = null;
 
 	}
 

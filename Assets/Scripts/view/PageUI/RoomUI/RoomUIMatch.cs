@@ -56,6 +56,8 @@ public class RoomUIMatch : UIPage
 
 	public override void Refresh()
 	{
+		ClearUserItem ();
+
 		//定时器
 		coroutine = UIRoot.Instance.StartCoroutine(Timer());
 		controller.onPomeloEvent_Match ();
@@ -100,8 +102,6 @@ public class RoomUIMatch : UIPage
 					if (Convert.ToInt32 (match) == 2) {
 						SavedData.s_instance.m_roomNum = roomNum.ToString ();
 						UIRoot.Instance.StopCoroutine (coroutine);
-						Debug.Log("Match ..........");
-						//Application.LoadLevel ("Game");
 						ShowPage<LoadingUIPage> ();
 					}
 				}
@@ -248,6 +248,17 @@ public class RoomUIMatch : UIPage
 				break;
 			}
 		}
+	}
+
+	private void ClearUserItem()
+	{
+		GameObject items = this.gameObject.transform.Find ("content/player_groups").gameObject;
+		for (int i = 0; i < items.transform.childCount; i++) {
+			items.transform.GetChild (i).GetComponent<Image> ().sprite = null;
+			items.transform.GetChild (i).name = "img_player0" + i;
+		}
+
+
 	}
 
 
