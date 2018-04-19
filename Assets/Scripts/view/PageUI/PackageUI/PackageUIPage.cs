@@ -88,15 +88,6 @@ public class PackageUIPage : UIPage
 			initTab(i);
 		}
 
-		DescObj0 = this.transform.Find ("tabcontrol/Panels/panel0/desc").gameObject;
-		DescObj1 = this.transform.Find ("tabcontrol/Panels/panel1/desc").gameObject;
-		DescObj2 = this.transform.Find ("tabcontrol/Panels/panel2/desc").gameObject;
-		DescObj3 = this.transform.Find ("tabcontrol/Panels/panel3/desc").gameObject;
-		DescObj4 = this.transform.Find ("tabcontrol/Panels/panel4/desc").gameObject;
-		DescObj5 = this.transform.Find ("tabcontrol/Panels/panel5/desc").gameObject;
-		//DescObj6 = this.transform.Find ("tabcontrol/Panels/panel6/desc").gameObject;  //天赋树没写
-
-
 
 		this.gameObject.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
 		{
@@ -144,12 +135,16 @@ public class PackageUIPage : UIPage
 	{
 		int type = 0;
 
+		GameObject descObj = null;
 		switch(tab)
 		{
 		case 0:
 			{
+				Debug.Log ("法师界面");
 				//法师
 				type = 3;
+				DescObj0 = this.transform.Find ("tabcontrol/Panels/panel0/desc").gameObject;
+				descObj = DescObj0;
 			}
 			break;
 
@@ -157,6 +152,8 @@ public class PackageUIPage : UIPage
 			{
 				//魔宠
 				type = 27;
+				DescObj1 = this.transform.Find ("tabcontrol/Panels/panel1/desc").gameObject;
+				descObj = DescObj1;
 			}
 			break;
 
@@ -164,29 +161,41 @@ public class PackageUIPage : UIPage
 			{
 				//技能
 				type = 7;
+				DescObj2 = this.transform.Find ("tabcontrol/Panels/panel2/desc").gameObject;
+				descObj = DescObj2;
 			}
 			break;
 		case 3:
 			{
 				//喷漆
 				type = 22;
+				DescObj3 = this.transform.Find ("tabcontrol/Panels/panel3/desc").gameObject;
+				descObj = DescObj3;
 			}
 			break;
 		case 4:
 			{
 				//签名板
 				type = 17;
+				DescObj4 = this.transform.Find ("tabcontrol/Panels/panel4/desc").gameObject;
+				descObj = DescObj4;
+
 			}
 			break;
 		case 5:
 			{
 				//魔法书
 				type = 4;
+				DescObj5 = this.transform.Find ("tabcontrol/Panels/panel5/desc").gameObject;
+				descObj = DescObj5;
 			}
 			break;
 
 		case 6:
 			{
+				DescObj6 = this.transform.Find ("tabcontrol/Panels/panel6/desc").gameObject;  //天赋树没写
+				DescObj6.SetActive (false);
+				descObj = DescObj6;
 				List<TabIndex> skilltree_tablist = new List<TabIndex>();
 				//天赋树特别
 				TabControl skilltree_tabControl =  this.transform.Find("tabcontrol/Panels/panel6/tabcontrol").GetComponent<TabControl>() as TabControl;
@@ -202,7 +211,11 @@ public class PackageUIPage : UIPage
 				}
 			}
 			break;
-
+		default:
+			{
+				descObj = DescObj0;
+			}
+			break;
 		}
 
 		if (tab != 6) {
@@ -217,16 +230,18 @@ public class PackageUIPage : UIPage
 			{
 				ValEnchanter val = ValUtils.getValByKeyOrThrow(valDict, i);
 				if (type == val.type) {
-					Debug.Log (type);
-					Debug.Log (i);
 					CreateItem(val);
-					//CreateItem(i);
 				}
 			}
-		
-
-			Debug.Log (valDict.Count);
 		}
+
+		//监听按钮事件
+		descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
+		{
+			m_controller.reqThirdSynthetize(false);
+		});
+
+
 
 	}
 
@@ -251,8 +266,6 @@ public class PackageUIPage : UIPage
 
 	private void CreateItem(ValEnchanter val)
 	{
-		Debug.Log (val.id);
-		Debug.Log (val.id);
 		GameObject go = GameObject.Instantiate(Item) as GameObject;
 		go.transform.SetParent(Item.transform.parent);
 		go.transform.localScale = Vector3.one;
@@ -261,7 +274,6 @@ public class PackageUIPage : UIPage
 		ValTableCache valCache = getValTableCache();
 		//Debug.Log (val.sid);
 		Dictionary<int, ValGlobal> valDict = valCache.getValDictInPageScopeOrThrow<ValGlobal> (m_pageID, ConstsVal.val_global);
-		Debug.Log (val.sid);
 		ValGlobal gval = ValUtils.getValByKeyOrThrow(valDict, val.sid);
 
 		//添加事件处理脚本
@@ -299,90 +311,80 @@ public class PackageUIPage : UIPage
 	private void RefreshDesc(UIPackageItem item)
 	{   
 		Debug.Log ("RefreshDesc");
-		GameObject descObj = null;
 		switch(item.data.type)
 		{
 		case 3:
 			{
 				//法师
-				descObj = DescObj0;
-				descObj.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
-				descObj.transform.Find ("img_progress").GetComponent<Image> ().fillAmount = 0.1f;
-				descObj.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
-				descObj.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
-				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
-				{
-					m_controller.reqThirdSynthetize(false);
-				});
+				DescObj0.transform.Find ("tx_name").GetComponent<Text> ().text = "";
+				DescObj0.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.1f;
+				DescObj0.transform.Find ("bg_progress/tx_progress").GetComponent<Text> ().text = "100/100";
+				DescObj0.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj0.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
+				DescObj0.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
 			}
 			break;
 
 		case 27:
 			{
 				//魔宠
-				descObj = DescObj1;
-				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
-				{
-					m_controller.reqThirdSynthetize(false);
-				});
+				DescObj1.transform.Find ("tx_name").GetComponent<Text> ().text = "";
+				DescObj1.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.1f;
+				DescObj1.transform.Find ("bg_progress/tx_progress").GetComponent<Text> ().text = "100/100";
+				DescObj1.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj1.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
+				DescObj1.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
+		
 			}
 			break;
 	
 		case 7:
 			{
 				//技能
-				descObj = DescObj2;
-				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
-				{
-					m_controller.reqThirdSynthetize(false);
-				});
+				DescObj2.transform.Find ("tx_name").GetComponent<Text> ().text = "";
+				DescObj2.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.1f;
+				DescObj2.transform.Find ("bg_progress/tx_progress").GetComponent<Text> ().text = "100/100";
+				DescObj2.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj2.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
+				DescObj2.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
 			}
 			break;
 		case 22:
 			{
 				//喷漆
-				descObj = DescObj3;
-				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
-					{
-						m_controller.reqThirdSynthetize(false);
-					});
+				DescObj2.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.1f;
+				DescObj2.transform.Find ("bg_progress/tx_progress").GetComponent<Text> ().text = "100/100";
+				DescObj2.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj2.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
+				DescObj2.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
 			}
 			break;
 		case 17:
 			{
 				//签名板
-				descObj = DescObj4;
-				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
-					{
-						m_controller.reqThirdSynthetize(false);
-					});
+				DescObj3.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
 			}
 			break;
 		case 4:
 			{
 				//魔法书
-				descObj = DescObj5;
-				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
-					{
-						m_controller.reqThirdSynthetize(false);
-					});
+				DescObj4.transform.Find ("tx_name").GetComponent<Text> ().text = "";
+				DescObj4.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj4.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
 			}
 			break;
 
 		default:
 			{
-				//魔法书
-				descObj = DescObj6;
-				descObj.transform.Find("btn_ok").GetComponent<Button>().onClick.AddListener(() =>
-				{
-					m_controller.reqThirdSynthetize(false);
-				});
+				//天赋树
+
+			
 			}
 			break;
 		}
 	
 
-
+	
 	
 
 	}

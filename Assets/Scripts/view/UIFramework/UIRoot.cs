@@ -15,7 +15,6 @@ public class UIRoot : MonoBehaviour
             if (null == m_Instance)
             {
 				m_Instance = new UIRoot ();
-				Debug.Log ("UIRoot m_Instance");
             }
 
             return m_Instance;

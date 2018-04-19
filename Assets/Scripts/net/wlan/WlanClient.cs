@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJson;
 using tpgm;
+using tpgm.UI;
 
 public class WlanClient : MonoBehaviour {
 	
@@ -41,7 +42,6 @@ public class WlanClient : MonoBehaviour {
 	void Start() {
 		networkView = this.gameObject.AddComponent<NetworkView>();
 	
-		//eventController = GameObject.Find("EventController").GetComponent<EventController>() as EventController;
 
 		SavedData.s_instance.m_userlist = UserNameList;
 
@@ -74,7 +74,7 @@ public class WlanClient : MonoBehaviour {
 	{
 		if(Network.isClient && isLogin)
 		{
-			OnMove (eventController.ev_Input ());
+			//OnMove (eventController.ev_Input ());
 		}
 	}
 
@@ -197,7 +197,11 @@ public class WlanClient : MonoBehaviour {
 		if (!isInitMap) {
 			isInitMap = true;
 			RespThirdLoad mapVal = SimpleJson.SimpleJson.DeserializeObject<RespThirdLoad> (message);
-			//eventController.InitMap (mapVal.map, mapVal.magicStage);
+			SavedData.s_instance.m_map.file = mapVal.map;
+			SavedData.s_instance.m_map.skill_list = mapVal.magicStage;
+
+			UIPage.ShowPage<LoadingUIPage> ();
+			//eventController = GameObject.Find("EventController").GetComponent<EventController>() as EventController;
 		}
 	}
 
@@ -208,7 +212,8 @@ public class WlanClient : MonoBehaviour {
 	void Request2ClientMove(string message, NetworkMessageInfo info)
 	{
 		FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (message);
-		//Debug.Log (buf.data.Count);
+		Debug.Log (buf.data.Count);
+		//if(buf != null)
 		//eventController.ev_Output (buf);
 	}
 

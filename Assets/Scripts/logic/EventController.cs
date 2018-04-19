@@ -164,8 +164,8 @@ public class EventController : MonoBehaviour {
 	public void InitJoyControl()
 	{
 		joyControl = gameMenu.transform.Find ("GameUI/JoyControl").gameObject.GetComponent<JoyControl> ();
-		areaConect = new GameObject("NetController").AddComponent<AreaConect> ();
-		areaConect.transform.parent = canvasObj.transform;
+		//areaConect = new GameObject("NetController").AddComponent<AreaConect> ();
+		//areaConect.transform.parent = canvasObj.transform;
 	}
 
 	public GameObject GetCanvas()

@@ -79,12 +79,13 @@ public class StartUIPage : UIPage
 
 		this.gameObject.transform.Find("btn_client").GetComponent<Button>().onClick.AddListener(() =>
 		{
-				//loaditem(this);
+				new GameObject("client").AddComponent<WlanClient>();
+
 		});
 
 
-		this.gameObject.transform.Find ("btn_server").gameObject.SetActive (false);
-		this.gameObject.transform.Find ("btn_client").gameObject.SetActive (false);
+		//this.gameObject.transform.Find ("btn_server").gameObject.SetActive (false);
+		//this.gameObject.transform.Find ("btn_client").gameObject.SetActive (false);
 	}
 
 

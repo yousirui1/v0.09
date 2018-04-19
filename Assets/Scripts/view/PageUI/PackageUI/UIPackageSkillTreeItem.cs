@@ -11,7 +11,7 @@ using SimpleJson;
 *Describe: 法师item逻辑处理和显示
 **************************************/
 
-public class UIPackageItem : MonoBehaviour 
+public class UIPackageSkillTreeItem : MonoBehaviour 
 {
 	public ValEnchanter data = null;
 
@@ -29,10 +29,8 @@ public class UIPackageItem : MonoBehaviour
 		} else {
 			//Debug.Log (val.type);
 			this.transform.Find ("img_item").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+icon, false);
-			//this.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.0f;
+			this.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.0f;
 		}
 	}
-
-
-
+		
 } 
