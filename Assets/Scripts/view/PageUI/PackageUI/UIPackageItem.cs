@@ -13,8 +13,10 @@ using SimpleJson;
 
 public class UIPackageItem : MonoBehaviour 
 {
+	//enchanter
 	public ValEnchanter data = null;
 
+	//icon grobal
 	public string icon = "";
 
 

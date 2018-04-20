@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 114587970721796396}
   - component: {fileID: 114936003348668176}
   m_Layer: 5
-  m_Name: panel4
+  m_Name: panel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using tpgm.UI;
 using tpgm;
+using System;
 
 public class PackageUIPage : UIPage
 {
@@ -140,7 +141,7 @@ public class PackageUIPage : UIPage
 		{
 		case 0:
 			{
-				Debug.Log ("法师界面");
+				//Debug.Log ("法师界面");
 				//法师
 				type = 3;
 				DescObj0 = this.transform.Find ("tabcontrol/Panels/panel0/desc").gameObject;
@@ -252,17 +253,33 @@ public class PackageUIPage : UIPage
 	{
 		GameObject btn_groupObj = this.transform.Find ("tabcontrol/Panels/panel6/tabcontrol/Panels/panel" + tab + "/btn_group").gameObject;
 		for (int i = 0; i < btn_groupObj.transform.childCount; i++) {
-			btn_groupObj.transform.GetChild(i).GetComponent<Button>().onClick.AddListener (delegate {
-				//OnClickSkillTree(btn_groupObj.transform.GetChild(i).gameObject,btn_groupObj);
-			});
+			btn_groupObj.transform.GetChild (i).gameObject.GetComponent<Button> ().onClick.AddListener (OnClickSkillTree);
 		}
+		this.transform.Find ("tabcontrol/Panels/panel6/tabcontrol/Panels/panel" + tab + "/btn_back").GetComponent<Button> ().onClick.AddListener (() =>
+		{
+			// 返回
+			DescObj6.SetActive (false);
+		});
+
+		this.transform.Find ("tabcontrol/Panels/panel6/tabcontrol/Panels/panel" + tab + "/bg_wash/btn_wash").GetComponent<Button> ().onClick.AddListener (() =>
+		{
+			// 返回
+			m_controller.reqThirdWash(false);
+		});
+
 
 	}
 
-	private void OnClickSkillTree(GameObject obj,GameObject panelObj)
+	private void OnClickSkillTree()
 	{
-		//panelObj.
+		//Debug.Log (obj.name);
+		DescObj6.SetActive (true);
+		itemId = Convert.ToInt32(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
+		Debug.Log (itemId);
+		
 	}
+
+
 
 	private void CreateItem(ValEnchanter val)
 	{
@@ -275,7 +292,7 @@ public class PackageUIPage : UIPage
 		//Debug.Log (val.sid);
 		Dictionary<int, ValGlobal> valDict = valCache.getValDictInPageScopeOrThrow<ValGlobal> (m_pageID, ConstsVal.val_global);
 		ValGlobal gval = ValUtils.getValByKeyOrThrow(valDict, val.sid);
-
+	
 		//添加事件处理脚本
 		UIPackageItem item = go.AddComponent<UIPackageItem> ();
 		item.Refresh(val, gval.icon);
@@ -285,11 +302,13 @@ public class PackageUIPage : UIPage
 		go.AddComponent<Button>().onClick.AddListener(OnClickItem);
 	}
 
+
 	private void OnClickItem()
 	{
-		Debug.Log ("OnClickItem");
+		
 		UIPackageItem item = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<UIPackageItem>();
 		itemId = item.data.sid;
+		Debug.Log (itemId);
 		RefreshDesc (item);
 	}
 
@@ -352,25 +371,24 @@ public class PackageUIPage : UIPage
 		case 22:
 			{
 				//喷漆
-				DescObj2.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.1f;
-				DescObj2.transform.Find ("bg_progress/tx_progress").GetComponent<Text> ().text = "100/100";
-				DescObj2.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
-				DescObj2.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
-				DescObj2.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
+				DescObj3.transform.Find ("bg_progress/img_progress").GetComponent<Image> ().fillAmount = 0.1f;
+				DescObj3.transform.Find ("bg_progress/tx_progress").GetComponent<Text> ().text = "100/100";
+				DescObj3.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj3.transform.Find ("img_icon/tx_count").GetComponent<Text> ().text = "" + item.data.sum;
 			}
 			break;
 		case 17:
 			{
 				//签名板
-				DescObj3.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj4.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
 			}
 			break;
 		case 4:
 			{
 				//魔法书
-				DescObj4.transform.Find ("tx_name").GetComponent<Text> ().text = "";
-				DescObj4.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
-				DescObj4.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
+				DescObj5.transform.Find ("tx_name").GetComponent<Text> ().text = "";
+				DescObj5.transform.Find ("img_head").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/icon/"+item.icon, false);
+				DescObj5.transform.Find ("img_desc/tx_desc").GetComponent<Text> ().text = item.data.text;
 			}
 			break;
 
@@ -609,9 +627,9 @@ public class PackageUIPage : UIPage
 					switch (resp.m_code) {
 					case 200:
 						{
-							Debug.Log (resp.m_skin);
-							Debug.Log (resp.m_pet);
-							Debug.Log (resp.m_attackSkin);
+							//Debug.Log (resp.m_skin);
+							//Debug.Log (resp.m_pet);
+							//Debug.Log (resp.m_attackSkin);
 
 						}
 						break;
