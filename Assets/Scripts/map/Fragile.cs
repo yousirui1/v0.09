@@ -26,6 +26,8 @@ public class Fragile : MonoBehaviour {
 			//改变层级让人物能穿过
 			this.gameObject.layer = LayerMask.NameToLayer ("Default");
 
+
+
 		}
 	}
 

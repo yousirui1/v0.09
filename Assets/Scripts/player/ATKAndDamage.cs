@@ -278,6 +278,7 @@ public class ATKAndDamage : MonoBehaviour{
 				level++;
 				ValRoleBattle val = ValUtils.getValByKeyOrThrow (valDict1, level);
 				SetMaxValue (val.hp, val.spirit, val.speed, val.res);
+
 			} 
 
 			this.exp += exp;
@@ -416,12 +417,15 @@ public class ATKAndDamage : MonoBehaviour{
 		if (this.hp > 0) {
 			//sp不为零
 			if (this.sp > 0) {
-				this.sp += sp;
-				if (this.sp > 0) {
-					return true;
-				} else {
+				
+
+				if (this.sp + sp < 0) {
 					return false;
+				} else {
+					this.sp += sp;
+					return true;
 				}
+
 			}
 		}
 		return false;

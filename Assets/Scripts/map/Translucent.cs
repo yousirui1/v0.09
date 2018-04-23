@@ -24,6 +24,8 @@ public class Translucent : MonoBehaviour {
 		if (collider.tag == Tags.player) {
 			animator.speed = 1;
 			this.transform.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 0.43f);
+
+			collider.GetComponent<PlayerATKAndDamage> ().Hide();
 		}
 	}
 		
@@ -32,6 +34,8 @@ public class Translucent : MonoBehaviour {
 		if (collider.tag == Tags.player) {
 			animator.speed = 0;
 			this.transform.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 1f);
+
+			collider.GetComponent<PlayerATKAndDamage> ().Show();
 		}
 	}
 

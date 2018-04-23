@@ -164,8 +164,8 @@ public class EventController : MonoBehaviour {
 	public void InitJoyControl()
 	{
 		joyControl = gameMenu.transform.Find ("GameUI/JoyControl").gameObject.GetComponent<JoyControl> ();
-		//areaConect = new GameObject("NetController").AddComponent<AreaConect> ();
-		//areaConect.transform.parent = canvasObj.transform;
+		areaConect = new GameObject("NetController").AddComponent<AreaConect> ();
+		areaConect.transform.parent = canvasObj.transform;
 	}
 
 	public GameObject GetCanvas()
@@ -576,10 +576,11 @@ public class EventController : MonoBehaviour {
 		RespThirdUserData data = null;
 		if(SavedData.s_instance.m_userCache.TryGetValue(uid, out data))
 		{
+			//Debug.Log (data.group);
+			//Debug.Log (data.group.Substring (data.group.Length - 1));
 			return int.Parse (data.group.Substring (data.group.Length - 1));
 		}
 		return 0;
-
 	}
 
 	//是否同一阵营

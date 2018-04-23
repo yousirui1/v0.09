@@ -46,6 +46,7 @@ public class RoomUIMatch : UIPage
 		this.gameObject.transform.Find("content/btn_close").GetComponent<Button>().onClick.AddListener(() =>
 			{
 				SoundPlay.btnClick();
+				controller.onPomeloEvent_LeaveRoom();
 				ClosePage();
 				UIRoot.Instance.StopCoroutine(coroutine);
 
@@ -297,6 +298,20 @@ public class RoomUIMatch : UIPage
 				JsonObject jsMsg = new JsonObject ();
 				jsMsg ["roomNum"] = SavedData.s_instance.m_roomNum;
 				SavedContext.s_client.request ("area.gloryHandler.match", jsMsg, (data) => {
+				});
+			} else {
+				Debug.LogError ("pClient null");
+			}
+		}
+
+
+		//发送匹配请求
+		public void onPomeloEvent_LeaveRoom()
+		{
+			if (SavedContext.s_client != null) {
+				JsonObject jsMsg = new JsonObject ();
+				jsMsg ["roomNum"] = SavedData.s_instance.m_roomNum;
+				SavedContext.s_client.request ("area.gloryHandler.leaveRoom", jsMsg, (data) => {
 				});
 			} else {
 				Debug.LogError ("pClient null");

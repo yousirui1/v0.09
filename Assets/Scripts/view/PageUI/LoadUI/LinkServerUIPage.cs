@@ -76,7 +76,7 @@ public class LinkServerUIPage : UIPage
 		case MSG_POMELO_RELINK:
 			{
 				JsonObject data = (JsonObject) msg.m_dataObj;
-				//Debug.Log (data);
+				Debug.Log (data);
 				try
 				{
 				//	JsonReLink reLink = SimpleJson.SimpleJson.DeserializeObject<JsonReLink> (data.ToString());
@@ -87,26 +87,31 @@ public class LinkServerUIPage : UIPage
 						SavedData.s_instance.m_roomNum = reLink.roomNum;
 
 
-						#if false
-						foreach (NewUser player in buf.newUser) {
-							//保存数据
+						Debug.Log(reLink.uids[0].attack);
+						foreach(Uids uids in reLink.uids)
+						{
+							if(uids.uid == SavedData.s_instance.m_user.m_uid)
+							{
+
+							}
+
+
 							RespThirdUserData userdata = new RespThirdUserData ();
-							userdata.nickname = player.nickname;
-							userdata.score = 0;
+							userdata.nickname = uids.nickname;
+							userdata.score = uids.score;
 							userdata.kill = 0;
 							userdata.death = 0;
 							userdata.assit = 0;
-							userdata.group = player.group;
-							userdata.head = player.head;
+							userdata.group = uids.group;
+							userdata.head = uids.head;
 
-							if (!SavedData.s_instance.m_userCache.ContainsKey (player.uid)) {
-								SavedData.s_instance.m_userCache.Add (player.uid, userdata);
-								UserRank rank = new UserRank (player.uid,player.nickname,0);
+							if (!SavedData.s_instance.m_userCache.ContainsKey (uids.uid)) {
+								SavedData.s_instance.m_userCache.Add (uids.uid, userdata);
+								UserRank rank = new UserRank (uids.uid,uids.nickname,0);
 								SavedData.s_instance.m_userrank.Add (rank);
 							}
-
 						}
-						#endif
+
 
 						UIPage.ShowPage<LoadingUIPage> ();
 					} else {
@@ -175,8 +180,19 @@ public class LinkServerUIPage : UIPage
 		public int footprint;
 		public int signBox;
 		//public 
+		public string attack = "";
 
+		public int d ;
 
+		public int hp;
+
+		public int v;
+
+		public int sp;
+
+		public int score;
+
+		public int lev;
 
 	}
 
@@ -277,6 +293,7 @@ public class LinkServerUIPage : UIPage
 		{
 			SavedContext.s_client.request ("area.reloadHandler.reload", (data) => {
 				HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_RELINK);
+				//Debug.Log(data);
 				msg.m_dataObj = data;
 				m_initedLooper.sendMessage(msg);
 

@@ -187,10 +187,12 @@ public class GameMenu : MonoBehaviour
 
 	}
 
-	void Destroy()
+
+	void OnDestroy()
 	{
-		valCache.unmarkPageUse(m_gameID, ConstsVal.val_magic);
+		valCache.unmarkPageUse (m_gameID, ConstsVal.val_magic);
 	}
+
 
 	public void SetArrowSelf(Transform selfTr)
 	{
@@ -748,7 +750,15 @@ public class GameMenu : MonoBehaviour
 		
 		case BTN_SET:
 			{
-				gameState = STATE_MENU;
+				
+				if(gameState != STATE_MENU)
+				{
+					gameState = STATE_MENU;
+				}
+				else
+				{
+					gameState = STATE_GAME;
+				}
 			}
 			break;	
 		case BTN_CHAT:
@@ -811,7 +821,7 @@ public class GameMenu : MonoBehaviour
 	public void InitUserList()
 	{
 		//更新显示
-		for(int i = 0; i<SavedData.s_instance.m_userrank.Count; i++) {
+		for(int i = 0; i< SavedData.s_instance.m_userrank.Count; i++) {
 			GameObject obj = RankObj.transform.Find ("item_"+i).gameObject;
 			UIRankItem item = obj.AddComponent<UIRankItem>();
 			//设置数据
@@ -842,7 +852,15 @@ public class GameMenu : MonoBehaviour
 		//升序
 		SavedData.s_instance.m_userrank.Sort(delegate(UserRank x, UserRank y)
 			{
-				return y.m_score.CompareTo(x.m_score);
+				if(y.m_score != x.m_score)
+				{
+					return y.m_score.CompareTo(x.m_score);
+				}
+				else
+				{
+					return y.m_score;
+				}
+
 			});
 		
 		//更新显示

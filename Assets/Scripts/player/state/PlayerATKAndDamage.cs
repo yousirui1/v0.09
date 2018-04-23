@@ -12,8 +12,46 @@ using UnityEngine.UI;
 **************************************/
 
 public class PlayerATKAndDamage : ATKAndDamage{
+	private GameObject roleObj = null;
 
+
+	private int othergroup = 0;
+	void Start()
+	{
+		roleObj = this.transform.Find ("role").gameObject;
+
+	}
 	//public string uid = "";
+	public void Hide()
+	{
+		if (this.name != SavedData.s_instance.m_user.m_uid) {
+			if(this.gameObject.activeInHierarchy)
+			{
+				this.gameObject.SetActive (false);
+			}
+		} else {
+			roleObj.transform.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 0.43f);
+		}
+
+	}
+
+	public void Show()
+	{
+		if(this.name != SavedData.s_instance.m_user.m_uid)
+		{
+			Debug.Log (this.gameObject.activeSelf);
+			if(this.gameObject.activeInHierarchy)
+			{
+				this.gameObject.SetActive (true);
+			}
+
+
+		}
+		else {
+			roleObj.transform.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 1.0f);
+		}
+	}
+
 
 
 }

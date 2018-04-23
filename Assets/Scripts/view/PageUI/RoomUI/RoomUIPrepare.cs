@@ -515,6 +515,7 @@ public class RoomUIPrepare : UIPage
 				Debug.LogError ("pClient null");
 			}
 		}
+
 		//姓名：聊天内容
 		//FFC925FF
 

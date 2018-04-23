@@ -31,6 +31,7 @@ public class Map : MonoBehaviour
 
 	ValTableCache valCache = SavedContext.s_valTableCache;
 
+	private EventController eventController;
 
 	private MainLooper m_initedLooper = MainLooper.instance();
 
@@ -38,6 +39,8 @@ public class Map : MonoBehaviour
 	{
 		valCache.markPageUseOrThrow<ValRoleBattle> (m_gameID, ConstsVal.val_role_battle);
 		valCache.markPageUseOrThrow<ValNum> (m_gameID, ConstsVal.val_num);
+
+		eventController = GameObject.Find ("EventController").GetComponent<EventController>() as EventController;
 	}
 
 	public const int MSG_LOAD_PART_1 = 1;
@@ -51,6 +54,14 @@ public class Map : MonoBehaviour
 	public const int MSG_LOAD_PART_9 = 9;
 	public const int MSG_LOAD_PART_10 = 10;
 
+
+
+	void OnDestroy()
+	{
+		valCache.unmarkPageUse (m_gameID, ConstsVal.val_role_battle);
+		valCache.unmarkPageUse (m_gameID, ConstsVal.val_num);
+		valCache.unmarkPageUse (m_gameID, ConstsVal.val_global);
+	}
 
 
 	//初始化资源,动态资源,技能水晶
@@ -235,12 +246,7 @@ public class Map : MonoBehaviour
 	}
 
 
-	void Destroy()
-	{
-		valCache.unmarkPageUse(m_gameID, ConstsVal.val_global);
-		valCache.unmarkPageUse(m_gameID, ConstsVal.val_role_battle);
-		valCache.unmarkPageUse(m_gameID, ConstsVal.val_num);
-	}
+
 
 
 
@@ -268,6 +274,7 @@ public class Map : MonoBehaviour
 		return null;
 	}
 
+
 	//添加一个玩家
 	public void AddPlayerObj(int i, string name, int x, int y)
 	{
@@ -277,6 +284,37 @@ public class Map : MonoBehaviour
 		newObj.transform.localScale = Vector3.one;
 		newObj.transform.localPosition = new Vector3 (x, y, 0);
 		playerObjs.Insert (i, newObj);
+	
+
+		int other_group1 = eventController.GetCamp (SavedData.s_instance.m_user.m_uid);
+
+		if (other_group1++ > 3) {
+			other_group1 = 1;
+		}
+
+		int other_group2 = other_group1++;
+
+		if (other_group2 > 3) {
+			other_group2 = 1;
+		}
+		Debug.Log (eventController.GetCamp (SavedData.s_instance.m_user.m_uid));
+		Debug.Log (other_group2  +""+ other_group1);
+
+		Debug.Log (eventController.GetCamp (name));
+
+		if(other_group1 == eventController.GetCamp(name))
+		{
+			
+			newObj.transform.Find ("Info_bar/img_hp").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/heros/roles/status/group_2", false);
+		}
+		else if(other_group2 == eventController.GetCamp(name))
+		{
+			newObj.transform.Find ("Info_bar/img_hp").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/heros/roles/status/group_3", false);
+		}
+
+
+
+
 
 		RespThirdUserData data = null;
 		if (SavedData.s_instance.m_userCache.TryGetValue (name, out data)) {
@@ -285,6 +323,7 @@ public class Map : MonoBehaviour
 			Debug.Log ("m_userCache is null");
 		}
 	}
+
 
 	
 	//删除一个玩家
