@@ -37,7 +37,6 @@ public class Shadow  {
             //三个数取中间值 限定移动范围
             player_shadow.sx = middle(80, player_shadow.sx, 6660);
             player_shadow.sy = middle(128, player_shadow.sy, 6660);
-
         }
 
 
@@ -61,12 +60,13 @@ public class Shadow  {
             player_craft.x += player_craft.v * direction[player_craft.d, 1] * inc;
             player_craft.y += player_craft.v * direction[player_craft.d, 0] * inc;
 
+			//player_craft.x += player_craft.v * player_craft.dx * Time.fixedDeltaTime;
+			//player_craft.y += player_craft.v * player_craft.dy * Time.fixedDeltaTime;
+
 
             //三个数取中间值 限定移动范围
             player_craft.x = middle(80, player_craft.x, 6660);
             player_craft.y = middle(128, player_craft.y, 6660);
-			 //player_craft.x = middle(-550, player_craft.x, 6660);
-			//player_craft.y = middle(-300, player_craft.y, 6660);
 			
         }
        
@@ -108,11 +108,13 @@ public class Shadow  {
 
     public void shadow_refresh(PlayerVal player_shadow )
     {
-        player_shadow.sx = player_shadow.x;
+
+		player_shadow.sx = player_shadow.x;
         player_shadow.sy = player_shadow.y;
         player_shadow.sd = player_shadow.d;
         player_shadow.sv = player_shadow.v;
         //adjust(player_shadow, curframe, oldframe);
+
     }
 
     //插值平滑
@@ -161,6 +163,7 @@ public class Shadow  {
             }
         }
 
+
       
 
     }
@@ -168,6 +171,7 @@ public class Shadow  {
     //跟随方式2：相位滞后  延迟较小的时候使用
     void trace2(PlayerVal entite, int step)
     {
+
         entite.v = entite.sv;
 
         int inc = 1;
@@ -184,6 +188,7 @@ public class Shadow  {
             entite.x = newPos(entite.x, entite.sx, entite.v, entite.sv);
             entite.y = newPos(entite.y, entite.sy, entite.v, entite.sv);
         }
+	
     }
 
 

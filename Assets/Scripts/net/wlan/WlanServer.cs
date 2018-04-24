@@ -35,7 +35,7 @@ public class WlanServer : MonoBehaviour
 
 
     private int conect_count = 0;
-	private FrameBuf buf = new FrameBuf ();
+	//private FrameBuf buf = new FrameBuf ();
 	private List<PlayerVal> buf_data = new List<PlayerVal>();
 
     private string moveInfoLog = "";
@@ -143,10 +143,12 @@ public class WlanServer : MonoBehaviour
 
 	private void St2Json()
 	{
+		#if false
 		buf.frame = 0;
 		buf.time = 0;
 		buf.data = buf_data;
         moveInfo = SimpleJson.SimpleJson.SerializeObject (buf);
+		#endif
 	}
 
 	void FixedUpdate()

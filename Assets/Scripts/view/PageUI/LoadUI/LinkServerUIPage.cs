@@ -87,7 +87,7 @@ public class LinkServerUIPage : UIPage
 						SavedData.s_instance.m_roomNum = reLink.roomNum;
 
 
-						Debug.Log(reLink.uids[0].attack);
+		
 						foreach(Uids uids in reLink.uids)
 						{
 							if(uids.uid == SavedData.s_instance.m_user.m_uid)
@@ -99,9 +99,9 @@ public class LinkServerUIPage : UIPage
 							RespThirdUserData userdata = new RespThirdUserData ();
 							userdata.nickname = uids.nickname;
 							userdata.score = uids.score;
-							userdata.kill = 0;
-							userdata.death = 0;
-							userdata.assit = 0;
+							userdata.kill = uids.attack[0];
+							userdata.death = uids.attack[1];
+							userdata.assit = uids.attack[2];
 							userdata.group = uids.group;
 							userdata.head = uids.head;
 
@@ -111,11 +111,9 @@ public class LinkServerUIPage : UIPage
 								SavedData.s_instance.m_userrank.Add (rank);
 							}
 						}
-
-
 						UIPage.ShowPage<LoadingUIPage> ();
 					} else {
-
+						Debug.Log("No ReLink");
 					}
 				}
 				  catch (SerializationException ex) 
@@ -152,9 +150,10 @@ public class LinkServerUIPage : UIPage
 
 		public int code;
 		public string utcMs = "";
+		public string roomNum = "";
 		public int type;
-
 		public List<int> magicStage;
+		public List<int> shuijing;
 
 		public string createTime = "";
 
@@ -162,7 +161,7 @@ public class LinkServerUIPage : UIPage
 
 		public string map = "";
 
-		public string roomNum = "";
+
 	}
 
 	public class Uids
@@ -180,7 +179,7 @@ public class LinkServerUIPage : UIPage
 		public int footprint;
 		public int signBox;
 		//public 
-		public string attack = "";
+		public List<int> attack;
 
 		public int d ;
 

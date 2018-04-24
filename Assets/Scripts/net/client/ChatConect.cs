@@ -203,12 +203,12 @@ public class ChatConect : MonoBehaviour
 
     void onChatAdd(JsonObject jsonObj)
     {
-     	FrameBuf buf = null;
+     	//FrameBuf buf = null;
 	   	if(null != jsonObj)
 		{
 			//buf = JsonConvert.DeserializeObject<FrameBuf>(jsonObj.ToString());
             //mTaskExecutor.ScheduleTask(new Task(new Action<FrameBuf>(eventObj.onMove), buf));
-			eventController.ev_Output(buf);
+			//eventController.ev_Output(buf);
 		}	
     }
 

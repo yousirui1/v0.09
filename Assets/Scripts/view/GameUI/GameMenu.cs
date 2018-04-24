@@ -583,7 +583,6 @@ public class GameMenu : MonoBehaviour
 			itemObj.transform.Find("tx_assist").GetComponent<Text>().text = ""+data.assit;
 			itemObj.transform.Find("tx_score").GetComponent<Text>().text = ""+data.score;
 			itemObj.transform.Find("img_kda/tx_kda").GetComponent<Text>().text = ""+data.kda;
-
 		}
 
 	}
@@ -847,6 +846,8 @@ public class GameMenu : MonoBehaviour
 		{
 			UserRank rank = SavedData.s_instance.m_userrank.Find ((UserRank x) => x.m_nickname == data.nickname) as UserRank;
 			rank.m_score = data.score;
+
+
 		}
 
 		//升序
@@ -865,7 +866,14 @@ public class GameMenu : MonoBehaviour
 		
 		//更新显示
 		for(int i = 0; i<SavedData.s_instance.m_userrank.Count; i++) {
+			#if false
+			if(SavedData.s_instance.m_userrank[i].m_uid == SavedData.s_instance.m_user.m_uid)
+			{
+				SelfItem (SavedData.s_instance.m_userrank [i], i);
+			}
+			#endif
 			SortItem (SavedData.s_instance.m_userrank [i], i);
+
 		}
 
 		if(bast_player != SavedData.s_instance.m_userrank [0].m_uid)
@@ -880,6 +888,14 @@ public class GameMenu : MonoBehaviour
 	private void SortItem(UserRank data,int id)
 	{
 		GameObject obj = RankObj.transform.Find ("item_"+id).gameObject;
+		UIRankItem item = obj.GetComponent<UIRankItem>();
+		item.Refresh(data);
+	}
+
+	private void SelfItem(UserRank data,int id)
+	{
+		Debug.Log ("SelfItem........."+data.m_nickname + data.m_score);
+		GameObject obj = RankObj.transform.Find ("item_self").gameObject;
 		UIRankItem item = obj.GetComponent<UIRankItem>();
 		item.Refresh(data);
 	}

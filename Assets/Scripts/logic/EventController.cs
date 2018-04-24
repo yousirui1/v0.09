@@ -146,7 +146,6 @@ public class EventController : MonoBehaviour {
 		cameraObj.transform.localScale = Vector3.one;
 
 		m_msgHandlerProxy = new MessageHandlerProxy(handleMsg);
-		//Invoke ("InitJoyControl", 5.0f);
 	}
 
 	public void  InitMap(string valFileName, List<int> skill_list, LoadingUIPage ivew)
@@ -207,8 +206,6 @@ public class EventController : MonoBehaviour {
 		SavedData.s_instance.m_skillCount = 3;
 		gameMenu.SetSkillID (magic_id);
 	}
-
-
 
 
 	//主角输入	
@@ -395,42 +392,42 @@ public class EventController : MonoBehaviour {
 
 
 	//处理服务端发送过来的数据
-	public void ev_Output(FrameBuf buf)
+	public void ev_Output(List<PlayerVal> val)
 	{
 		bool isFind = false;
 
 		lastRecvInfoTime = Time.time;
 
-		for(int i = 0; i<buf.data.Count; i++)
+		for(int i = 0; i<val.Count; i++)
 		{
 
 			//用户积分更新
-			UpdateUserData (buf.data[i].uid,buf.data[i].score,false,false,false); 
+			UpdateUserData (val[i].uid,val[i].score,false,false,false); 
 			//在用户列表查找
 			foreach(string name in SavedData.s_instance.m_userlist)
 			{
 				isFind = false;
-				if(buf.data[i].uid == name)
+				if(val[i].uid == name)
 				{
 					isFind = true;
                     //判断是否为主角用户
 
-					if (buf.data [i].uid != SavedData.s_instance.m_user.m_uid)
+					if (val [i].uid != SavedData.s_instance.m_user.m_uid)
 					{	
-						if (buf.data[i].d != 0) {
-							players [i].old_d = buf.data [i].d;
+						if (val[i].d != 0) {
+							players [i].old_d = val [i].d;
 						}
 						//保存接受到其他玩家的数据
-						players [i].x = buf.data [i].x;
-						players [i].y = buf.data [i].y;
-						players [i].v = buf.data [i].v;
-						players [i].d = buf.data [i].d;
-						players [i].sp = buf.data [i].sp;
-						players [i].hp = buf.data [i].hp;
+						players [i].x = val [i].x;
+						players [i].y = val [i].y;
+						players [i].v = val [i].v;
+						players [i].d = val [i].d;
+						players [i].sp = val [i].sp;
+						players [i].hp = val [i].hp;
 
-						players [i].skill = buf.data [i].skill;
-						players [i].score = buf.data [i].score;
-						players [i].lev= buf.data [i].lev;
+						players [i].skill = val [i].skill;
+						players [i].score = val [i].score;
+						players [i].lev= val [i].lev;
 
 						//接收数据的时间间隔
 						if (Time.time - lastRecvInfoTime > 0.2f) {
@@ -442,9 +439,9 @@ public class EventController : MonoBehaviour {
 							shadow.trace (1, players [i], 1);
 						}
 
-						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().hp = buf.data [i].hp;
-						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().sp = buf.data [i].sp;
-						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().level = buf.data [i].lev;
+						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().hp = val [i].hp;
+						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().sp = val [i].sp;
+						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().level = val [i].lev;
 						map.OnEvent (i, players [i]);
 
 					}
@@ -454,18 +451,16 @@ public class EventController : MonoBehaviour {
 			//没有在用户表中查找到用户则添加新用户
 			if(!isFind)
 			{
-				ev_AddPlayer (buf.data [i], i);
-				map.AddPlayerObj (i, buf.data [i].uid, buf.data[i].x, buf.data[i].y);
-
-
+				ev_AddPlayer (val [i], i);
+				map.AddPlayerObj (i, val [i].uid, val[i].x, val[i].y);
 
 				//判断是否是队友设置箭头指向队友
-				if (IsSameCamp (SavedData.s_instance.m_user.m_uid, buf.data [i].uid )) {
+				if (IsSameCamp (SavedData.s_instance.m_user.m_uid, val [i].uid )) {
 					gameMenu.SetArrowGroup (map.GetPlayerObj (i).transform);
 				}
 
-				SavedData.s_instance.m_userlist.Add(buf.data[i].uid);
-				if (SavedData.s_instance.m_user.m_uid == buf.data[i].uid) {
+				SavedData.s_instance.m_userlist.Add(val[i].uid);
+				if (SavedData.s_instance.m_user.m_uid == val[i].uid) {
 					id = i;
 					followPlayer.SetUid (map.GetPlayerObj (i));
 					gameMenu.SetArrowSelf (map.GetPlayerObj (i).transform);
@@ -550,10 +545,12 @@ public class EventController : MonoBehaviour {
 		newplayer.y = player.y;
 		newplayer.d = 0;
 		newplayer.v = 20;
+	
 		newplayer.sx = newplayer.x;
 		newplayer.sy = newplayer.y;
 		newplayer.sd = newplayer.d;
 		newplayer.sv = newplayer.v;
+	
 		players.Insert (i, newplayer);
 	}
 
@@ -576,8 +573,6 @@ public class EventController : MonoBehaviour {
 		RespThirdUserData data = null;
 		if(SavedData.s_instance.m_userCache.TryGetValue(uid, out data))
 		{
-			//Debug.Log (data.group);
-			//Debug.Log (data.group.Substring (data.group.Length - 1));
 			return int.Parse (data.group.Substring (data.group.Length - 1));
 		}
 		return 0;
@@ -645,7 +640,6 @@ public class EventController : MonoBehaviour {
 			gameMenu.SetBroadcastData (data);
 		}
 		if (!data.revive.Equals (string.Empty)) {
-			//Debug.Log (data.revive);
 			PlayerRevive (data.revive);
 		}
 

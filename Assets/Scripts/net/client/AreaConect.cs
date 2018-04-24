@@ -212,12 +212,12 @@ public class AreaConect : MonoBehaviour {
 				{
 					//直接显示: 游戏数据损坏, 请重新启动游戏;
 					//Log.w<ValUtils>(ex.Message);
-					Debug.Log("SerializationException ysr"+ex.Message);
+					Debug.LogError("SerializationException ysr"+ex.Message);
 					SavedContext.s_client.disconnect ();
 				}
 				catch (Exception ex)
 				{
-					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+					Debug.LogError("Exception"+ ex.Message + ", " + ex.GetType().FullName);
 					SavedContext.s_client.disconnect ();
 				}
 
@@ -228,24 +228,60 @@ public class AreaConect : MonoBehaviour {
 		case MSG_POMELO_MOVEINFO:
 			{   
 				JsonObject data = (JsonObject)msg.m_dataObj;
-
-			//	Debug.Log (data);
-
 				try{
-				//	FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
-					FrameBuf buf = JsonMapper.ToObject<FrameBuf> (data.ToString());
-					eventController.ev_Output (buf);
+					//Debug.Log (data);
+					//FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (data.ToString());
+
+					RespThirdMove buf = JsonMapper.ToObject<RespThirdMove> (data.ToString());
+
+					eventController.ev_Output (buf.data);
+				
+					#if false
+					RespThirdMove buf = JsonMapper.ToObject<RespThirdMove> (data.ToString());
+					List<PlayerVal> val =  new List<PlayerVal>();
+				
+					Debug.Log(buf.data.Count);
+			
+					for(int i = 0; i< buf.data.Count ; i++)
+					{
+						PlayerVal pVal = new PlayerVal();
+						pVal.uid = buf.data[i].uid;
+						pVal.x = buf.data[i].x;
+						pVal.y = buf.data[i].y;
+						pVal.d = buf.data[i].d;
+						pVal.v = buf.data[i].v;
+						pVal.sp = buf.data[i].sp;
+						pVal.hp = buf.data[i].hp;
+						pVal.score = buf.data[i].score;
+						pVal.magicStage = buf.data[i].magicStage;
+						pVal.item = buf.data[i].item;
+						pVal.lev = buf.data[i].lev;
+						pVal.skill = buf.data[i].skill;
+
+						val.Add(pVal);
+					}
+					if(val == null || eventController == null)
+					{
+						Debug.Log("val null ............");
+					}
+					else
+					{
+
+						eventController.ev_Output (val);
+					}
+					#endif
 				}
 				catch (SerializationException ex)
 				{
 					//直接显示: 游戏数据损坏, 请重新启动游戏;
 					//Log.w<ValUtils>(ex.Message);
-					Debug.Log("SerializationException ysr"+ex.Message);
+					Debug.LogError("SerializationException"+ex.Message);
 					SavedContext.s_client.disconnect ();
 				}
 				catch (Exception ex)
 				{
-					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+					Debug.Log (data.ToString ());
+					Debug.LogError("Exception "+ ex.Message + ", " + ex.GetType().FullName);
 					SavedContext.s_client.disconnect ();
 				}
 
@@ -266,12 +302,12 @@ public class AreaConect : MonoBehaviour {
 				{
 					//直接显示: 游戏数据损坏, 请重新启动游戏;
 					//Log.w<ValUtils>(ex.Message);
-					Debug.Log("SerializationException ysr"+ex.Message);
+					Debug.LogError("SerializationException ysr"+ex.Message);
 					SavedContext.s_client.disconnect ();
 				}
 				catch (Exception ex)
 				{
-					Debug.Log("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
+					Debug.LogError("Exception ysr"+ ex.Message + ", " + ex.GetType().FullName);
 					SavedContext.s_client.disconnect ();
 				}
 

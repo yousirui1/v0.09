@@ -297,10 +297,6 @@ public class Map : MonoBehaviour
 		if (other_group2 > 3) {
 			other_group2 = 1;
 		}
-		Debug.Log (eventController.GetCamp (SavedData.s_instance.m_user.m_uid));
-		Debug.Log (other_group2  +""+ other_group1);
-
-		Debug.Log (eventController.GetCamp (name));
 
 		if(other_group1 == eventController.GetCamp(name))
 		{
@@ -311,10 +307,7 @@ public class Map : MonoBehaviour
 		{
 			newObj.transform.Find ("Info_bar/img_hp").GetComponent<Image> ().sprite = ResourceMgr.Instance ().Load<Sprite> ("images/heros/roles/status/group_3", false);
 		}
-
-
-
-
+			
 
 		RespThirdUserData data = null;
 		if (SavedData.s_instance.m_userCache.TryGetValue (name, out data)) {
@@ -355,6 +348,9 @@ public class Map : MonoBehaviour
                                            "time", 1.0,
                                            "islocal", true
              )); 
+
+			//OnMove (playerObjs [id], playerObjs [id].transform.position, new Vector3 (playerVal.x, playerVal.y, 0));
+
 			if (playerVal.d != 0) {
 				//保存当前最后的面向
 				playerVal.old_d = playerVal.d;
@@ -378,6 +374,11 @@ public class Map : MonoBehaviour
 			skillMgrObj.GetComponent<SkillManage> ().onAnimator (playerVal.d, playerVal.skill, playerObjs [id]);
 		
 		}
+	}
+
+	private void OnMove(GameObject playObj, Vector3 oriVec, Vector3 endVec)
+	{
+		playObj.transform.Translate (endVec - oriVec);
 	}
 
 

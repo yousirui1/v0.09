@@ -211,8 +211,8 @@ public class WlanClient : MonoBehaviour {
 	[RPC]
 	void Request2ClientMove(string message, NetworkMessageInfo info)
 	{
-		FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (message);
-		Debug.Log (buf.data.Count);
+		//FrameBuf buf = SimpleJson.SimpleJson.DeserializeObject<FrameBuf> (message);
+		//Debug.Log (buf.data.Count);
 		//if(buf != null)
 		//eventController.ev_Output (buf);
 	}

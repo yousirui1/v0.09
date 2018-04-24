@@ -39,7 +39,6 @@ public class PlayerATKAndDamage : ATKAndDamage{
 	{
 		if(this.name != SavedData.s_instance.m_user.m_uid)
 		{
-			Debug.Log (this.gameObject.activeSelf);
 			if(this.gameObject.activeInHierarchy)
 			{
 				this.gameObject.SetActive (true);
