@@ -125,7 +125,6 @@ public class GameMenu : MonoBehaviour
 		StartTime = Time.time;
 
 		valCache = SavedContext.s_valTableCache;
-		valCache.markPageUseOrThrow<ValMagic> (m_gameID, ConstsVal.val_magic);
 
 		gameUIObj = ResourceMgr.Instance ().CreateGameObject ("prefabs/gameUI/GameUI", false);
 		gameUIObj.transform.parent = this.transform;
@@ -223,8 +222,6 @@ public class GameMenu : MonoBehaviour
 		height = Screen.height;
 		width = Screen.width;
 
-
-
 		SetSkillData (0,0,0);
 		SetSystemInfoData ();
 
@@ -235,8 +232,7 @@ public class GameMenu : MonoBehaviour
 
 	void OnDestroy()
 	{
-		valCache.unmarkPageUse (m_gameID, ConstsVal.val_magic);
-		Destroy (this);
+
 	}
 
 
@@ -411,17 +407,12 @@ public class GameMenu : MonoBehaviour
 	bool isTure = false;
 
 
-	public void SetSkillID(int id)
+	public void SetSkillID(ValMagic val)
 	{
-		
-		int magic_id = 0;
-		Dictionary<int, ValMagic> valDict = valCache.getValDictInPageScopeOrThrow<ValMagic>(m_gameID, ConstsVal.val_magic);
-		ValMagic val = ValUtils.getValByKeyOrThrow(valDict, id);
 		//icon
 		gameUIObj.transform.Find ("btn_skill/img_skill").GetComponent<Image> ().sprite = ResourceMgr.Instance().Load<Sprite>("images/icon/" + val.icon, true);
 
 		kill_cd = val.cd;
-
 		//刷新cd 
 		gameUIObj.transform.Find ("btn_skill/img_cd").GetComponent<Image> ().fillAmount = 0.0f;
 	}

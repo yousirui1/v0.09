@@ -70,7 +70,7 @@ namespace tpgm
 
 
 		//技能id
-		public int m_skillID = 0;  
+		public ValMagic m_skill = new ValMagic();
 
 		//技能使用次数
 		public int m_skillCount = 0;

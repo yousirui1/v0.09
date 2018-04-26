@@ -38,11 +38,18 @@ public class SkillManage : MonoBehaviour {
 
 	private MessageHandlerProxy m_msgHandlerProxy;
 
+	private Dictionary<int, ValMagic> valDict = null;
+
     void Start()
     {
         //读入所以技能的数值表
 		valCache = SavedContext.s_valTableCache;
+
 		valCache.markPageUseOrThrow<ValMagicUp> (m_gameID, ConstsVal.val_magicup);
+		valCache.markPageUseOrThrow<ValMagic> (m_gameID, ConstsVal.val_magic);
+
+		valDict = valCache.getValDictInPageScopeOrThrow<ValMagic>(m_gameID, ConstsVal.val_magic);
+
 
 		m_initedLooper = MainLooper.instance();
 
@@ -60,7 +67,7 @@ public class SkillManage : MonoBehaviour {
 	void OnDestroy()
 	{
 		valCache.unmarkPageUse (m_gameID, ConstsVal.val_magicup);
-
+		valCache.unmarkPageUse (m_gameID, ConstsVal.val_magic);
 	}
 
 
@@ -105,7 +112,9 @@ public class SkillManage : MonoBehaviour {
     //释放技能 1 普攻 2 闪现
 	public void onFire(int type, int level, float dx,float dy, GameObject playerObj ,string uid)
     {
-		
+		//读数值表
+		ValMagic val = ValUtils.getValByKeyOrThrow(valDict, type);
+
 		if (type != 0) {
 			if (type == 1) {
 				//(-100, 0) (0,30)  (50, 0) (50, -50) (50, -100)   (0 -120)  (-100 -100)  (-100, -50)
@@ -114,7 +123,9 @@ public class SkillManage : MonoBehaviour {
 				newbullet.transform.parent = playerObj.transform.parent;
 				newbullet.transform.position = playerObj.transform.position;
 				newbullet.transform.localScale = 100 * Vector3.one;
-				newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,dx,dy, type,uid, eventController);
+				//newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,dx,dy, type,uid, eventController);
+
+				newbullet.AddComponent<SkillBallistic>().init(uid,val,dx, dy, eventController);
 
 			} else if (type == 500) {
 
@@ -169,12 +180,14 @@ public class SkillManage : MonoBehaviour {
 				switch (st) {
 				case "2-6":
 					{
+
 						//龙息术
 						newbullet = ResourceMgr.Instance().CreateGameObject("prefabs/skills/skill_2",true);
 						newbullet.transform.parent = portTra;
 						newbullet.transform.localPosition = portTra.localPosition;
 						newbullet.transform.localScale = Vector3.one;
-						newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,dx, dy, type,uid,eventController);
+						//newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,dx, dy, type,uid,eventController);
+						newbullet.AddComponent<SkillBallistic>().init(uid,val,dx,dy,eventController);
 					}
 					break;
 				case "8-13":
@@ -184,7 +197,8 @@ public class SkillManage : MonoBehaviour {
 						newbullet.transform.parent = portTra;
 						newbullet.transform.localPosition = new Vector3(portTra.localPosition.x -30 ,portTra.localPosition.x -40,portTra.localPosition.z);
 						newbullet.transform.localScale = 100 *Vector3.one;
-						newbullet.AddComponent<SkillAoe>().init(10, 0.75f, type, uid, eventController);//0.75
+						//newbullet.AddComponent<SkillAoe>().init(10, 0.75f, type, uid, eventController);//0.75
+						newbullet.AddComponent<SkillAoe>().init(uid, val, eventController);//0.75
 					}
 					break;
 
@@ -195,7 +209,8 @@ public class SkillManage : MonoBehaviour {
 						newbullet.transform.parent = portTra;
 						newbullet.transform.localPosition = portTra.localPosition;
 						newbullet.transform.localScale = Vector3.one;
-						newbullet.AddComponent<SkillAoe>().init(10, 2.0f, type,uid, eventController);
+						//newbullet.AddComponent<SkillAoe>().init(10, 2.0f, type,uid, eventController);
+						newbullet.AddComponent<SkillAoe>().init(uid, val, eventController);//0.75
 					}
 					break;
 				case "20-25":

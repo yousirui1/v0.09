@@ -34,8 +34,34 @@ public class SkillBallistic  : MonoBehaviour {
 		this.transform.localPosition += skill_vec;
 	}
 
+	public void init(string uid, ValMagic val , float dx ,float dy ,EventController eventController)
+	{
+		//技能施法者
+		this.uid = uid;
 
-	public void init(int hp, float time, float dx ,float dy ,int skillID, string uid,EventController eventController)
+		this.eventController = eventController;
+
+		//伤害最大值
+		this.hp = val.hurt;
+
+		this.skillID = val.id;
+
+		Vector3 dVec = new Vector3 (dx, dy, 0);
+		Debug.Log (val.speed);
+		skill_vec = dVec * val.speed;
+
+		float angle = Vector3.Angle(new Vector3(1,0,0),dVec);
+
+		if (dy < 0) {
+			angle = -angle;
+		}
+		this.transform.Rotate(0,0,angle);
+
+		Destroy(this.gameObject, val.duration/1000f);
+	}
+
+	#if false
+	public void init(int hp, float time, float dx ,float dy ,  int skillID, string uid,EventController eventController)
 	{
 		//技能施法者
 		this.uid = uid;
@@ -58,7 +84,7 @@ public class SkillBallistic  : MonoBehaviour {
 
 		Destroy(this.gameObject, time);
 	}
-
+	#endif
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{

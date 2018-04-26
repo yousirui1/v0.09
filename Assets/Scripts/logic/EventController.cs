@@ -89,13 +89,22 @@ public class EventController : MonoBehaviour {
 	float lastRecvInfoTime = float.MinValue;
 	float updateRecvInfoTime = float.MinValue;
 
+	Dictionary<int, ValMagicUp> valDict_MagicUp = null;
+	Dictionary<int, ValMagic> valDict_Magic = null;
+
 	void Awake()
 	{
 	}
 
 	// Use this for initialization
 	void Start () {
-		
+
+		valCache.markPageUseOrThrow<ValMagicUp> (m_gameID, ConstsVal.val_magicup);
+		valCache.markPageUseOrThrow<ValMagic> (m_gameID, ConstsVal.val_magic);
+
+
+		valDict_MagicUp = valCache.getValDictInPageScopeOrThrow<ValMagicUp>(m_gameID, ConstsVal.val_magicup);
+		valDict_Magic = valCache.getValDictInPageScopeOrThrow<ValMagic>(m_gameID, ConstsVal.val_magic);
 	}
 
 	public void InitObj(GameObject canvasObj)
@@ -105,7 +114,7 @@ public class EventController : MonoBehaviour {
 		this.canvasObj.SetActive (false);
 
 	
-		valCache.markPageUseOrThrow<ValMagicUp> (m_gameID, ConstsVal.val_magicup);
+
 
 		//地图
 		map = new GameObject("Map").AddComponent<Map>();
@@ -185,17 +194,21 @@ public class EventController : MonoBehaviour {
 	public void SetSkillID(int id)
 	{
 		int magic_id = 0;
-		Dictionary<int, ValMagicUp> valDict = valCache.getValDictInPageScopeOrThrow<ValMagicUp>(m_gameID, ConstsVal.val_magicup);
-		for (int i = 1; i <= valDict.Count; i++) {
-			ValMagicUp val = ValUtils.getValByKeyOrThrow(valDict, i);
+
+		for (int i = 1; i <= valDict_MagicUp.Count; i++) {
+			ValMagicUp val = ValUtils.getValByKeyOrThrow(valDict_MagicUp, i);
 			if (val.bottle == id) {
 				magic_id = val.magic_id;
 				break;
 			}
 		}
+
+		ValMagic valMagic = ValUtils.getValByKeyOrThrow(valDict_Magic, magic_id);
+
+		skillInterval = valMagic.cd/1000f;
 			
 		//技能升级
-		if (magic_id == SavedData.s_instance.m_skillID) {
+		if (magic_id == SavedData.s_instance.m_skill.id) {
 			if(SavedData.s_instance.m_skillLevel == 0)
 			{
 				magic_id += 1;
@@ -208,12 +221,13 @@ public class EventController : MonoBehaviour {
 
 		} else {
 			//替换掉当前技能
-			SavedData.s_instance.m_skillID = magic_id;
+			SavedData.s_instance.m_skill = valMagic;
 			SavedData.s_instance.m_skillLevel = 0;
 		}
+
 		//刷新技能的使用次数
-		SavedData.s_instance.m_skillCount = 3;
-		gameMenu.SetSkillID (magic_id);
+		SavedData.s_instance.m_skillCount = valMagic.count;
+		gameMenu.SetSkillID (valMagic);
 	}
 
 
@@ -281,7 +295,7 @@ public class EventController : MonoBehaviour {
 					//技能
 					if(gameMenu.InputSkill() || Input.GetKey(KeyCode.L))
 					{
-						players [id].skill = SavedData.s_instance.m_skillID;
+						players [id].skill = SavedData.s_instance.m_skill.id;
 						SavedData.s_instance.m_skillCount--;
 						lastSkillTime = Time.time;
 						if(players [id].skill >= 14 && players [id].skill <=19)
@@ -297,7 +311,7 @@ public class EventController : MonoBehaviour {
 
 			}else {
 				gameMenu.InputSkill ();
-				gameMenu.SetSkillCD (1 -(Time.time - lastSkillTime) / skillInterval);
+				gameMenu.SetSkillCD ( 1 - ( Time.time - lastSkillTime ) /skillInterval);
 			}
 				
 			GameObject gameObj = map.GetPlayerObj (id);

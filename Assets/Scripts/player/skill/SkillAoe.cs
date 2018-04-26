@@ -31,6 +31,8 @@ public class SkillAoe : MonoBehaviour {
 		instantiateTime = Time.time;
 	}
 
+
+	#if false
 	public void init(int hp, float time, int skillID, string uid, EventController eventController )
 	{
 		//技能施法者
@@ -43,13 +45,28 @@ public class SkillAoe : MonoBehaviour {
 
 		this.durationTime = time;
 
-		//二段效果
-		//Invoke ("OnEffect", time);
 
 		Destroy(this.gameObject, time);
 
 	}
+	#endif
 
+
+	public void init( string uid, ValMagic val,  EventController eventController )
+	{
+		//技能施法者
+		this.uid = uid;
+		//伤害最大值
+
+		this.eventController = eventController;
+		this.hp = val.hurt;
+		this.skillID = val.id;
+
+		this.durationTime = val.duration;
+
+		Destroy(this.gameObject, val.duration/1000f);
+
+	}
 
 
 
@@ -61,24 +78,7 @@ public class SkillAoe : MonoBehaviour {
 			att = 1;
 		return att;
 	}
-	#if false
 
-	private void OnTriggerEnter2D(Collider2D other)
-	{
-
-		if (other.tag == Tags.player && other.name != uid)
-		{
-			//判断是否一个队
-			//if(eventController.IsSameCamp(other.name, uid))
-			{
-				//other.GetComponent<ATKAndDamage> ().TakeDamage (10);
-				//Destroy(this.gameObject);
-			}
-
-		}
-	}
-
-	#endif
 
 	void OnTriggerStay2D(Collider2D collider)
 	{
@@ -100,7 +100,7 @@ public class SkillAoe : MonoBehaviour {
 				{
 					if(eventController.IsSameCamp(collider.name, uid))
 					{
-					if (Time.time - instantiateTime >0.2) {
+					if (Time.time - instantiateTime > 0.2) {
 						instantiateTime = Time.time;
 						collider.GetComponent<ATKAndDamage> ().TakeDamage (2, uid ,eventController);
 					}
@@ -136,14 +136,6 @@ public class SkillAoe : MonoBehaviour {
 	}
 
 
-	#if false		
-	void Update()
-	{
-		Collider2D[] colliders = Physics2D.OverlapCircleAll (this.transform.position, 3.0f);
-		for (int i = 0; i < colliders.Length; i++) {
-			
-		}
-	}
-	#endif
+
 
 }
