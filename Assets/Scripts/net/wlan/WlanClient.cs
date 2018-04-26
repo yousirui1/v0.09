@@ -43,7 +43,7 @@ public class WlanClient : MonoBehaviour {
 		networkView = this.gameObject.AddComponent<NetworkView>();
 	
 
-		SavedData.s_instance.m_userlist = UserNameList;
+		//SavedData.s_instance.m_userlist = UserNameList;
 
 		Invoke ("OnLogin", 0.5f);
 	}
@@ -105,7 +105,8 @@ public class WlanClient : MonoBehaviour {
 			PlayerVal playerVal = new PlayerVal ();
 			playerVal.x = 0;
 			playerVal.y = 0;
-			playerVal.d = 0;
+			playerVal.dx = 0;
+
 			playerVal.v = 0;
 			playerVal.hp = 0;
 			playerVal.sp= 0;
@@ -158,7 +159,7 @@ public class WlanClient : MonoBehaviour {
 
 		jsMsg ["x"] = entite.x;
 		jsMsg ["y"] = entite.y;
-		jsMsg ["d"] = entite.d;
+		jsMsg ["d"] = entite.dx;
 		jsMsg ["v"] = entite.v;
 
 		jsMsg ["sp"] = entite.sp;

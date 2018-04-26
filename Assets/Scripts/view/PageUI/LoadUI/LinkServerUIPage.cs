@@ -56,6 +56,7 @@ public class LinkServerUIPage : UIPage
 		switch (msg.m_what) {
 		case MSG_POMELO_LINKOK:
 			{
+				new GameObject ("GlobalConect").AddComponent<GlobalConect> ();
 				UIPage.ShowPage<MainUIPage> ();
 			}
 			break;

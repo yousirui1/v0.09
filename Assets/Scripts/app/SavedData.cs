@@ -54,7 +54,9 @@ namespace tpgm
 	
 	
 		//保存当前这一局游戏的玩家列表
-		public string m_roomNum ;
+		public string m_roomNum = "";
+
+		public string m_gameRoom = "";
 
 
 		//public List<UserGunInfo> m_gunData;
@@ -65,8 +67,7 @@ namespace tpgm
 		public  string s_clientUrl = "121.40.149.87";
 		//public  string s_clientUrl = "192.168.52.1";
 		public  int s_clientPort = 7014;
-	
-		public  int m_playerMax = 25;
+
 
 		//技能id
 		public int m_skillID = 0;  
@@ -82,7 +83,7 @@ namespace tpgm
 		public  Dictionary<string, RespThirdUserData> m_userCache = new Dictionary<string, RespThirdUserData>();
 
 		//保存当前这一局游戏的玩家列表uid
-		public List<string> m_userlist  = new List<string>();
+		public HashSet<string> m_userlist  = new HashSet<string>();
 
 		//保存当前这一局游戏的玩家列表排行榜用于显示
 		public List<UserRank> m_userrank = new List<UserRank>();

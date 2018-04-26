@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114579704676508512}
   m_Layer: 0
   m_Name: icon_100037 (304)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 114653756487203416}
   m_Layer: 0
   m_Name: icon_100037 (395)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 114762402667098158}
   m_Layer: 0
   m_Name: icon_100037 (351)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 114887311519032476}
   m_Layer: 0
   m_Name: icon_100037 (353)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 114951860190860998}
   m_Layer: 0
   m_Name: icon_100037 (392)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 114109426764486634}
   m_Layer: 0
   m_Name: icon_100037 (336)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 114486133188195568}
   m_Layer: 0
   m_Name: icon_100037 (382)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 114566779378020698}
   m_Layer: 0
   m_Name: icon_100037 (358)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 114062508008904986}
   m_Layer: 0
   m_Name: icon_100037 (368)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 114113335410539274}
   m_Layer: 0
   m_Name: icon_100037 (383)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 114937849666085334}
   m_Layer: 0
   m_Name: icon_100037 (380)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 114688105891413894}
   m_Layer: 0
   m_Name: icon_100037 (324)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 114141003429500440}
   m_Layer: 0
   m_Name: icon_100037 (313)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 114017582857925490}
   m_Layer: 0
   m_Name: icon_100037 (314)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 114488656249951862}
   m_Layer: 0
   m_Name: icon_100037 (375)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 114158873442129324}
   m_Layer: 0
   m_Name: icon_100037 (366)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 114911357461727994}
   m_Layer: 0
   m_Name: icon_100037 (356)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 114642769623149112}
   m_Layer: 0
   m_Name: icon_100037 (364)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 114068413524000704}
   m_Layer: 0
   m_Name: icon_100037 (332)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 114318274583476254}
   m_Layer: 0
   m_Name: icon_100037 (352)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 114472757569541832}
   m_Layer: 0
   m_Name: icon_100037 (354)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 114851951452356642}
   m_Layer: 0
   m_Name: icon_100037 (398)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 114448633665974834}
   m_Layer: 0
   m_Name: icon_100037 (363)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 114982896469393142}
   m_Layer: 0
   m_Name: icon_100037 (376)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 114608027402917928}
   m_Layer: 0
   m_Name: icon_100037 (312)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 114460855325763988}
   m_Layer: 0
   m_Name: icon_100037 (359)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -534,7 +534,7 @@ GameObject:
   - component: {fileID: 114524735434574002}
   m_Layer: 0
   m_Name: icon_100037 (333)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -553,7 +553,7 @@ GameObject:
   - component: {fileID: 114891252674248480}
   m_Layer: 0
   m_Name: icon_100037 (300)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 114199065974903152}
   m_Layer: 0
   m_Name: icon_100037 (331)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -591,7 +591,7 @@ GameObject:
   - component: {fileID: 114814941386245834}
   m_Layer: 0
   m_Name: icon_100037 (316)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -610,7 +610,7 @@ GameObject:
   - component: {fileID: 114708776569227192}
   m_Layer: 0
   m_Name: icon_100037 (386)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 114614621501433802}
   m_Layer: 0
   m_Name: icon_100037 (373)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 114799773687936138}
   m_Layer: 0
   m_Name: icon_100037 (321)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 114043090449108280}
   m_Layer: 0
   m_Name: icon_100037 (303)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 114424319777206592}
   m_Layer: 0
   m_Name: icon_100037 (399)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 114955715537712906}
   m_Layer: 0
   m_Name: icon_100037 (308)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -724,7 +724,7 @@ GameObject:
   - component: {fileID: 114703412441309158}
   m_Layer: 0
   m_Name: icon_100037 (343)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -743,7 +743,7 @@ GameObject:
   - component: {fileID: 114500123771056070}
   m_Layer: 0
   m_Name: icon_100037 (355)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -762,7 +762,7 @@ GameObject:
   - component: {fileID: 114411309743931278}
   m_Layer: 0
   m_Name: icon_100037 (328)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 114013593268972692}
   m_Layer: 0
   m_Name: icon_100037 (342)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 114413229172762970}
   m_Layer: 0
   m_Name: icon_100037 (330)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -819,7 +819,7 @@ GameObject:
   - component: {fileID: 114024508559958732}
   m_Layer: 0
   m_Name: icon_100037 (378)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -838,7 +838,7 @@ GameObject:
   - component: {fileID: 114970585482015616}
   m_Layer: 0
   m_Name: icon_100037 (374)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -857,7 +857,7 @@ GameObject:
   - component: {fileID: 114895205639648512}
   m_Layer: 0
   m_Name: icon_100037 (390)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -876,7 +876,7 @@ GameObject:
   - component: {fileID: 114216695812382376}
   m_Layer: 0
   m_Name: icon_100037 (346)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -895,7 +895,7 @@ GameObject:
   - component: {fileID: 114890135335383136}
   m_Layer: 0
   m_Name: icon_100037 (357)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -914,7 +914,7 @@ GameObject:
   - component: {fileID: 114699128845186814}
   m_Layer: 0
   m_Name: icon_100037 (347)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -933,7 +933,7 @@ GameObject:
   - component: {fileID: 114474292083630402}
   m_Layer: 0
   m_Name: icon_100037 (335)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -952,7 +952,7 @@ GameObject:
   - component: {fileID: 114794684067560602}
   m_Layer: 0
   m_Name: icon_100037 (327)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -971,7 +971,7 @@ GameObject:
   - component: {fileID: 114914407400636706}
   m_Layer: 0
   m_Name: icon_100037 (371)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -990,7 +990,7 @@ GameObject:
   - component: {fileID: 114886817077856444}
   m_Layer: 0
   m_Name: icon_100037 (329)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1009,7 +1009,7 @@ GameObject:
   - component: {fileID: 114368554972311066}
   m_Layer: 0
   m_Name: icon_100037 (389)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1028,7 +1028,7 @@ GameObject:
   - component: {fileID: 114562311185612184}
   m_Layer: 0
   m_Name: icon_100037 (326)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1047,7 +1047,7 @@ GameObject:
   - component: {fileID: 114416708385723590}
   m_Layer: 0
   m_Name: icon_100037 (396)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1066,7 +1066,7 @@ GameObject:
   - component: {fileID: 114483880943060970}
   m_Layer: 0
   m_Name: icon_100037 (344)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1085,7 +1085,7 @@ GameObject:
   - component: {fileID: 114508940345103812}
   m_Layer: 0
   m_Name: icon_100037 (393)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1104,7 +1104,7 @@ GameObject:
   - component: {fileID: 114017956797041962}
   m_Layer: 0
   m_Name: icon_100037 (388)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1123,7 +1123,7 @@ GameObject:
   - component: {fileID: 114257192906208334}
   m_Layer: 0
   m_Name: icon_100037 (319)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1142,7 +1142,7 @@ GameObject:
   - component: {fileID: 114280360898053584}
   m_Layer: 0
   m_Name: icon_100037 (391)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 114704461563479286}
   m_Layer: 0
   m_Name: icon_100037 (349)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1180,7 +1180,7 @@ GameObject:
   - component: {fileID: 114420288879382588}
   m_Layer: 0
   m_Name: icon_100037 (345)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1199,7 +1199,7 @@ GameObject:
   - component: {fileID: 114485014197215644}
   m_Layer: 0
   m_Name: icon_100037 (381)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1218,7 +1218,7 @@ GameObject:
   - component: {fileID: 114230031921285658}
   m_Layer: 0
   m_Name: icon_100037 (369)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1237,7 +1237,7 @@ GameObject:
   - component: {fileID: 114730619620935482}
   m_Layer: 0
   m_Name: icon_100037 (339)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1256,7 +1256,7 @@ GameObject:
   - component: {fileID: 114817596517408756}
   m_Layer: 0
   m_Name: icon_100037 (301)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1275,7 +1275,7 @@ GameObject:
   - component: {fileID: 114468337277298366}
   m_Layer: 0
   m_Name: icon_100037 (309)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1294,7 +1294,7 @@ GameObject:
   - component: {fileID: 114633423783302684}
   m_Layer: 0
   m_Name: icon_100037 (305)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1313,7 +1313,7 @@ GameObject:
   - component: {fileID: 114469405095484498}
   m_Layer: 0
   m_Name: icon_100037 (302)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1332,7 +1332,7 @@ GameObject:
   - component: {fileID: 114315349199658200}
   m_Layer: 0
   m_Name: icon_100037 (397)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1351,7 +1351,7 @@ GameObject:
   - component: {fileID: 114243676570834816}
   m_Layer: 0
   m_Name: icon_100037 (348)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1370,7 +1370,7 @@ GameObject:
   - component: {fileID: 114338382449541654}
   m_Layer: 0
   m_Name: icon_100037 (318)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1389,7 +1389,7 @@ GameObject:
   - component: {fileID: 114455796559582604}
   m_Layer: 0
   m_Name: icon_100037 (387)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1408,7 +1408,7 @@ GameObject:
   - component: {fileID: 114422216873442254}
   m_Layer: 0
   m_Name: icon_100037 (311)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1427,7 +1427,7 @@ GameObject:
   - component: {fileID: 114780790884525138}
   m_Layer: 0
   m_Name: icon_100037 (325)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1446,7 +1446,7 @@ GameObject:
   - component: {fileID: 114365221728854344}
   m_Layer: 0
   m_Name: icon_100037 (338)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1465,7 +1465,7 @@ GameObject:
   - component: {fileID: 114345994775968780}
   m_Layer: 0
   m_Name: icon_100037 (362)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1484,7 +1484,7 @@ GameObject:
   - component: {fileID: 114139498328345964}
   m_Layer: 0
   m_Name: icon_100037 (323)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1503,7 +1503,7 @@ GameObject:
   - component: {fileID: 114911925708248222}
   m_Layer: 0
   m_Name: icon_100037 (367)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1522,7 +1522,7 @@ GameObject:
   - component: {fileID: 114796059122123496}
   m_Layer: 0
   m_Name: icon_100037 (341)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1541,7 +1541,7 @@ GameObject:
   - component: {fileID: 114107519018817750}
   m_Layer: 0
   m_Name: icon_100037 (310)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1560,7 +1560,7 @@ GameObject:
   - component: {fileID: 114210840466895574}
   m_Layer: 0
   m_Name: icon_100037 (394)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1579,7 +1579,7 @@ GameObject:
   - component: {fileID: 114194937602717182}
   m_Layer: 0
   m_Name: icon_100037 (337)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1598,7 +1598,7 @@ GameObject:
   - component: {fileID: 114974653667009158}
   m_Layer: 0
   m_Name: icon_100037 (317)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1617,7 +1617,7 @@ GameObject:
   - component: {fileID: 114297601805419552}
   m_Layer: 0
   m_Name: icon_100037 (315)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1636,7 +1636,7 @@ GameObject:
   - component: {fileID: 114922048288341116}
   m_Layer: 0
   m_Name: icon_100037 (320)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1655,7 +1655,7 @@ GameObject:
   - component: {fileID: 114411623550294536}
   m_Layer: 0
   m_Name: icon_100037 (322)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1674,7 +1674,7 @@ GameObject:
   - component: {fileID: 114104903589224310}
   m_Layer: 0
   m_Name: icon_100037 (360)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1693,7 +1693,7 @@ GameObject:
   - component: {fileID: 114654261269621166}
   m_Layer: 0
   m_Name: icon_100037 (377)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1712,7 +1712,7 @@ GameObject:
   - component: {fileID: 114186390121215554}
   m_Layer: 0
   m_Name: icon_100037 (370)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1731,7 +1731,7 @@ GameObject:
   - component: {fileID: 114103097400990334}
   m_Layer: 0
   m_Name: icon_100037 (385)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1750,7 +1750,7 @@ GameObject:
   - component: {fileID: 114108712767774810}
   m_Layer: 0
   m_Name: icon_100037 (350)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1769,7 +1769,7 @@ GameObject:
   - component: {fileID: 114564674697265870}
   m_Layer: 0
   m_Name: icon_100037 (306)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1788,7 +1788,7 @@ GameObject:
   - component: {fileID: 114492554410699460}
   m_Layer: 0
   m_Name: icon_100037 (307)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1807,7 +1807,7 @@ GameObject:
   - component: {fileID: 114296535668356298}
   m_Layer: 0
   m_Name: icon_100037 (365)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1826,7 +1826,7 @@ GameObject:
   - component: {fileID: 114779379992495286}
   m_Layer: 0
   m_Name: icon_100037 (340)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1845,7 +1845,7 @@ GameObject:
   - component: {fileID: 114794222121344384}
   m_Layer: 0
   m_Name: icon_100037 (384)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1864,7 +1864,7 @@ GameObject:
   - component: {fileID: 114807780012757938}
   m_Layer: 0
   m_Name: icon_100037 (334)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1883,7 +1883,7 @@ GameObject:
   - component: {fileID: 114905346378137662}
   m_Layer: 0
   m_Name: icon_100037 (379)
-  m_TagString: Untagged
+  m_TagString: Translucent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7527,7 +7527,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212011888468935124
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7568,7 +7567,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212025266189676402
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7609,7 +7607,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212031194790601526
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7650,7 +7647,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212044152930095902
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7691,7 +7687,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212050998337189676
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7732,7 +7727,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212055370791191168
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7773,7 +7767,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212059378615741466
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7814,7 +7807,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212078539910623490
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7855,7 +7847,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212091089749688284
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7896,7 +7887,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212106401981361634
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7937,7 +7927,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212107075729341034
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -7978,7 +7967,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212127110284121332
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8019,7 +8007,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212127943739661638
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8060,7 +8047,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212131400213280108
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8101,7 +8087,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212169155623162862
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8142,7 +8127,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212170851455526076
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8183,7 +8167,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212173641772904004
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8224,7 +8207,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212184734999831748
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8265,7 +8247,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212186064103079030
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8306,7 +8287,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212199620534994412
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8347,7 +8327,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212226459620815180
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8388,7 +8367,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212230916836700484
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8429,7 +8407,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212233227136190732
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8470,7 +8447,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212233732861548966
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8511,7 +8487,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212234376770884742
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8552,7 +8527,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212235928518825800
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8593,7 +8567,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212248718030384322
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8634,7 +8607,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212254275115281318
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8675,7 +8647,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212270432157331892
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8716,7 +8687,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212280590784179674
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8757,7 +8727,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212289523272982820
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8798,7 +8767,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212294717403504756
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8839,7 +8807,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212295383208114800
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8880,7 +8847,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212301084940025862
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8921,7 +8887,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212305030668033574
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -8962,7 +8927,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212305413120019250
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9003,7 +8967,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212311221801717590
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9044,7 +9007,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212335674687619264
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9085,7 +9047,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212358296040979346
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9126,7 +9087,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212386318459144926
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9167,7 +9127,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212391600412784070
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9208,7 +9167,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212397427654587856
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9249,7 +9207,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212398746958835296
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9290,7 +9247,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212405353337994726
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9331,7 +9287,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212416862013044054
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9372,7 +9327,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212434666724875732
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9413,7 +9367,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212442398708576622
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9454,7 +9407,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212453701302508780
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9495,7 +9447,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212460128939195934
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9536,7 +9487,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212465636098709872
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9577,7 +9527,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212475254236710328
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9618,7 +9567,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212479180673763192
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9659,7 +9607,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212505792474945134
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9700,7 +9647,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212506024739082950
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9741,7 +9687,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212507099338016506
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9782,7 +9727,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212510528637927360
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9823,7 +9767,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212518559815552590
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9864,7 +9807,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212518767481409994
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9905,7 +9847,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212530380554693402
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9946,7 +9887,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212541586154137998
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -9987,7 +9927,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212551613160579034
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10028,7 +9967,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212559114351742754
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10069,7 +10007,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212588444119925750
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10110,7 +10047,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212589017919587274
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10151,7 +10087,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212592127344917698
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10192,7 +10127,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212634735190680650
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10233,7 +10167,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212657317834765590
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10274,7 +10207,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212662817349513920
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10315,7 +10247,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212671042045902170
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10356,7 +10287,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212714597584743378
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10397,7 +10327,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212722282494203460
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10438,7 +10367,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212726130234907078
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10479,7 +10407,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212734431925269050
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10520,7 +10447,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212737389596255072
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10561,7 +10487,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212748149251029674
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10602,7 +10527,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212748678846028914
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10643,7 +10567,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212765576641344252
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10684,7 +10607,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212783854410142948
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10725,7 +10647,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212795433668848764
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10766,7 +10687,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212796656749811960
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10807,7 +10727,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212808929381708628
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10848,7 +10767,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212813091614743628
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10889,7 +10807,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212841820876165008
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10930,7 +10847,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212865411448111496
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -10971,7 +10887,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212869323641151452
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11012,7 +10927,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212874402319657066
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11053,7 +10967,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212883705994953868
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11094,7 +11007,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212896444619903264
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11135,7 +11047,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212921275274794992
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11176,7 +11087,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212942531047640630
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11217,7 +11127,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212942999479939956
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11258,7 +11167,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212947355884546746
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11299,7 +11207,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212951789105823916
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11340,7 +11247,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212954646760030744
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11381,7 +11287,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212957871717859280
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11422,7 +11327,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212976332083090330
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11463,7 +11367,6 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212990088086084512
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -11504,4 +11407,3 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1

@@ -98,7 +98,7 @@ public class SkillAoe : MonoBehaviour {
 			{
 			case 8:
 				{
-					//if(eventController.IsSameCamp(other.name, uid))
+					if(eventController.IsSameCamp(collider.name, uid))
 					{
 					if (Time.time - instantiateTime >0.2) {
 						instantiateTime = Time.time;
@@ -109,7 +109,7 @@ public class SkillAoe : MonoBehaviour {
 				break;
 			case 14: 
 				{
-					//if(eventController.IsSameCamp(other.name, uid))
+					if(!eventController.IsSameCamp(collider.name, uid))
 					{
 					//变雪人
 					if (this.durationTime == Time.time - instantiateTime) {
@@ -117,7 +117,7 @@ public class SkillAoe : MonoBehaviour {
 					} else {
 						//没变雪人之前减速
 						//collider.GetComponent<ATKAndDamage> ().TakeBuffer (1, this.durationTime);
-					}
+						}
 					}
 
 				}

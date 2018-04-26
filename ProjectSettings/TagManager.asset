@@ -11,6 +11,7 @@ TagManager:
   - UILabel
   - seed
   - Bullet
+  - Translucent
   layers:
   - Default
   - TransparentFX

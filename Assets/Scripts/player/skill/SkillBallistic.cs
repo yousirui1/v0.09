@@ -35,7 +35,7 @@ public class SkillBallistic  : MonoBehaviour {
 	}
 
 
-	public void init(int hp, float time, int d ,int skillID, string uid,EventController eventController)
+	public void init(int hp, float time, float dx ,float dy ,int skillID, string uid,EventController eventController)
 	{
 		//技能施法者
 		this.uid = uid;
@@ -46,72 +46,16 @@ public class SkillBallistic  : MonoBehaviour {
 
 		this.skillID = skillID;
 
-		switch (d) {
-		case 0:
-			{
-				skill_vec = new Vector3(-20,0,0);
-				this.transform.Rotate(0, 0, 180);
-			}
-			break;
+		Vector3 dVec = new Vector3 (dx, dy, 0);
+		skill_vec = dVec * 20.0f;
 
-		case 1:
-			{
-				skill_vec = new Vector3(-20,0,0);
-				this.transform.Rotate(0, 0, 180);
-			}
-			break;
+		float angle = Vector3.Angle(new Vector3(1,0,0),dVec);
 
-
-		case 2:
-			{
-				skill_vec = new Vector3(-10,10,0);
-				this.transform.Rotate(0, 0, 135);
-			}
-			break;
-
-		case 3:
-			{
-				skill_vec = new Vector3(0,20,0);
-				this.transform.Rotate(0, 0, 90);
-			}
-			break;
-
-		case 4:
-			{
-				skill_vec = new Vector3(10,10,0);
-				this.transform.Rotate(0, 0, 45);
-			}
-			break;
-
-		case 5:
-			{
-				skill_vec = new Vector3(20,0,0);
-				this.transform.Rotate(0, 0, 0);
-			}
-			break;
-
-		case 6:
-			{
-				skill_vec = new Vector3(10,-10,0);
-				this.transform.Rotate(0, 0, -45);
-			}
-			break;
-
-		case 7:
-			{
-				skill_vec = new Vector3(0,-20,0);
-				this.transform.Rotate(0, 0, -90);
-			}
-			break;
-
-		case 8:
-			{
-				skill_vec = new Vector3(-10,-10,0);
-				this.transform.Rotate(0, 0, -135);
-			}
-			break;
-
+		if (dy < 0) {
+			angle = -angle;
 		}
+		this.transform.Rotate(0,0,angle);
+
 		Destroy(this.gameObject, time);
 	}
 

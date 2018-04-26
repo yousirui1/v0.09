@@ -17,19 +17,19 @@ public class ATKAndDamage : MonoBehaviour{
 	//当前值
     public float hp  = 100;
     public float sp = 100;
-	public float speed = 20;
+	public float speed = 10.0f;
 
 	//上线值
 	public float hp_Max  = 100;
 	public float sp_Max = 100;
-	public float speed_Max = 50;
+	public float speed_Max = 10.0f;
 
     public float exp = 1;
 	public float exp_Max = 100;
 
     public int level = 1;
 
-    public float score = 0;
+    public int score = 0;
 
 	public int at_sp = 0;   //每秒钟回复的体力
 	public int at_hp = 0;   //每秒钟回复的血量

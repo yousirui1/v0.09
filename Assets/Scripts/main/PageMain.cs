@@ -27,9 +27,9 @@ public class PageMain : MonoBehaviour {
 
 		UIRoot.Instance.InitRoot();
 
-		//UIPage.ShowPage<LoadNoticeUIPage> ();
+		UIPage.ShowPage<LoadNoticeUIPage> ();
 
-		UIPage.ShowPage<StartUIPage> ();
+		//UIPage.ShowPage<StartUIPage> ();
 
 	}
 

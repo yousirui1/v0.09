@@ -68,7 +68,7 @@ public class ChatConect : MonoBehaviour
         InitNetEvent();
 
         //创建用户表
-        SavedData.s_instance.m_userlist= UserNameList;
+        //SavedData.s_instance.m_userlist= UserNameList;
 
         onJoin();
 
@@ -127,7 +127,7 @@ public class ChatConect : MonoBehaviour
             message["uid"] = entite.uid;
             message["x"] = entite.x;
             message["y"] = entite.y;
-            message["d"] = entite.d;
+            message["d"] = entite.dx;
             message["v"] = entite.v;
             message["skill"] = entite.skill;
             message["hp"] = entite.hp;

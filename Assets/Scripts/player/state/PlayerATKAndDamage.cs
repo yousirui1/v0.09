@@ -27,7 +27,7 @@ public class PlayerATKAndDamage : ATKAndDamage{
 		if (this.name != SavedData.s_instance.m_user.m_uid) {
 			if(this.gameObject.activeInHierarchy)
 			{
-				this.gameObject.SetActive (false);
+				//this.gameObject.SetActive (false);
 			}
 		} else {
 			roleObj.transform.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 0.43f);
@@ -41,15 +41,16 @@ public class PlayerATKAndDamage : ATKAndDamage{
 		{
 			if(this.gameObject.activeInHierarchy)
 			{
-				this.gameObject.SetActive (true);
+				//this.gameObject.SetActive (true);
 			}
-
-
 		}
 		else {
 			roleObj.transform.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 1.0f);
 		}
 	}
+
+
+
 
 
 

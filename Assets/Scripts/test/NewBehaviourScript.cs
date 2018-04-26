@@ -4,6 +4,8 @@ using UnityEngine;
 using tpgm.UI;
 
 public class NewBehaviourScript : MonoBehaviour {
+
+	#if false
 	GameObject obj = null;
 	// Use this for initialization
 	void Start () {
@@ -33,5 +35,29 @@ public class NewBehaviourScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+	#endif
+
+
+
+	Create createObj = null;
+	void Start()
+	{
+		//Create root = Create.Instace;
+		//Create root = Create.Instace;
+		//createObj =  new GameObject ("Create").AddComponent<Create> ();
+		Invoke ("End", 3.0f);
+	}
+
+	void End()
+	{
+		Destroy (createObj.gameObject);
+		Invoke ("Create", 3.0f);
+	}
+
+	void Create()
+	{
+		createObj =  new GameObject ("Create").AddComponent<Create> ();
+		//Debug.Log(createObj.GetComponent<>)
 	}
 }

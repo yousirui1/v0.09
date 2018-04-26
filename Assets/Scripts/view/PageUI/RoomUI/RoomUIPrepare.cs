@@ -11,6 +11,9 @@ using System;
 using LitJson;
 using System.Runtime.Serialization;
 
+//roomNum 和roomKey
+
+
 
 
 public class RoomUIPrepare : UIPage
@@ -227,16 +230,19 @@ public class RoomUIPrepare : UIPage
 		//Client.Send
 	}
 
-	private void SetPlayerInfo(string uid ,string name, int headpath)
+	private void SetPlayerInfo(string uid ,string name, int headpath, int level)
 	{
 		if (uid == SavedData.s_instance.m_user.m_uid) {
+			userObj0.transform.Find ("tx_username").GetComponent<Text> ().text = name;
 			userObj0.transform.Find ("tx_username").GetComponent<Text> ().text = name;
 			userObj0.transform.Find ("img_user").GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+headpath);
 		} else {
 			if (other_count == 0) {
 				userObj1.transform.Find ("tx_username").GetComponent<Text> ().text = name;
+				userObj1.transform.Find ("tx_username").GetComponent<Text> ().text = name;
 				userObj1.transform.Find ("img_user").GetComponent<Image> ().sprite = TextureManage.getInstance ().LoadAtlasSprite ("images/ui/icon/General_icon", "General_icon_" + headpath);
 			} else if (other_count == 1) {
+				userObj2.transform.Find ("tx_username").GetComponent<Text> ().text = name;
 				userObj2.transform.Find ("tx_username").GetComponent<Text> ().text = name;
 				userObj2.transform.Find ("img_user").GetComponent<Image> ().sprite = TextureManage.getInstance ().LoadAtlasSprite ("images/ui/icon/General_icon", "General_icon_" + headpath);
 			} else {
@@ -250,13 +256,13 @@ public class RoomUIPrepare : UIPage
 	private void ClearPlayerInfo()
 	{
 		userObj0.transform.Find ("tx_username").GetComponent<Text> ().text = "??????";
-		userObj0.transform.Find ("img_user").GetComponent<Image> ().sprite = null;
+		userObj0.transform.Find ("img_user").GetComponent<Image> ().sprite = ResourceMgr.Instance().Load<Sprite>("images/ui/public/ui_alpha",false);
 
 		userObj1.transform.Find ("tx_username").GetComponent<Text> ().text = "??????";
-		userObj1.transform.Find ("img_user").GetComponent<Image> ().sprite = null;
+		userObj1.transform.Find ("img_user").GetComponent<Image> ().sprite = ResourceMgr.Instance().Load<Sprite>("images/ui/public/ui_alpha",false);
 
 		userObj2.transform.Find ("tx_username").GetComponent<Text> ().text = "??????";
-		userObj2.transform.Find ("img_user").GetComponent<Image> ().sprite = null;
+		userObj2.transform.Find ("img_user").GetComponent<Image> ().sprite = ResourceMgr.Instance().Load<Sprite>("images/ui/public/ui_alpha",false);
 
 	}
 
@@ -280,13 +286,16 @@ public class RoomUIPrepare : UIPage
 		case MSG_POMELO_ROOMADD:
 			{
 				JsonObject data = (JsonObject)msg.m_dataObj;
+				Debug.Log (data);
 				object uid = null;
 				object name = null;
 				object head = null;
+				object level = null;
 				if (data.TryGetValue ("uid", out uid)
 					&& data.TryGetValue ("name", out name)
-					&& data.TryGetValue ("head", out head)) {
-					SetPlayerInfo (uid.ToString (), name.ToString (), Convert.ToInt32 (head));
+					&& data.TryGetValue ("head", out head)
+					&& data.TryGetValue ("level", out level)) {
+					SetPlayerInfo (uid.ToString (), name.ToString (), Convert.ToInt32 (head), Convert.ToInt32 (level));
 					if (!dic_user.ContainsKey(uid.ToString ())) dic_user.Add(uid.ToString (), name.ToString ());
 				}
 			}
@@ -302,7 +311,6 @@ public class RoomUIPrepare : UIPage
 				    && data.TryGetValue ("content", out content)
 				    && data.TryGetValue ("scope", out scope)) {
 					SetMessage (uid.ToString (), content.ToString ());
-
 				}
 
 			}
@@ -456,6 +464,7 @@ public class RoomUIPrepare : UIPage
 						if (data.TryGetValue("roomNum", out roomNum))
 						{
 							SavedData.s_instance.m_roomNum = roomNum.ToString();
+							Debug.Log(roomNum.ToString());
 						}
 					}
 				});
@@ -507,6 +516,7 @@ public class RoomUIPrepare : UIPage
 		{
 			if (SavedContext.s_client != null) {
 				JsonObject jsMsg = new JsonObject ();
+
 				jsMsg["roomNum"] = SavedData.s_instance.m_roomNum;
 				SavedContext.s_client.request ("area.gloryHandler.leaveRoom",jsMsg, (data) => {
 					Debug.Log(data);

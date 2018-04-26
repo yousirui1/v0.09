@@ -12,23 +12,24 @@ using tpgm.UI;
 *Data: 2018/1/24
 *Describe: 游戏界面按钮和菜单
 **************************************/
+using System;
 
 
 public class GameMenu : MonoBehaviour
 {
-	GameObject gameUIObj;		
-	GameObject deathPanelObj;  //死亡面板
-	GameObject bastplayerObj;  //最佳
-	GameObject killplayerObj;  //击杀
+	GameObject gameUIObj = null;		
+	GameObject deathPanelObj = null;  //死亡面板
+	GameObject bastplayerObj = null;  //最佳
+	GameObject killplayerObj = null;  //击杀
 
-	GameObject broadcastObj;   //广播通知
+	GameObject broadcastObj = null;   //广播通知
 
-	GameObject tiemObj;			//倒计时
+	GameObject tiemObj = null;			//倒计时
 
-	GameObject systemInfoObj;   //系统信息
-	GameObject signalObj;   //系统信息
+	GameObject systemInfoObj = null;   //系统信息
+	GameObject signalObj = null;   //系统信息
 
-	GameObject killDataObj;		//击杀数量
+	GameObject killDataObj = null;		//击杀数量
 
 	//游戏
 	public const int STATE_GAME = 0;
@@ -72,46 +73,51 @@ public class GameMenu : MonoBehaviour
 	private bool isSkill= false;
 
 	//击杀Tip不同的类型
-	GameObject itemObj0;
-	GameObject itemObj1;
-	GameObject itemObj2;
-	GameObject itemObj3;
+	GameObject itemObj0 = null;
+	GameObject itemObj1 = null;
+	GameObject itemObj2 = null;
+	GameObject itemObj3 = null;
 
 
-	GameObject itemRankObjself;
-	GameObject RankObj;
+	GameObject itemRankObjself = null;
+	GameObject RankObj = null;
 
-	GameObject resultUIObj;
-	GameObject result_oneObj;  //个人结算界面
+	GameObject resultUIObj = null;
+	GameObject result_oneObj = null;  //个人结算界面
 	GameObject result_teamObj; //团队结算界面
 
-	CArrowLockAt cArrowLockAt;
+	CArrowLockAt cArrowLockAt = null;
 
 
 	//数值表缓存
-	ValTableCache valCache;
+	ValTableCache valCache = null;
 
 	public const string m_gameID = "1";
 
 	private int kill_cd = 0;
 
-	Ping ping;
-	float delayTime;
+	Ping ping  = null;
+	float delayTime = float.MinValue;
 
-	EventController eventController;
+	EventController eventController = null;
 
-	Map map;
+	Map map = null;
 
 	float StartTime = float.MinValue;
 
+	void Awake()
+	{
+		
+	}
+
 	void Start()
 	{
+
 		Init ();
 
 		InitUserList();
 		onClickListener ();
 		SendPing();
-
 	}
 
 	void Init()
@@ -126,7 +132,6 @@ public class GameMenu : MonoBehaviour
 		gameUIObj.transform.localPosition = Vector3.zero;
 		gameUIObj.transform.localScale = Vector3.one;
 		gameUIObj.name = "GameUI";
-
 
 		//死亡面板
 		deathPanelObj = gameUIObj.transform.Find ("bg_death").gameObject;
@@ -173,7 +178,47 @@ public class GameMenu : MonoBehaviour
 		result_teamObj = resultUIObj.transform.Find ("panel_team").gameObject;
 		resultUIObj.SetActive (false);
 
-		cArrowLockAt = gameUIObj.transform.Find ("bg_arrow").GetComponent<CArrowLockAt> ();
+
+		resultUIObj.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
+			{
+
+				Destroy(eventController.GetCanvas());
+				Destroy(eventController.gameObject);
+
+
+				UIRoot.Instance.gameObject.SetActive (true);
+				UIRoot.Instance.CreateEventSystem();
+				UIPage.ShowPage<RoomUIPrepare>();
+				//回到房间
+			});
+
+		resultUIObj.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				Destroy(eventController.GetCanvas());
+				Destroy(eventController.gameObject);
+
+				UIRoot.Instance.gameObject.SetActive (true);
+				UIRoot.Instance.CreateEventSystem();
+				UIPage.ShowPage<MainUIPage>();
+				//回到大厅
+			});
+
+		resultUIObj.transform.Find("btn_true").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				//转发
+			});
+
+		resultUIObj.transform.Find("btn_save").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				//保存视频
+			});
+
+		result_oneObj.transform.Find("btn_team").GetComponent<Button>().onClick.AddListener(() =>
+			{
+				CheckResultPanel(false);
+			});
+
+		//cArrowLockAt = gameUIObj.transform.Find ("bg_arrow").GetComponent<CArrowLockAt> ();
 
 		height = Screen.height;
 		width = Screen.width;
@@ -183,20 +228,21 @@ public class GameMenu : MonoBehaviour
 		SetSkillData (0,0,0);
 		SetSystemInfoData ();
 
-		eventController.InitJoyControl ();
 
+		eventController.InitJoyControl ();
 	}
 
 
 	void OnDestroy()
 	{
 		valCache.unmarkPageUse (m_gameID, ConstsVal.val_magic);
+		Destroy (this);
 	}
 
 
 	public void SetArrowSelf(Transform selfTr)
 	{
-		cArrowLockAt.SetSelf (selfTr);
+		//cArrowLockAt.SetSelf (selfTr);
 	}
 
 	bool isArrowGroup = false;
@@ -204,19 +250,19 @@ public class GameMenu : MonoBehaviour
 	{
 		if(!isArrowGroup)
 		{
-			cArrowLockAt.SetGroup1 (groupTr);
-			isArrowGroup = true;
+			//cArrowLockAt.SetGroup1 (groupTr);
+			//isArrowGroup = true;
 		}
 		else
 		{
-			cArrowLockAt.SetGroup2 (groupTr);
+			//cArrowLockAt.SetGroup2 (groupTr);
 		}
 	}
 		
 
 	public void SetArrowBast(Transform bastTr)
 	{
-		cArrowLockAt.SetBast (bastTr);
+		//cArrowLockAt.SetBast (bastTr);
 	}
 		
 	//击杀提示
@@ -301,11 +347,18 @@ public class GameMenu : MonoBehaviour
 	}
 
 
-
-
 	void SendPing()
 	{
-		ping = new Ping(SavedData.s_instance.s_clientUrl);
+		try
+		{
+			ping = new Ping(SavedData.s_instance.s_clientUrl);
+		}
+		catch (Exception ex) 
+		{   
+			Debug.Log("Exception "+ ex.Message + ", " + ex.GetType().FullName);
+			//tellOnTableLoadErr();
+		}   
+
 	}
 	//系统数据
 	private void SetSystemInfoData()
@@ -428,63 +481,22 @@ public class GameMenu : MonoBehaviour
 	//激活结算面板
 	public void ActiveResultPanel()
 	{
-		
-
-		gameUIObj.SetActive (false);
-		resultUIObj.SetActive (true);
+		if (gameUIObj == null || resultUIObj == null) {
+			Debug.Log ("我也不知道怎么错了。。。。。。。。。");
+		} else {
+			gameUIObj.SetActive (false);
+			resultUIObj.SetActive (true);
+		}
 
 		SavedData.s_instance.m_home = 1;
-
-
-		resultUIObj.transform.Find("btn_close").GetComponent<Button>().onClick.AddListener(() =>
-		{
-				
-				Destroy(eventController.GetCanvas());
-				Destroy(eventController.gameObject);
-
-
-				UIRoot.Instance.gameObject.SetActive (true);
-				UIRoot.Instance.CreateEventSystem();
-				UIPage.ShowPage<RoomUIPrepare>();
-				//回到房间
-		});
-
-		resultUIObj.transform.Find("btn_back").GetComponent<Button>().onClick.AddListener(() =>
-		{
-				
-
-				Destroy(eventController.GetCanvas());
-				Destroy(eventController.gameObject);
-
-				UIRoot.Instance.gameObject.SetActive (true);
-				UIRoot.Instance.CreateEventSystem();
-				UIPage.ShowPage<MainUIPage>();
-				//回到大厅
-		});
-
-		resultUIObj.transform.Find("btn_true").GetComponent<Button>().onClick.AddListener(() =>
-		{
-				//转发
-		});
-
-		resultUIObj.transform.Find("btn_save").GetComponent<Button>().onClick.AddListener(() =>
-		{
-				//保存视频
-		});
-				
-		result_oneObj.transform.Find("btn_team").GetComponent<Button>().onClick.AddListener(() =>
-		{
-				CheckResultPanel(false);
-		});
 
 
 		RespThirdUserData self_data = null;
 		//更新显示
 		for(int i = 0; i<SavedData.s_instance.m_userrank.Count; i++) {
 			RespThirdUserData data = null;
-			Debug.Log (SavedData.s_instance.m_userrank [i].m_uid);
 			if (SavedData.s_instance.m_userCache.TryGetValue (SavedData.s_instance.m_userrank[i].m_uid, out data)) {
-				SetResultTempData (i+1, data);
+				//SetResultTempData (i+1, data);
 			}
 			//是不是主角
 			if (SavedData.s_instance.m_userrank [i].m_uid == SavedData.s_instance.m_user.m_uid) {
@@ -512,7 +524,7 @@ public class GameMenu : MonoBehaviour
 		});
 
 		#endif
-		CheckResultPanel(true);
+		//CheckResultPanel(true);
 
 	}
 	//设置个人页面数据
@@ -533,8 +545,8 @@ public class GameMenu : MonoBehaviour
 	//设置组队页面数据
 	public void SetResultTempData(int no,RespThirdUserData data)
 	{
-		Debug.Log ("SetResultTempData");
-		GameObject itemObj;
+		//Debug.Log ("SetResultTempData");
+		GameObject itemObj = null;
 		switch (no) {
 		case 1:
 			{
@@ -827,7 +839,6 @@ public class GameMenu : MonoBehaviour
 			item.Refresh(SavedData.s_instance.m_userrank [i]);
 		}
 
-
 		#if false
 		itemRankObjself =  RankObj.transform.Find ("item_self").gameObject;
 		UIRankItem itemself = itemRankObjself.AddComponent<UIRankItem>();
@@ -879,7 +890,7 @@ public class GameMenu : MonoBehaviour
 		if(bast_player != SavedData.s_instance.m_userrank [0].m_uid)
 		{
 			bast_player = SavedData.s_instance.m_userrank [0].m_uid;
-			SetArrowBast (map.GetPlayerObj (bast_player).transform);
+			//SetArrowBast (map.GetPlayerObj (bast_player).transform);
 		}
 		//SetArrowBast (map.GetPlayerObj (SavedData.s_instance.m_userrank [0].m_uid).transform);
 	}

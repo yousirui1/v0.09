@@ -41,8 +41,8 @@ public class SkillManage : MonoBehaviour {
     void Start()
     {
         //读入所以技能的数值表
-		//valCache = SavedContext.s_valTableCache;
-		//valCache.markPageUseOrThrow<ValMagicUp> (m_gameID, ConstsVal.val_magicup);
+		valCache = SavedContext.s_valTableCache;
+		valCache.markPageUseOrThrow<ValMagicUp> (m_gameID, ConstsVal.val_magicup);
 
 		m_initedLooper = MainLooper.instance();
 
@@ -56,6 +56,13 @@ public class SkillManage : MonoBehaviour {
 		m_msgHandlerProxy = new MessageHandlerProxy (handleMsg);
       	
     }
+
+	void OnDestroy()
+	{
+		valCache.unmarkPageUse (m_gameID, ConstsVal.val_magicup);
+
+	}
+
 
 	public const int SKILL_FLASH = 1 ;
 	public const int SKILL_FIRE = 2 ;
@@ -94,16 +101,11 @@ public class SkillManage : MonoBehaviour {
 	}
 
 
-	void Destroy()
-	{
-		//valCache.unmarkPageUse(m_gameID, ConstsVal.val_magicup);
-	}
-
-
 
     //释放技能 1 普攻 2 闪现
-	public void onFire(int type, int level, int d, GameObject playerObj ,string uid)
+	public void onFire(int type, int level, float dx,float dy, GameObject playerObj ,string uid)
     {
+		
 		if (type != 0) {
 			if (type == 1) {
 				//(-100, 0) (0,30)  (50, 0) (50, -50) (50, -100)   (0 -120)  (-100 -100)  (-100, -50)
@@ -112,7 +114,7 @@ public class SkillManage : MonoBehaviour {
 				newbullet.transform.parent = playerObj.transform.parent;
 				newbullet.transform.position = playerObj.transform.position;
 				newbullet.transform.localScale = 100 * Vector3.one;
-				newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,d, type,uid, eventController);
+				newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,dx,dy, type,uid, eventController);
 
 			} else if (type == 500) {
 
@@ -172,7 +174,7 @@ public class SkillManage : MonoBehaviour {
 						newbullet.transform.parent = portTra;
 						newbullet.transform.localPosition = portTra.localPosition;
 						newbullet.transform.localScale = Vector3.one;
-						newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,d, type,uid,eventController);
+						newbullet.AddComponent<SkillBallistic>().init(-10, 3.0f,dx, dy, type,uid,eventController);
 					}
 					break;
 				case "8-13":
@@ -235,30 +237,42 @@ public class SkillManage : MonoBehaviour {
 	
 			}
 		}
-
+	
 
 	
 	}
 
 	//设置人物动画
-	public void onAnimator(int d, int skill, GameObject playerObj )
+	public void onAnimator(float dx , float dy, int skill, GameObject playerObj )
 	{
 
 		Animator animator = playerObj.transform.Find ("role").GetComponent<Animator> ();
 		SpriteRenderer sprite = playerObj.transform.Find ("role").GetComponent<SpriteRenderer> ();
 
-		if (d != 0) {
-			if (d >= 3 && d < 7) {
+		if (dx != 0  || dy != 0) {
+			//Debug.Log (d);
+			if (dx>0) {
 				//right
 				sprite.transform.eulerAngles = new Vector3 (0, 180f, 0);
-				animator.SetInteger ("state",2);
-			} else {
+			} else if(dx == 0)
+			{
+				if(dy > 0)
+				{
+					sprite.transform.eulerAngles = new Vector3 (0, 180f, 0);
+				}
+				else
+				{
+					sprite.transform.eulerAngles = new Vector3 (0, 0f, 0);
+				}
+
+			}
+			else
+			{
 				//left
 				sprite.transform.eulerAngles = new Vector3 (0, 0f, 0);
-				animator.SetInteger ("state",2);
 			}
-
-
+				
+			animator.SetInteger ("state",2);
 		} else {
 			//idle
 			animator.SetInteger ("state",0);

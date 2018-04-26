@@ -71,6 +71,7 @@ public class StartUIPage : UIPage
 			}
 		});
 
+		#if false
 		this.gameObject.transform.Find("btn_server").GetComponent<Button>().onClick.AddListener(() =>
 		{
 				new GameObject("server").AddComponent<WlanServer>();
@@ -83,9 +84,7 @@ public class StartUIPage : UIPage
 
 		});
 
-
-		//this.gameObject.transform.Find ("btn_server").gameObject.SetActive (false);
-		//this.gameObject.transform.Find ("btn_client").gameObject.SetActive (false);
+		#endif
 	}
 
 

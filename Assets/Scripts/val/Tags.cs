@@ -7,6 +7,7 @@ public class Tags
     public const string otherplayer = "OtherPlayer";
     public const string ground = "Ground";
     public const string bullet = "Bullet";
+	public const string translucent = "Translucent";
 
 	//分组
 	public const string player_group1 = "Player_Group1";

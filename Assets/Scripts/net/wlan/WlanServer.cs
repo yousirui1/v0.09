@@ -198,7 +198,7 @@ public class WlanServer : MonoBehaviour
                 {
                     buf_data[i].x = move.x;
                     buf_data[i].y = move.y;
-                    buf_data[i].d = move.d;
+                    buf_data[i].dx = move.x;
                     buf_data[i].v = move.v;
                     buf_data[i].sp = move.sp;
                     buf_data[i].hp = move.hp;

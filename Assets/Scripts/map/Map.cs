@@ -15,7 +15,7 @@ public class Map : MonoBehaviour
 {
 	private List<GameObject> playerObjs = new List<GameObject> ();
 	
-	private GameObject playerObj;	
+	private GameObject playerObj = null;	
 	
 	//固定建筑
 	private GameObject backgroupObj; 
@@ -35,12 +35,19 @@ public class Map : MonoBehaviour
 
 	private MainLooper m_initedLooper = MainLooper.instance();
 
-	void Start()
+	private	Shadow shadow; 		//影子算法
+
+	void Awake()
 	{
 		valCache.markPageUseOrThrow<ValRoleBattle> (m_gameID, ConstsVal.val_role_battle);
 		valCache.markPageUseOrThrow<ValNum> (m_gameID, ConstsVal.val_num);
 
 		eventController = GameObject.Find ("EventController").GetComponent<EventController>() as EventController;
+	}
+
+	void Start()
+	{
+		shadow = new Shadow ();
 	}
 
 	public const int MSG_LOAD_PART_1 = 1;
@@ -61,6 +68,8 @@ public class Map : MonoBehaviour
 		valCache.unmarkPageUse (m_gameID, ConstsVal.val_role_battle);
 		valCache.unmarkPageUse (m_gameID, ConstsVal.val_num);
 		valCache.unmarkPageUse (m_gameID, ConstsVal.val_global);
+	
+		Destroy (this);
 	}
 
 
@@ -276,16 +285,16 @@ public class Map : MonoBehaviour
 
 
 	//添加一个玩家
-	public void AddPlayerObj(int i, string name, int x, int y)
+	public void AddPlayerObj(int i, string name, float x, float y)
 	{
 		GameObject newObj = ResourceMgr.Instance().CreateGameObject("prefabs/heros/roles/role1", true);
 		newObj.transform.parent = playerMgrObj.transform;
 		newObj.name = name;
 		newObj.transform.localScale = Vector3.one;
+		Debug.Log (x + ":" +y);
 		newObj.transform.localPosition = new Vector3 (x, y, 0);
 		playerObjs.Insert (i, newObj);
 	
-
 		int other_group1 = eventController.GetCamp (SavedData.s_instance.m_user.m_uid);
 
 		if (other_group1++ > 3) {
@@ -323,13 +332,13 @@ public class Map : MonoBehaviour
 	public void DelPlayerObj(int i)
 	{
 		playerObjs.Remove (playerObjs[i]);
-		 Destroy(playerObjs[i]);
+		Destroy(playerObjs[i]);
 	}
 	
 	//结束以后清空玩家
 	public void ClearPlayerObj()
 	{
-		for(int i = 0; i< SavedData.s_instance.m_playerMax; i++)
+		for(int i = 0; i< playerObjs.Count ; i++)
 		{
 			Destroy(playerObjs[i]);
 		}
@@ -342,37 +351,49 @@ public class Map : MonoBehaviour
 	{
 		if(null != playerObjs[id])
 		{
-			iTween.MoveTo(playerObjs[id], iTween.Hash("x", playerVal.x,
-                                           "y", playerVal.y,
+
+			iTween.MoveTo(playerObjs[id], iTween.Hash("x", (int)playerVal.x,
+				"y", (int)playerVal.y,
                                            "z", 0,
                                            "time", 1.0,
                                            "islocal", true
              )); 
+		
+		
 
-			//OnMove (playerObjs [id], playerObjs [id].transform.position, new Vector3 (playerVal.x, playerVal.y, 0));
+			if (System.Math.Abs(playerVal.fdx) >= 0.5 || System.Math.Abs(playerVal.fdy) >= 0.5) {
 
-			if (playerVal.d != 0) {
+				if(playerVal.skill == 500)
+				{
+					shadow.craft_flash (playerVal,1,true);
+				}
+
+
 				//保存当前最后的面向
-				playerVal.old_d = playerVal.d;
+				playerVal.old_dx = playerVal.fdx;
+				playerVal.old_dy = playerVal.fdy;
 
 				//释放技能
 				if(playerVal.skill != 0)
 				{   
-					skillMgrObj.GetComponent<SkillManage> ().onFire (playerVal.skill, 1, playerVal.d, playerObjs [id], playerVal.uid);
+					skillMgrObj.GetComponent<SkillManage> ().onFire (playerVal.skill, 1, playerVal.fdx , playerVal.fdy, playerObjs [id], playerVal.uid);
 				}
 
 			} 
 			else {
-				
+				if(playerVal.skill == 500)
+				{
+					shadow.craft_flash (playerVal,1 ,false);
+				}
+
 				//释放技能
 				if(playerVal.skill != 0)
 				{   
-					skillMgrObj.GetComponent<SkillManage> ().onFire (playerVal.skill, 1, playerVal.old_d, playerObjs [id], playerVal.uid);
+					skillMgrObj.GetComponent<SkillManage> ().onFire (playerVal.skill, 1, playerVal.old_dx, playerVal.old_dy,playerObjs [id], playerVal.uid);
 				}
 			}
 			//( int d,  int skill,GameObject playerObj)
-			skillMgrObj.GetComponent<SkillManage> ().onAnimator (playerVal.d, playerVal.skill, playerObjs [id]);
-		
+			skillMgrObj.GetComponent<SkillManage> ().onAnimator (playerVal.fdx,playerVal.fdy, playerVal.skill, playerObjs [id]);
 		}
 	}
 
@@ -380,6 +401,7 @@ public class Map : MonoBehaviour
 	{
 		playObj.transform.Translate (endVec - oriVec);
 	}
+
 
 
 }

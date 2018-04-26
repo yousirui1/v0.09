@@ -62,6 +62,7 @@ public class RoomUIMatch : UIPage
 		//定时器
 		coroutine = UIRoot.Instance.StartCoroutine(Timer());
 		controller.onPomeloEvent_Match ();
+		ClearData ();
 
 	}
 
@@ -101,7 +102,7 @@ public class RoomUIMatch : UIPage
 				object roomNum = null;
 				if (data.TryGetValue ("match", out match) && data.TryGetValue ("roomNum", out roomNum)) {
 					if (Convert.ToInt32 (match) == 2) {
-						SavedData.s_instance.m_roomNum = roomNum.ToString ();
+						SavedData.s_instance.m_gameRoom = roomNum.ToString ();
 						UIRoot.Instance.StopCoroutine (coroutine);
 						ShowPage<LoadingUIPage> ();
 					}
@@ -114,7 +115,7 @@ public class RoomUIMatch : UIPage
 			{
 
 				JsonObject data = (JsonObject)msg.m_dataObj;
-				Debug.Log (data);
+				//ssDebug.Log (data);
 				try
 				{
 					//RespThirdGloryAdd buf = SimpleJson.SimpleJson.DeserializeObject<RespThirdGloryAdd> (data.ToString());
@@ -122,7 +123,7 @@ public class RoomUIMatch : UIPage
 					//建立玩家字典数据
 
 
-					play_count = buf.newUser.Count;
+					play_count++;
 					foreach (NewUser player in buf.newUser) {
 						//保存数据
 						RespThirdUserData userdata = new RespThirdUserData ();
@@ -216,6 +217,16 @@ public class RoomUIMatch : UIPage
 	int count =0;
 	int time =0 ;
 
+
+	private void ClearData()
+	{
+		rad = 0;
+		yellow = 0;
+		green = 0;
+		count = 0;
+		time = 0;
+		play_count = 1;
+	}
 	//
 	private void AddNewUserItem(string uid, int imgID,int player_group)
 	{
@@ -223,7 +234,7 @@ public class RoomUIMatch : UIPage
 		switch (player_group) {
 		case 1:
 			{
-				Debug.Log ("rad");
+			//	Debug.Log ("rad");
 				GameObject item = this.gameObject.transform.Find ("content/player_groups").transform.GetChild (rad).gameObject;
 				item.GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+imgID);
 				item.name = uid;
@@ -232,7 +243,7 @@ public class RoomUIMatch : UIPage
 			}
 		case 2:
 			{
-				Debug.Log ("yellow" +(yellow+3));
+			//	Debug.Log ("yellow" +(yellow+3));
 				GameObject item = this.gameObject.transform.Find ("content/player_groups").transform.GetChild (yellow+3).gameObject;
 				item.name = uid;
 				item.GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+imgID);
@@ -241,7 +252,7 @@ public class RoomUIMatch : UIPage
 			}
 		case 3:
 			{
-				Debug.Log ("green");
+				//Debug.Log ("green"+(green+6));
 				GameObject item = this.gameObject.transform.Find ("content/player_groups").transform.GetChild (green+6).gameObject;
 				item.name = uid;
 				item.GetComponent<Image> ().sprite = TextureManage.getInstance().LoadAtlasSprite("images/ui/icon/General_icon","General_icon_"+imgID);
@@ -334,7 +345,7 @@ public class RoomUIMatch : UIPage
 				});
 				//所以玩家信息用来显示
 				pClient.on("gloryAdd", (data) =>{
-					Debug.Log(data);
+				//	Debug.Log(data);
 					HandlerMessage msg = MainLooper.obtainMessage(m_page.handleMsgDispatch, MSG_POMELO_GLORYADD);
 					msg.m_dataObj = data;
 					m_initedLooper.sendMessage(msg);

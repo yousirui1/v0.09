@@ -7,9 +7,14 @@ using SimpleJson;
 using tpgm;
 
 public class Test : MonoBehaviour {
+	int i =0;
 
+	void Start()
+	{
+		i++;
+	}
 	//private PomeloClient pClient;
-
+	#if false
 	private static Test instance = null;
 
 	//	private List<string> UserNameList = new List<string>();
@@ -35,5 +40,6 @@ public class Test : MonoBehaviour {
 	{
 		Debug.Log (".................");
 	}
+	#endif
 
 }

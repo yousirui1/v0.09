@@ -31,12 +31,12 @@ public class Shadow  {
 
         for (int i = 0; i < step; i++)
         {
-            player_shadow.sx += player_shadow.sv * direction[player_shadow.sd, 0] * inc;
-            player_shadow.sy += player_shadow.sv * direction[player_shadow.sd, 1] * inc;
+            //player_shadow.sx += player_shadow.sv * direction[player_shadow.sd, 0] * inc;
+            //player_shadow.sy += player_shadow.sv * direction[player_shadow.sd, 1] * inc;
 
             //三个数取中间值 限定移动范围
-            player_shadow.sx = middle(80, player_shadow.sx, 6660);
-            player_shadow.sy = middle(128, player_shadow.sy, 6660);
+            //player_shadow.sx = middle(80, player_shadow.sx, 6660);
+            //player_shadow.sy = middle(128, player_shadow.sy, 6660);
         }
 
 
@@ -57,23 +57,23 @@ public class Shadow  {
 
         for (int i = 0; i < step; i++)
         {
-            player_craft.x += player_craft.v * direction[player_craft.d, 1] * inc;
-            player_craft.y += player_craft.v * direction[player_craft.d, 0] * inc;
+           // player_craft.x += player_craft.v * direction[player_craft.d, 1] * inc;
+            //player_craft.y += player_craft.v * direction[player_craft.d, 0] * inc;
 
-			//player_craft.x += player_craft.v * player_craft.dx * Time.fixedDeltaTime;
-			//player_craft.y += player_craft.v * player_craft.dy * Time.fixedDeltaTime;
-
-
+			player_craft.x += (int)(player_craft.v * player_craft.fdx * inc) ;// inc * Time.fixedDeltaTime;
+			player_craft.y += (int)(player_craft.v * player_craft.fdy * inc) ; //inc * Time.fixedDeltaTime;
             //三个数取中间值 限定移动范围
             player_craft.x = middle(80, player_craft.x, 6660);
             player_craft.y = middle(128, player_craft.y, 6660);
 			
         }
+
+		//Debug.Log (player_craft.y);
        
     }
 
 	//飞机移动
-	public void craft_flash(PlayerVal player_craft, int step)
+	public void craft_flash(PlayerVal player_craft, int step,bool isno_old)
 	{
 		int inc = 1;
 
@@ -85,22 +85,22 @@ public class Shadow  {
 
 		for (int i = 0; i < step; i++)
 		{
-
-			if(player_craft.d != 0)
+			if(isno_old)
 			{
-				player_craft.x += 300 * direction[player_craft.d, 1] * inc;
-				player_craft.y += 300 * direction[player_craft.d, 0] * inc;
+				player_craft.x += (int)(300 * player_craft.fdx * inc);
+				player_craft.y += (int)(300 * player_craft.fdy * inc);
 			}
 			else
 			{
-				player_craft.x += 300 * direction[player_craft.old_d, 1] * inc;
-				player_craft.y += 300 * direction[player_craft.old_d, 0] * inc;
+				player_craft.x += (int)(300 * player_craft.old_dx * inc);
+				player_craft.y += (int)(300 * player_craft.old_dx * inc);
 			}
-
+	
 			//三个数取中间值 限定移动范围
 			player_craft.x = middle(80, player_craft.x, 6660);
 			player_craft.y = middle(128, player_craft.y, 6660);
 		}
+
 
 	}
 
@@ -111,7 +111,8 @@ public class Shadow  {
 
 		player_shadow.sx = player_shadow.x;
         player_shadow.sy = player_shadow.y;
-        player_shadow.sd = player_shadow.d;
+        player_shadow.sdx = player_shadow.dx;
+		player_shadow.sdy = player_shadow.dy;
         player_shadow.sv = player_shadow.v;
         //adjust(player_shadow, curframe, oldframe);
 
@@ -211,9 +212,9 @@ public class Shadow  {
     }
 
     //计算最新的位置
-    int newPos(int x, int sx, int v, int sv)
+	int newPos(int x, int sx, int v, int sv)
     {
-        int d1, d2;
+		int d1, d2;
         if (x == sx)
             return x;
         if (x < sx)
@@ -247,18 +248,18 @@ public class Shadow  {
     }
 
     //三个数取中间数
-    int middle(int a, int b, int c)
+	int middle(int a, int b, int c)
     {
-        int max = a > b ? a : b;
+		int max = a > b ? a : b;
         max = max > c ? max : c;
-        int min = a < b ? a : b;
+		int min = a < b ? a : b;
         min = min < c ? min : c;
-        int sum = a + b + c;
-        int mid = sum - max - min;
+		int sum = a + b + c;
+		int mid = sum - max - min;
         return mid;
     }
     //最小数
-    int min(int a, int b)
+	int min(int a, int b)
     {
         if (a < b)
             return a;

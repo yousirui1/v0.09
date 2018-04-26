@@ -87,9 +87,11 @@ public class EventController : MonoBehaviour {
 
 	//上次接收的时间
 	float lastRecvInfoTime = float.MinValue;
+	float updateRecvInfoTime = float.MinValue;
 
-
-
+	void Awake()
+	{
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -136,7 +138,7 @@ public class EventController : MonoBehaviour {
 		gameMenu.transform.localPosition = Vector3.zero;
 		followPlayer = gameMenu.gameObject.AddComponent<FollowPlayer> ();
 
-		cArrowLockAt = gameMenu.gameObject.AddComponent<CArrowLockAt> ();
+		//cArrowLockAt = gameMenu.gameObject.AddComponent<CArrowLockAt> ();
 
 		//UI相机渲染
 		cameraObj = canvasObj.transform.Find ("UICamera").gameObject;
@@ -157,6 +159,13 @@ public class EventController : MonoBehaviour {
 	void OnDestroy()
 	{
 		valCache.unmarkPageUse(m_gameID, ConstsVal.val_magicup);
+
+		SavedData.s_instance.m_userCache.Clear ();
+		SavedData.s_instance.m_userrank.Clear ();
+		SavedData.s_instance.m_userlist.Clear ();
+		ev_ClearPlayer ();
+
+		Destroy (this);
 	}
 
 
@@ -236,16 +245,12 @@ public class EventController : MonoBehaviour {
 			
 		if(id < players.Count && players[id] != null)
 		{
-			
-			//获取移动方向
-			for(int i =0; i <9 ;i++)
-			{
-				if(direction[i, 0] == vertical && direction[i, 1] == horizontal)
-				{
-					players[id].d = i;
-					break;
-				}
-			}
+			players [id].dx = (int)(horizontal * 100);
+			players [id].dy = (int)(vertical * 100);
+			players [id].fdx = horizontal ;
+			players [id].fdy = vertical;
+
+
 			//普攻
 			if(gameMenu.InputFire() || Input.GetKey(KeyCode.J))
 			{
@@ -295,72 +300,25 @@ public class EventController : MonoBehaviour {
 				gameMenu.SetSkillCD (1 -(Time.time - lastSkillTime) / skillInterval);
 			}
 				
-
-
 			GameObject gameObj = map.GetPlayerObj (id);
 
-
 			//获取玩家的数据
-			players [id].v =(int) gameObj.GetComponent<PlayerATKAndDamage> ().speed;
+			players [id].v = (int)gameObj.GetComponent<PlayerATKAndDamage> ().speed;
 			players [id].hp =(int) gameObj.GetComponent<PlayerATKAndDamage> ().hp;
 			players [id].sp =(int) gameObj.GetComponent<PlayerATKAndDamage> ().sp;
-			players [id].lev =(int) gameObj.GetComponent<PlayerATKAndDamage> ().level;
-			players [id].score =(int) gameObj.GetComponent<PlayerATKAndDamage> ().score;
+			players [id].lev = gameObj.GetComponent<PlayerATKAndDamage> ().level;
+			players [id].score = gameObj.GetComponent<PlayerATKAndDamage> ().score;
 
-	
-			Vector2 vec = new Vector2 (0,0);
+			Vector2 vec = new Vector2 (players[id].dx,players[id].dy);
 
-			switch (players[id].d) {
-			case 1:
-				{
-					vec = new Vector2 (-1.0f, 0);
-				}
-				break;
-			case 2:
-				{
-					vec = new Vector2 (-1.0f,1.0f);
-				}
-				break;
-			case 3:
-				{
-					vec = new Vector2 (0,1.0f);
-				}
-				break;
-			case 4:
-				{
-					vec = new Vector2 (1.0f,1.0f);
-				}
-				break;
-			case 5:
-				{
-					vec = new Vector2 (1.0f,0);
-				}
-				break;
-			case 6:
-				{
-					vec = new Vector2 (1.0f,-1.0f);
-				}
-				break;
-			case 7:
-				{
-					vec = new Vector2 (0,-1.0f);
-				}
-				break;
-			case 8:
-				{
-					vec = new Vector2 (-1.0f,-1.0f);
-				}
-				break;
-			}
+			//Debug.Log (players [id].x + ":" + players [id].y);
 
 			if(players[id].skill == 500 )
 			{
-				shadow.craft_flash (players [id], 1);
 				SavedData.s_instance.m_isMove = false;
 				Invoke ("OnFlashEnd",0.8f);
 			}
-
-
+				
 			//发射射线判断障碍物
 			RaycastHit2D hit = Physics2D.Raycast(gameObj.transform.position, vec, (players [id].v * 0.03f + 1.0f), 1<<LayerMask.NameToLayer("barrier"));
 			//Debug.DrawLine (gameObj.transform.position, hit.point);
@@ -392,82 +350,82 @@ public class EventController : MonoBehaviour {
 
 
 	//处理服务端发送过来的数据
-	public void ev_Output(List<PlayerVal> val)
+	public void ev_Output(List<PlayerVal> buf)
 	{
 		bool isFind = false;
 
 		lastRecvInfoTime = Time.time;
+		 
 
-		for(int i = 0; i<val.Count; i++)
+		for(int i = 0; i<buf.Count; i++)
 		{
-
-			//用户积分更新
-			UpdateUserData (val[i].uid,val[i].score,false,false,false); 
+			//接收数据的时间间隔
+			if (Time.time - updateRecvInfoTime > 1f) {
+				//用户积分更新
+				UpdateUserData (buf[i].uid,buf[i].score,false,false,false); 
+				updateRecvInfoTime = Time.time;
+			}
+				
 			//在用户列表查找
-			foreach(string name in SavedData.s_instance.m_userlist)
-			{
-				isFind = false;
-				if(val[i].uid == name)
-				{
-					isFind = true;
-                    //判断是否为主角用户
-
-					if (val [i].uid != SavedData.s_instance.m_user.m_uid)
-					{	
-						if (val[i].d != 0) {
-							players [i].old_d = val [i].d;
-						}
-						//保存接受到其他玩家的数据
-						players [i].x = val [i].x;
-						players [i].y = val [i].y;
-						players [i].v = val [i].v;
-						players [i].d = val [i].d;
-						players [i].sp = val [i].sp;
-						players [i].hp = val [i].hp;
-
-						players [i].skill = val [i].skill;
-						players [i].score = val [i].score;
-						players [i].lev= val [i].lev;
-
-						//接收数据的时间间隔
-						if (Time.time - lastRecvInfoTime > 0.2f) {
-							//延迟大于多少秒做延迟补偿
-							Debug.Log (Time.time - lastRecvInfoTime);
-
-							shadow.shadow_refresh(players [i]);
-							shadow.shadow_move (players [i], 1);
-							shadow.trace (1, players [i], 1);
-						}
-
-						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().hp = val [i].hp;
-						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().sp = val [i].sp;
-						map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().level = val [i].lev;
-						map.OnEvent (i, players [i]);
-
+			if (SavedData.s_instance.m_userlist.Contains (buf[i].uid)) {
+				//更新其他玩家的信息
+				if (buf [i].uid != SavedData.s_instance.m_user.m_uid) {	
+					if (buf [i].dx != 0 || buf [i].dy != 0) {
+						players [i].old_dx = buf [i].dx;
+						players [i].old_dy = buf [i].dy;
 					}
-						break;
-				}	
-			}
-			//没有在用户表中查找到用户则添加新用户
-			if(!isFind)
-			{
-				ev_AddPlayer (val [i], i);
-				map.AddPlayerObj (i, val [i].uid, val[i].x, val[i].y);
+					//保存接受到其他玩家的数据
+					players [i].x = buf [i].x;
+					players [i].y = buf [i].y;
+					players [i].v = buf [i].v;
+					players [i].dx = buf [i].dx;
+					players [i].dy = buf [i].dy;
+					players [i].sp = buf [i].sp;
+					players [i].hp = buf [i].hp;
 
-				//判断是否是队友设置箭头指向队友
-				if (IsSameCamp (SavedData.s_instance.m_user.m_uid, val [i].uid )) {
-					gameMenu.SetArrowGroup (map.GetPlayerObj (i).transform);
-				}
+					players [i].fdx = players [i].dx / 100.0f;
+					players [i].fdy = players [i].dy / 100.0f;
 
-				SavedData.s_instance.m_userlist.Add(val[i].uid);
-				if (SavedData.s_instance.m_user.m_uid == val[i].uid) {
-					id = i;
-					followPlayer.SetUid (map.GetPlayerObj (i));
-					gameMenu.SetArrowSelf (map.GetPlayerObj (i).transform);
+					players [i].skill = buf [i].skill;
+					players [i].score = buf [i].score;
+					players [i].lev = buf [i].lev;
+
+					//接收数据的时间间隔
+					if (Time.time - lastRecvInfoTime > 0.2f) {
+						//延迟大于多少秒做延迟补偿
+						Debug.Log (Time.time - lastRecvInfoTime);
+
+						shadow.shadow_refresh (players [i]);
+						shadow.shadow_move (players [i], 1);
+						shadow.trace (1, players [i], 1);
+					}
+
+
+					map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().hp = buf [i].hp;
+					map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().sp = buf [i].sp;
+					map.GetPlayerObj (i).GetComponent<PlayerATKAndDamage> ().level = buf [i].lev;
+					map.OnEvent (i, players [i]);
+
+				}
+			}else {
+					//添加新玩家
+					ev_AddPlayer (buf [i], i);
+					map.AddPlayerObj (i, buf[i].uid, buf[i].x, buf[i].y);
+
+					//判断是否是队友设置箭头指向队友
+					if (IsSameCamp (SavedData.s_instance.m_user.m_uid, buf [i].uid )) {
+						//gameMenu.SetArrowGroup (map.GetPlayerObj (i).transform);
+					}
+					SavedData.s_instance.m_userlist.Add(buf[i].uid);
+					if (SavedData.s_instance.m_user.m_uid == buf[i].uid) {
+						id = i;
+						followPlayer.SetUid (map.GetPlayerObj (i));
+						//gameMenu.SetArrowSelf (map.GetPlayerObj (i).transform);
+					}
 				}
 			}
-		}
 	}
+
 		
 	public Map GetMap()
 	{
@@ -475,33 +433,14 @@ public class EventController : MonoBehaviour {
 	}
 
 	#if false
-	//建立玩家字典数据
-	public void ev_InitPlayer(List<NewUser> newUser)
+	private PlayerVal MoveData2PlayerVal(MoveData data)
 	{
-		for (int i = 0; i < newUser.Count; i++) {
-			RespThirdUserData data = new RespThirdUserData ();
-			data.nickname = newUser [i].nickname;
-			data.score = 0;
-			data.kill = 0;
-			data.death = 0;
-			data.assit = 0;
-			data.group = newUser [i].group;
-			data.head = newUser [i].head;
-
-			if (!SavedData.s_instance.m_userCache.ContainsKey (newUser [i].uid)) {
-				SavedData.s_instance.m_userCache.Add (newUser [i].uid, data);
-				UserRank rank = new UserRank (newUser [i].uid, newUser [i].nickname,0);
-				SavedData.s_instance.m_userrank.Add (rank);
-
-				Debug.Log ("ev_InitPlayer");
-				map.GetPlayerObj (newUser [i].uid).GetComponent<PlayerATKAndDamage> ().SetNickName (newUser [i].nickname);
-			}
-				
-		}
-
+		PlayerVal val = new PlayerVal ();
+		val.x = data.x;
+		return val;
 	}
 	#endif
-
+		
 
 
 		
@@ -543,15 +482,19 @@ public class EventController : MonoBehaviour {
 		newplayer.uid = player.uid;
 		newplayer.x = player.x;
 		newplayer.y = player.y;
-		newplayer.d = 0;
-		newplayer.v = 20;
+		newplayer.dx = 0;
+		newplayer.dy = 0;
+		newplayer.v = 10;
 	
 		newplayer.sx = newplayer.x;
 		newplayer.sy = newplayer.y;
-		newplayer.sd = newplayer.d;
+		newplayer.sdx = newplayer.dx;
+		newplayer.sdy = newplayer.dy;
 		newplayer.sv = newplayer.v;
-	
+		//Debug.Log (i);
 		players.Insert (i, newplayer);
+		//players.Add(newplayer);
+
 	}
 
 	public void ev_DelPlayer(int i)
@@ -564,6 +507,7 @@ public class EventController : MonoBehaviour {
 	public void ev_ClearPlayer()
 	{
 		players.Clear ();
+
 		map.ClearPlayerObj ();
 	}
 
@@ -623,6 +567,7 @@ public class EventController : MonoBehaviour {
 	public void ev_GameOver()
 	{
 		gameMenu.ActiveResultPanel ();
+		areaConect.setGameOver ();
 	}
 
 	public void ev_OutTip(RespThirdPlayData data)
@@ -657,21 +602,18 @@ public class EventController : MonoBehaviour {
 	public void PlayerRevive(string uid) 
 	{
 		MainLooper looper = MainLooper.instance ();
-		int count = 0;
-		for (int i = 0; i < SavedData.s_instance.m_userlist.Count; i++) {
-			if (uid == SavedData.s_instance.m_userlist [i])
-				count = i;
-		}
-		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().isInvincible = true;
-		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().invincible_buffer_time = 2.0f;
+	
+		map.GetPlayerObj (uid).GetComponent<PlayerATKAndDamage> ().isInvincible = true;
+		map.GetPlayerObj (uid).GetComponent<PlayerATKAndDamage> ().invincible_buffer_time = 2.0f;
+		#if false
+		players [count].hp =(int) map.GetPlayerObj (uid).GetComponent<PlayerATKAndDamage> ().hp_Max;
 
-		players [count].hp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp_Max;
+		players [count].sp =(int) map.GetPlayerObj (uid).GetComponent<PlayerATKAndDamage> ().sp_Max;
+		map.GetPlayerObj (uid).GetComponent<PlayerATKAndDamage> ().hp = players [count].hp;
+		map.GetPlayerObj (uid).GetComponent<PlayerATKAndDamage> ().sp = players [count].sp;
 
-		players [count].sp =(int) map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().sp_Max;
-		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().hp = players [count].hp;
-		map.GetPlayerObj (count).GetComponent<PlayerATKAndDamage> ().sp = players [count].sp;
-
-		map.GetPlayerObj (count).SetActive (true);
+		map.GetPlayerObj (uid).SetActive (true);
+		#endif
 		//复活之后频闪
 		#if false
 		GameObject roleObj = map.GetPlayerObj (count).transform.Find ("role").gameObject;
